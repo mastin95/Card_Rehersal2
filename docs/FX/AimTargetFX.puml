@@ -1,0 +1,6 @@
+@startuml
+class AimTargetFX {
+}
+MonoBehaviour <|-- AimTargetFX
+AimTargetFX --> "fx" GameObject
+@enduml

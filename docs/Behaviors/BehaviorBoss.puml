@@ -1,0 +1,14 @@
+@startuml
+class BehaviorBoss {
+    + <<override>> SelectPlayCard(data:Battle, character:BattleCharacter, cards:List<Card>, turn:int) : Card
+    + <<override>> GetActionsPerTurn(data:Battle, character:BattleCharacter, turn:int) : int
+    + <<override>> SelectCharacterTarget(data:Battle, character:BattleCharacter, card:Card, characters:List<BattleCharacter>, turn:int) : BattleCharacter
+    + <<override>> SelectCardTarget(data:Battle, character:BattleCharacter, card:Card, cards:List<Card>, turn:int) : Card
+    + <<override>> SelectSlotTarget(data:Battle, character:BattleCharacter, card:Card, slots:List<Slot>, turn:int) : Slot
+    + <<override>> GetBehaviorText() : string
+}
+BehaviorData <|-- BehaviorBoss
+BehaviorBoss --> "summon_card" CardData
+BehaviorBoss --> "ultimate_card" CardData
+BehaviorBoss --> "phase_trait" TraitData
+@enduml

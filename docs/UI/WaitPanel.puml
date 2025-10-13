@@ -1,0 +1,8 @@
+@startuml
+class WaitPanel {
+    + <<override>> ShouldShow() : bool
+    + <<override>> IsAutomatic() : bool
+    + {static} Get() : WaitPanel
+}
+MapPanel <|-- WaitPanel
+@enduml

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 98f7c2b3f10aa1d4c84bf14a440cae24
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Effects/summon_cursed.asset
+  uploadId: 793508

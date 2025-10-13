@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2c4dc6339cd72d94c8dd0ace18bcf5bf
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Battles/battle_lava_beast.asset
+  uploadId: 793508

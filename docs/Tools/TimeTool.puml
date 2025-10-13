@@ -1,0 +1,9 @@
+@startuml
+class TimeTool {
+    + {static} WaitFor(time:float, callback:Action) : void
+    + {static} WaitUntil(condition:Func<bool>, callback:Action) : void
+    + {static} StartCoroutine(routine:IEnumerator) : Coroutine
+    + {static} StopCoroutine(routine:Coroutine) : void
+    + {static} <<async>> Delay(miliseconds:int) : Task
+}
+@enduml

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 57b51606b8f1873478e7c7e479617d93
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/SlashFX.prefab
+  uploadId: 793508

@@ -1,0 +1,11 @@
+@startuml
+class DiceRollFX {
+    + value : int
+    + roll_speed : float = 20f
+    + roll_duration : float = 1f
+}
+MonoBehaviour <|-- DiceRollFX
+DiceRollFX --> "dice" Transform
+DiceRollFX --> "start_audio" AudioClip
+DiceRollFX --> "end_audio" AudioClip
+@enduml

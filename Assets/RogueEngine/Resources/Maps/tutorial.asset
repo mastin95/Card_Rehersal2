@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb23f9f8701bc14d839f9f3f681b26c, type: 3}
+  m_Name: tutorial
+  m_EditorClassIdentifier: 
+  id: tutorial
+  title: Tutorial
+  map_scene: Map
+  battle_scene: BattleForest
+  depth: 3
+  width_min: 1
+  width_max: 2
+  fork_probability: 1
+  events: []
+  fixed_widths:
+  - depth: 1
+    width: 1
+  - depth: 2
+    width: 2
+  - depth: 3
+    width: 1
+  fixed_events:
+  - depth: 1
+    index_min: 0
+    index_max: 0
+    evt: {fileID: 11400000, guid: 861d8aec71e85ba498b2fc477e1f8a8c, type: 2}
+  - depth: 2
+    index_min: 0
+    index_max: 0
+    evt: {fileID: 11400000, guid: b2aaa7ac48574614a892f5b7761ac731, type: 2}
+  - depth: 2
+    index_min: 1
+    index_max: 1
+    evt: {fileID: 11400000, guid: fa1225d7a3c03734da729fe5170ebb2d, type: 2}
+  - depth: 3
+    index_min: 0
+    index_max: 0
+    evt: {fileID: 11400000, guid: b8e698908f3e3c14da45553b47998f6d, type: 2}
+  map_tutorial: {fileID: 871187647601492094, guid: 22812a7e72de68a408407466df9245c6,
+    type: 3}

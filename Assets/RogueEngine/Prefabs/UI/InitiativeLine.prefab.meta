@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 912dfa667ed60f14daab3a1b7132a251
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/UI/InitiativeLine.prefab
+  uploadId: 793508

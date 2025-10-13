@@ -1,0 +1,10 @@
+@startuml
+class TraitUI {
+    + SetCard(card:Card) : void
+    + SetCard(card:CardData) : void
+}
+MonoBehaviour <|-- TraitUI
+TraitUI --> "trait" TraitData
+TraitUI --> "bg" Image
+TraitUI --> "text" Text
+@enduml

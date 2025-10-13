@@ -1,0 +1,14 @@
+@startuml
+class EffectMapOngoingBoost {
+    + <<override>> DoMapOngoingEffect(logic:WorldLogic, ability:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : void
+}
+enum MapOngoingBoostType {
+    None= 0,
+    XPBonus= 10,
+    GoldBonus= 15,
+    ShopBuy= 20,
+    ShopSell= 25,
+}
+EffectData <|-- EffectMapOngoingBoost
+EffectMapOngoingBoost --> "type" MapOngoingBoostType
+@enduml

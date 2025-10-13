@@ -1,0 +1,10 @@
+@startuml
+class FXTool {
+    + {static} DoFX(fx_prefab:GameObject, transform:Transform, duration:float) : GameObject
+    + {static} DoFX(fx_prefab:GameObject, pos:Vector3, duration:float) : GameObject
+    + {static} DoSnapFX(fx_prefab:GameObject, snap_target:Transform) : GameObject
+    + {static} DoSnapFX(fx_prefab:GameObject, snap_target:Transform, offset:Vector3) : GameObject
+    + {static} DoProjectileFX(fx_prefab:GameObject, source:Transform, target:Transform, damage:int) : GameObject
+}
+MonoBehaviour <|-- FXTool
+@enduml

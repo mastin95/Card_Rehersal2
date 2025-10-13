@@ -1,0 +1,16 @@
+@startuml
+class NumberSelector {
+    + value : int
+    + value_min : int
+    + value_max : int
+    + OnClickLeft() : void
+    + OnClickRight() : void
+    + SetValue(val:int) : void
+    + SetMin(min:int) : void
+    + SetMax(max:int) : void
+    + SetLocked(locked:bool) : void
+}
+MonoBehaviour <|-- NumberSelector
+NumberSelector --> "select_text" Text
+NumberSelector --> "onChange" UnityAction
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class EffectRemoveTrait {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectRemoveTrait
+EffectRemoveTrait --> "trait" TraitData
+@enduml

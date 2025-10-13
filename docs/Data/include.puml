@@ -1,0 +1,25 @@
+@startuml
+!include .\\AbilityData.puml
+!include .\\AssetData.puml
+!include .\\AvatarData.puml
+!include .\\BehaviorData.puml
+!include .\\CardbackData.puml
+!include .\\CardData.puml
+!include .\\ChampionData.puml
+!include .\\CharacterData.puml
+!include .\\ConditionData.puml
+!include .\\DataLoader.puml
+!include .\\EffectData.puml
+!include .\\EventData.puml
+!include .\\FilterData.puml
+!include .\\GameplayData.puml
+!include .\\IntentData.puml
+!include .\\MapData.puml
+!include .\\RarityData.puml
+!include .\\ScenarioData.puml
+!include .\\StatusData.puml
+!include .\\TeamData.puml
+!include .\\TipData.puml
+!include .\\TraitData.puml
+!include .\\UserData.puml
+@enduml

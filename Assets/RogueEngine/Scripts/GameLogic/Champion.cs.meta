@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: cfa9d078b3c36ac4d8291e76e80ddcf5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Scripts/GameLogic/Champion.cs
+  uploadId: 793508

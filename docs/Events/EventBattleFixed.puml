@@ -1,0 +1,6 @@
+@startuml
+class EventBattleFixed {
+    + dont_shuffle : bool
+}
+EventBattle <|-- EventBattleFixed
+@enduml

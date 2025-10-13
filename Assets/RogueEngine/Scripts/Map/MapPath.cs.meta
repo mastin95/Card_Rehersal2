@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 44e9c5b7b22ebb145ab1b54a498b8720
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Scripts/Map/MapPath.cs
+  uploadId: 793508

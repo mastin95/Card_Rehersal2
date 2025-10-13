@@ -1,0 +1,57 @@
+@startuml
+class ResolveQueue {
+    + ResolveQueue(skip:bool)
+    + SetData(data:Battle) : void
+    + <<virtual>> Update(delta:float) : void
+    + <<virtual>> AddAbility(ability:AbilityData, caster:BattleCharacter, triggerer:Card, callback:Action<AbilityData, BattleCharacter, Card>) : void
+    + <<virtual>> AddAttack(attacker:Card, target:Card, callback:Action<Card, Card, bool>, skip_cost:bool) : void
+    + <<virtual>> AddAttack(attacker:Card, target:Player, callback:Action<Card, Player, bool>, skip_cost:bool) : void
+    + <<virtual>> AddSecret(secret_trigger:AbilityTrigger, secret:Card, trigger:Card, callback:Action<AbilityTrigger, Card, Card>) : void
+    + <<virtual>> AddCard(card:Card, callback:Action<Card>) : void
+    + <<virtual>> AddCallback(callback:Action) : void
+    + <<virtual>> Resolve() : void
+    + <<virtual>> ResolveAll(delay:float) : void
+    + <<virtual>> ResolveAll() : void
+    + <<virtual>> SetDelay(delay:float) : void
+    + <<virtual>> Count() : int
+    + <<virtual>> CanResolve() : bool
+    + <<virtual>> IsResolving() : bool
+    + <<virtual>> Clear() : void
+    + GetAttackQueue() : Queue<AttackQueueElement>
+    + GetAbilityQueue() : Queue<AbilityQueueElement>
+    + GetSecretQueue() : Queue<SecretQueueElement>
+    + GetCardQueue() : Queue<CardQueueElement>
+    + GetCallbackQueue() : Queue<CallbackQueueElement>
+}
+class AbilityQueueElement {
+}
+class AttackQueueElement {
+    + skip_cost : bool
+}
+class SecretQueueElement {
+}
+class CardQueueElement {
+}
+class CallbackQueueElement {
+}
+class "Action`3"<T1,T2,T3> {
+}
+class "Action`1"<T> {
+}
+AbilityQueueElement --> "ability" AbilityData
+AbilityQueueElement --> "character" BattleCharacter
+AbilityQueueElement --> "triggerer" Card
+AbilityQueueElement --> "callback<AbilityData,BattleCharacter,Card>" "Action`3"
+AttackQueueElement --> "attacker" Card
+AttackQueueElement --> "target" Card
+AttackQueueElement --> "ptarget" Player
+AttackQueueElement --> "callback<Card,Card,bool>" "Action`3"
+AttackQueueElement --> "pcallback<Card,Player,bool>" "Action`3"
+SecretQueueElement --> "secret_trigger" AbilityTrigger
+SecretQueueElement --> "secret" Card
+SecretQueueElement --> "triggerer" Card
+SecretQueueElement --> "callback<AbilityTrigger,Card,Card>" "Action`3"
+CardQueueElement --> "card" Card
+CardQueueElement --> "callback<Card>" "Action`1"
+CallbackQueueElement --> "callback" Action
+@enduml

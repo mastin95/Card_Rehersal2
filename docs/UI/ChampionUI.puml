@@ -1,0 +1,21 @@
+@startuml
+class ChampionUI {
+    + SetChampion(champion:Champion) : void
+    + SetLevelUp(visible:bool) : void
+    + Hide() : void
+    + SetHighlight(active:bool) : void
+    + OnClick() : void
+    + OnClickLevelUp() : void
+    + GetChampion() : Champion
+    + IsSelf() : bool
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- ChampionUI
+ChampionUI --> "portrait" Image
+ChampionUI --> "highlight" Image
+ChampionUI --> "hp_bar" ProgressBar
+ChampionUI --> "level_up_btn" Button
+ChampionUI --> "onClick<ChampionUI>" "UnityAction`1"
+ChampionUI --> "onClickLvlUp<ChampionUI>" "UnityAction`1"
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class EffectAddAbility {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+    + <<override>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectAddAbility
+EffectAddAbility --> "gain_ability" AbilityData
+@enduml

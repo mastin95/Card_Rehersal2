@@ -1,0 +1,8 @@
+@startuml
+class EffectMultStat {
+    + value : float
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectMultStat
+EffectMultStat --> "type" EffectStatType
+@enduml

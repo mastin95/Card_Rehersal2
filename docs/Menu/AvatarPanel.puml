@@ -1,0 +1,8 @@
+@startuml
+class AvatarPanel {
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : AvatarPanel
+}
+UIPanel <|-- AvatarPanel
+AvatarPanel --> "avatar_parent" Transform
+@enduml

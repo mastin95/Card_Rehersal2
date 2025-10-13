@@ -1,0 +1,8 @@
+@startuml
+class ConditionPlayTarget {
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : bool
+}
+ConditionData <|-- ConditionPlayTarget
+ConditionPlayTarget --> "play_target" AbilityTarget
+ConditionPlayTarget --> "oper" ConditionOperatorBool
+@enduml

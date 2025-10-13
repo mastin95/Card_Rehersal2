@@ -1,0 +1,9 @@
+@startuml
+class EventState {
+    + <<override>> AreEventsConditionMet(world:World, champion:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, champion:Champion) : void
+    + {static} <<new>> Get(id:string) : EventState
+}
+EventData <|-- EventState
+EventState --> "state" WorldState
+@enduml

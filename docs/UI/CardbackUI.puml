@@ -1,0 +1,12 @@
+@startuml
+class CardbackUI {
+    + SetCardback(cardback:CardbackData) : void
+    + SetDefaultCardback() : void
+    + Hide() : void
+    + GetCardback() : CardbackData
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- CardbackUI
+CardbackUI --> "onClick<CardbackData>" "UnityAction`1"
+@enduml

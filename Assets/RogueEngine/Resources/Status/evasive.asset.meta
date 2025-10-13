@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: de242492daa11d847af567e04f3f008a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Status/evasive.asset
+  uploadId: 793508

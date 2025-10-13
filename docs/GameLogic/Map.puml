@@ -1,0 +1,17 @@
+@startuml
+class Map {
+    + map_id : string
+    + seed : int
+    + Map(mdata:MapData, seed:int)
+    + <<virtual>> GenerateMap(world:World) : void
+    + GetLocation(loc_id:int) : MapLocation
+    + GetLocation(d:int, i:int) : MapLocation
+    + AddExplored(loc_id:int) : void
+    + IsExplored(loc_id:int) : bool
+}
+class "Dictionary`2"<T1,T2> {
+}
+Map o-> "locations<int,MapLocation>" "Dictionary`2"
+Map o-> "depth_width<int,int>" "Dictionary`2"
+Map --> "MapData" MapData
+@enduml

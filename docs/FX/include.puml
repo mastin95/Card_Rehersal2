@@ -1,0 +1,15 @@
+@startuml
+!include .\\AimTargetFX.puml
+!include .\\AnimFX.puml
+!include .\\AnimMatFX.puml
+!include .\\BoardCharacterFX.puml
+!include .\\DamageFX.puml
+!include .\\DiceRollFX.puml
+!include .\\FaceFX.puml
+!include .\\GameBoardFX.puml
+!include .\\HoverFX.puml
+!include .\\MouseFX.puml
+!include .\\MouseLineFX.puml
+!include .\\Projectile.puml
+!include .\\SnapFX.puml
+@enduml

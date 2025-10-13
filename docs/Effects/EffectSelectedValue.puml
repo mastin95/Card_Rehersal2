@@ -1,0 +1,9 @@
+@startuml
+class EffectSelectedValue {
+    + value : int
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectSelectedValue
+EffectSelectedValue --> "oper" EffectOperatorInt
+@enduml

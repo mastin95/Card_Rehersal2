@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 504f291293e5fce40abaab922f0ba81a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Animations/LoadAnim.anim
+  uploadId: 793508

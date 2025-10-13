@@ -1,0 +1,26 @@
+@startuml
+class LobbyPanel {
+    + Connect() : void
+    + OnClickCreate() : void
+    + OnClickLoad() : void
+    + OnClickRefresh() : void
+    + OnClickLine(line:LobbyLine) : void
+    + OnClickJoin() : void
+    + WaitForCreate() : void
+    + OnClickBack() : void
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : LobbyPanel
+}
+UIPanel <|-- LobbyPanel
+LobbyPanel --> "lobby_grid" Transform
+LobbyPanel --> "line_template" LobbyLine
+LobbyPanel --> "load_panel" UIPanel
+LobbyPanel --> "connecting_text" Text
+LobbyPanel --> "no_room_text" Text
+LobbyPanel --> "info_panel" UIPanel
+LobbyPanel --> "info_title" Text
+LobbyPanel --> "info_subtitle" Text
+LobbyPanel --> "info_players" Text
+LobbyPanel --> "players_grid" Transform
+LobbyPanel --> "players_line_template" PlayerLine
+@enduml

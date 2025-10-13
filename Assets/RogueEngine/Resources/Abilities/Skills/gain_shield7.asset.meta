@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6bc7fd9b93c196b49b24063f410db360
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/gain_shield7.asset
+  uploadId: 793508

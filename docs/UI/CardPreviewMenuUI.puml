@@ -1,0 +1,10 @@
+@startuml
+class CardPreviewMenuUI {
+    + hover_delay : float = 0.7f
+    + hover_delay_mobile : float = 0.1f
+}
+MonoBehaviour <|-- CardPreviewMenuUI
+CardPreviewMenuUI --> "ui_panel" UIPanel
+CardPreviewMenuUI --> "card_ui" CardUI
+CardPreviewMenuUI --> "desc" Text
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+class AuthenticatorUnity {
+    + <<override>> <<async>> Initialize() : Task
+    + <<override>> <<async>> Login(user:string) : Task<bool>
+    + <<override>> <<async>> RefreshLogin() : Task<bool>
+    + <<override>> <<async>> LoadUserData() : Task<UserData>
+    + <<override>> <<async>> SaveUserData() : Task<bool>
+    + <<override>> Logout() : void
+    + <<override>> IsConnectedOnline() : bool
+    + <<override>> IsConnected() : bool
+    + <<override>> IsSignedIn() : bool
+    + <<override>> IsExpired() : bool
+    + <<override>> IsUnityServices() : bool
+    + <<override>> GetUsername() : string
+    + <<override>> GetUserId() : string
+    + <<override>> GetUserData() : UserData
+}
+Authenticator <|-- AuthenticatorUnity
+@enduml

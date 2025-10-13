@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ec3eb7a01f9a91e47af5c8c2dedeb112
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Enemies/monkey_theft.asset
+  uploadId: 793508

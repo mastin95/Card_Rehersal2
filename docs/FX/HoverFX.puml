@@ -1,0 +1,8 @@
+@startuml
+class HoverFX {
+    + PointerEnter() : void
+    + PointerExit() : void
+}
+MonoBehaviour <|-- HoverFX
+HoverFX --> "fx" GameObject
+@enduml

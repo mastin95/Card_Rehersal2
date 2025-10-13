@@ -1,0 +1,7 @@
+@startuml
+class ConditionAlive {
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+}
+ConditionData <|-- ConditionAlive
+ConditionAlive --> "oper" ConditionOperatorBool
+@enduml

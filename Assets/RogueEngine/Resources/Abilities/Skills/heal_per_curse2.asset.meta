@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4c051ab2cef5f41458839cc1b8e53e40
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/heal_per_curse2.asset
+  uploadId: 793508

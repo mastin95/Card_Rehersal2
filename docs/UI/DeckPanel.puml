@@ -1,0 +1,22 @@
+@startuml
+class DeckPanel {
+    + card_size : float = 0.6f
+    + <<override>> RefreshPanel() : void
+    + Show(champion:Champion) : void
+    + Show(champion:ChampionData) : void
+    + Show(item:CardData) : void
+    + ShowStarter(champion:ChampionData) : void
+    + OnClickClose() : void
+    + <<override>> Hide(instant:bool) : void
+    + <<override>> ShouldShow() : bool
+    + <<override>> IsAutomatic() : bool
+    + {static} Get() : DeckPanel
+}
+MapPanel <|-- DeckPanel
+DeckPanel --> "title" Text
+DeckPanel --> "champion_ui" BoxUI
+DeckPanel --> "scroll_rect" ScrollRect
+DeckPanel --> "scroll_content" RectTransform
+DeckPanel --> "grid_content" CardGrid
+DeckPanel --> "card_prefab" GameObject
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class EffectSetStat {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+    + <<override>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectSetStat
+EffectSetStat --> "type" EffectStatType
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class KeyInput {
+    + {static} IsKeyPress(key:Key) : bool
+    + {static} IsKeyHold(key:Key) : bool
+    + {static} IsKeyRelease(key:Key) : bool
+}
+@enduml

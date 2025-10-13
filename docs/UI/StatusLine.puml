@@ -1,0 +1,11 @@
+@startuml
+class StatusLine {
+    + SetLine(card:Card, ability:AbilityData) : void
+    + SetLine(id:string, value:int) : void
+    + SetLine(effect:StatusData, value:int) : void
+    + Hide() : void
+}
+MonoBehaviour <|-- StatusLine
+StatusLine --> "title" Text
+StatusLine --> "desc" Text
+@enduml

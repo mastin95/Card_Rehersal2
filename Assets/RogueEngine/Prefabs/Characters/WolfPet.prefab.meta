@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8a310cdb3aef0cf428f0c6e5e08824e1
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/Characters/WolfPet.prefab
+  uploadId: 793508

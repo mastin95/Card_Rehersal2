@@ -1,0 +1,31 @@
+@startuml
+class CardUI {
+    + SetCard(caster:BattleCharacter, card:Card) : void
+    + SetCard(card:ChampionCard) : void
+    + SetCard(card:CardData, level:int) : void
+    + SetMaterial(mat:Material) : void
+    + SetOpacity(opacity:float) : void
+    + Hide() : void
+    + GetLevelIcon(level:int) : Sprite
+    + OnPointerClick(eventData:PointerEventData) : void
+    + GetCard() : CardData
+    + GetLevel() : int
+    + GetUID() : string
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- CardUI
+IPointerClickHandler <|-- CardUI
+CardUI --> "card_image" Image
+CardUI --> "team_icon" Image
+CardUI --> "rarity_icon" Image
+CardUI --> "level_icon" Image
+CardUI --> "cost_icon" Image
+CardUI --> "cost" Text
+CardUI --> "card_title" Text
+CardUI --> "card_lvl" Text
+CardUI --> "card_text" Text
+CardUI --> "card_traits" Text
+CardUI --> "onClick<CardUI>" "UnityAction`1"
+CardUI --> "onClickRight<CardUI>" "UnityAction`1"
+@enduml

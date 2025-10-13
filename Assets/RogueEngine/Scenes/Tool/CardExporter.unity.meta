@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ad762792c1f5de245bbea2d9d287ade9
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Scenes/Tool/CardExporter.unity
+  uploadId: 793508

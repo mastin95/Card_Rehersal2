@@ -1,0 +1,32 @@
+@startuml
+abstract class Authenticator {
+    + <<virtual>> <<async>> Initialize() : Task
+    + <<virtual>> <<async>> Login(username:string) : Task<bool>
+    + <<virtual>> <<async>> Login(username:string, token:string) : Task<bool>
+    + <<virtual>> <<async>> RefreshLogin() : Task<bool>
+    + <<virtual>> LoginTest(username:string) : void
+    + <<virtual>> <<async>> Register(username:string, email:string, token:string) : Task<bool>
+    + <<virtual>> <<async>> LoadUserData() : Task<UserData>
+    + <<virtual>> <<async>> SaveUserData() : Task<bool>
+    + <<virtual>> Logout() : void
+    + <<virtual>> IsInited() : bool
+    + <<virtual>> IsConnectedOnline() : bool
+    + <<virtual>> IsConnected() : bool
+    + <<virtual>> IsSignedIn() : bool
+    + <<virtual>> IsExpired() : bool
+    + <<virtual>> IsUnityServices() : bool
+    + <<virtual>> GetUserId() : string
+    + <<virtual>> GetUsername() : string
+    + <<virtual>> GetPermission() : int
+    + <<virtual>> GetUserData() : UserData
+    + <<virtual>> GetError() : string
+    + UserID : string <<get>>
+    + Username : string <<get>>
+    + {static} Get() : Authenticator
+}
+enum AuthenticatorType {
+    LocalSave= 0,
+    Api= 10,
+}
+Authenticator --> "UserData" UserData
+@enduml

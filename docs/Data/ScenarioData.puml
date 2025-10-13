@@ -1,0 +1,20 @@
+@startuml
+class ScenarioData {
+    + id : string
+    + title : string
+    + desc : string
+    + champions : int = 1
+    + start_gold : int
+    + start_xp : int
+    + enemy_hp_percentage : float = 1f
+    + enemy_power_add : int
+    + enemy_armor_add : int
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : ScenarioData
+    + {static} GetAll() : List<ScenarioData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- ScenarioData
+ScenarioData o-> "scenario_list<ScenarioData>" "List`1"
+@enduml

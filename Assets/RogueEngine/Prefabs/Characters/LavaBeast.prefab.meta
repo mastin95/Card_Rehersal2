@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d50fe22faa4b4c3498db8b9713008d08
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/Characters/LavaBeast.prefab
+  uploadId: 793508

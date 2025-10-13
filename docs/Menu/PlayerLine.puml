@@ -1,0 +1,9 @@
+@startuml
+class PlayerLine {
+    + SetLine(player:LobbyPlayer) : void
+    + Hide() : void
+    + GetPlayer() : LobbyPlayer
+}
+MonoBehaviour <|-- PlayerLine
+PlayerLine --> "title" Text
+@enduml

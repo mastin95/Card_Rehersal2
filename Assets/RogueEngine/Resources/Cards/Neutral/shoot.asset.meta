@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: de0b85f37c281884c9f9f7c524a04b9e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Neutral/shoot.asset
+  uploadId: 793508

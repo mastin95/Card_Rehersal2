@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2b6247dc456251449bc19427a747a0af
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/PlayCardFX.prefab
+  uploadId: 793508

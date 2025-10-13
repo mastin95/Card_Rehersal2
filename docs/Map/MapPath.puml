@@ -1,0 +1,10 @@
+@startuml
+class MapPath {
+    + SetSource(loc:MapLocation) : void
+    + SetDest(loc:MapLocation) : void
+    + SetPosition(index:int, pos:Vector3) : void
+    + SetColor(color:Color) : void
+    + SetAlpha(alpha:float) : void
+}
+MonoBehaviour <|-- MapPath
+@enduml

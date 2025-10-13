@@ -1,0 +1,8 @@
+@startuml
+class ConditionDamaged {
+    + value : int
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+}
+ConditionData <|-- ConditionDamaged
+ConditionDamaged --> "oper" ConditionOperatorInt
+@enduml

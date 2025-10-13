@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3b2ce7b782dbdea47ad24e4f7e52d451
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Scenes/Game/GameSetup.unity
+  uploadId: 793508

@@ -1,0 +1,27 @@
+@startuml
+class ServerManager {
+    + SendToClient(client_id:ulong, tag:ushort, data:INetworkSerializable, delivery:NetworkDelivery) : void
+    + SendMsgToClient(client_id:ushort, msg:string) : void
+    + CreateGame(world:World) : GameServer
+    + RemoveGame(game_id:string) : void
+    + GetGame(game_uid:string) : GameServer
+    + GetClient(client_id:ulong) : ClientData
+    + GetClientByUser(username:string) : ClientData
+    + ServerID : ulong <<get>>
+}
+class ClientData {
+    + client_id : ulong
+    + user_id : string
+    + username : string
+    + game_uid : string
+    + ClientData(id:ulong)
+}
+class CommandEvent {
+    + tag : ushort
+}
+class "UnityAction`2"<T1,T2> {
+}
+MonoBehaviour <|-- ServerManager
+ServerManager --> "Messaging" NetworkMessaging
+CommandEvent --> "callback<ClientData,SerializedData>" "UnityAction`2"
+@enduml

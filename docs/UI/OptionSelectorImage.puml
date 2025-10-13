@@ -1,0 +1,18 @@
+@startuml
+class OptionImage {
+    + value : string
+}
+class OptionSelectorImage {
+    + OnClickLeft() : void
+    + OnClickRight() : void
+    + SetIndex(index:int) : void
+    + SetValue(value:string) : void
+    + GetSelected() : OptionImage
+    + GetSelectedValue() : string
+    + GetSelectedImage() : Sprite
+}
+OptionImage --> "image" Sprite
+MonoBehaviour <|-- OptionSelectorImage
+OptionSelectorImage --> "select_img" Image
+OptionSelectorImage --> "onChange" UnityAction
+@enduml

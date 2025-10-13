@@ -1,0 +1,111 @@
+@startuml
+class BattleLogic {
+    + BattleLogic(is_instant:bool)
+    + BattleLogic(world:World)
+    + <<virtual>> SetData(game:World) : void
+    + <<virtual>> SetData(game:Battle) : void
+    + <<virtual>> Update(delta:float) : void
+    + <<virtual>> StartBattle(world:World, battle:EventBattle) : void
+    + <<virtual>> AddChampion(champion:Champion) : void
+    + <<virtual>> RemovePlayerCharacters(player:Player) : void
+    + <<virtual>> SetChampionCards(champion:Champion, character:BattleCharacter) : void
+    + <<virtual>> SetChampionCardsFixed(champion:Champion, character:BattleCharacter, battle:EventBattleFixed) : void
+    + <<virtual>> SetCharacterCards(character:BattleCharacter) : void
+    + <<virtual>> StartTurn() : void
+    + <<virtual>> StartMainPhase() : void
+    + <<virtual>> EndTurn() : void
+    + <<virtual>> EndBattle(result:int) : void
+    + <<virtual>> NextStep() : void
+    + <<virtual>> GetChampionStartPos(champion:Champion) : Slot
+    + <<virtual>> GetAllyStartPos(ally:CharacterAlly) : Slot
+    + <<virtual>> GetEnemyStartPos(pos_x:int) : Slot
+    + <<virtual>> CalculateInitiatives() : void
+    + <<virtual>> RemoveFromInitiativeCurrent(character:BattleCharacter) : void
+    + <<virtual>> RemoveFromInitiativeNext(character:BattleCharacter) : void
+    + <<virtual>> PlayCard(card:Card, target:Slot, skip_cost:bool) : void
+    + <<virtual>> MoveCharacter(character:BattleCharacter, slot:Slot) : void
+    + <<virtual>> UseItem(character:BattleCharacter, item:Card) : void
+    + <<virtual>> ShuffleDeck(cards:List<Card>) : void
+    + <<virtual>> ShuffleDiscardToDeck(character:BattleCharacter) : void
+    + <<virtual>> DrawHand(character:BattleCharacter) : void
+    + <<virtual>> DrawCard(character:BattleCharacter, nb:int) : void
+    + <<virtual>> DrawEnemyHand(character:BattleCharacter) : void
+    + <<virtual>> DrawDiscardCard(owner:BattleCharacter, nb:int) : void
+    + <<virtual>> SummonCharacter(player_id:int, ally:CharacterAlly, slot:Slot) : BattleCharacter
+    + <<virtual>> SummonCharacter(player_id:int, character:CharacterData, slot:Slot, level:int) : BattleCharacter
+    + <<virtual>> SummonCharacter(player_id:int, character:CharacterData, slot:Slot, level:int, uid:string) : BattleCharacter
+    + <<virtual>> SummonCopyHand(owner:BattleCharacter, copy:Card) : Card
+    + <<virtual>> SummonCardHand(owner:BattleCharacter, card:CardData, level:int) : Card
+    + <<virtual>> TransformCard(card:Card, transform_to:CardData) : Card
+    + <<virtual>> TransformCharacter(character:BattleCharacter, transform_to:CharacterData) : BattleCharacter
+    + <<virtual>> DiscardCard(card:Card) : void
+    + <<virtual>> ChangeOwner(card:Card, owner:BattleCharacter) : void
+    + <<virtual>> ResurrectCharacter(target:BattleCharacter, hp:int) : void
+    + <<virtual>> HealCharacter(target:BattleCharacter, value:int) : void
+    + <<virtual>> DamageCharacter(attacker:BattleCharacter, target:BattleCharacter, value:int, ignore_shield:bool) : void
+    + <<virtual>> DamageCharacter(target:BattleCharacter, value:int, ignore_shield:bool) : void
+    + <<virtual>> DamageShield(target:BattleCharacter, value:int) : void
+    + <<virtual>> KillCharacter(character:BattleCharacter) : void
+    + RollRandomValue(dice:int) : int
+    + <<virtual>> RollRandomValue(min:int, max:int) : int
+    + <<virtual>> TriggerAnyCharacterAbilityType(type:AbilityTrigger, triggerer:Card) : void
+    + <<virtual>> TriggerCharacterAbilityType(type:AbilityTrigger, caster:BattleCharacter, triggerer:Card) : void
+    + <<virtual>> TriggerCardAbilityType(type:AbilityTrigger, card:Card) : void
+    + <<virtual>> TriggerAbility(iability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + <<virtual>> TriggerAbility(iability:AbilityData, caster:BattleCharacter, card:Card, triggerer:Card) : void
+    + <<virtual>> TriggerAbilityDelayed(iability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + <<virtual>> UpdateOngoing() : void
+    + <<virtual>> SelectCard(target:Card) : void
+    + <<virtual>> SelectCharacter(target:BattleCharacter) : void
+    + <<virtual>> SelectSlot(target:Slot) : void
+    + <<virtual>> SelectChoice(choice:int) : void
+    + <<virtual>> SelectCost(select_cost:int) : void
+    + <<virtual>> CancelSelection() : void
+    + CancelPlayCard() : void
+    + <<virtual>> RefreshWorld() : void
+    + <<virtual>> RefreshBattle() : void
+    + <<virtual>> ClearResolve() : void
+    + <<virtual>> IsResolving() : bool
+    + <<virtual>> IsGameStarted() : bool
+    + <<virtual>> IsGameEnded() : bool
+    + <<virtual>> GetPlayer(player_id:int) : Player
+    + <<virtual>> GetBattleData() : Battle
+    + <<virtual>> GetWorldData() : World
+    + GetRandom() : System.Random
+}
+class "UnityAction`1"<T> {
+}
+class "UnityAction`2"<T1,T2> {
+}
+class "UnityAction`3"<T1,T2,T3> {
+}
+BattleLogic --> "onBattleStart" UnityAction
+BattleLogic --> "onBattleEnd<int>" "UnityAction`1"
+BattleLogic --> "onTurnStart" UnityAction
+BattleLogic --> "onTurnPlay" UnityAction
+BattleLogic --> "onTurnEnd" UnityAction
+BattleLogic --> "onCharacterMoved<BattleCharacter,Slot>" "UnityAction`2"
+BattleLogic --> "onCharacterDamaged<BattleCharacter,int>" "UnityAction`2"
+BattleLogic --> "onCharacterTransformed<BattleCharacter>" "UnityAction`1"
+BattleLogic --> "onCardPlayed<Card,Slot>" "UnityAction`2"
+BattleLogic --> "onCardSummoned<Card>" "UnityAction`1"
+BattleLogic --> "onCardTransformed<Card>" "UnityAction`1"
+BattleLogic --> "onCardDiscarded<Card>" "UnityAction`1"
+BattleLogic --> "onCardDrawn<int>" "UnityAction`1"
+BattleLogic --> "onItemUsed<Card>" "UnityAction`1"
+BattleLogic --> "onRollValue<int>" "UnityAction`1"
+BattleLogic --> "onAbilityStart<AbilityData,Card>" "UnityAction`2"
+BattleLogic --> "onAbilityTargetCard<AbilityData,Card,Card>" "UnityAction`3"
+BattleLogic --> "onAbilityTargetCharacter<AbilityData,Card,BattleCharacter>" "UnityAction`3"
+BattleLogic --> "onAbilityTargetSlot<AbilityData,Card,Slot>" "UnityAction`3"
+BattleLogic --> "onAbilityEnd<AbilityData,Card>" "UnityAction`2"
+BattleLogic --> "onSecretTrigger<Card,Card>" "UnityAction`2"
+BattleLogic --> "onSecretResolve<Card,Card>" "UnityAction`2"
+BattleLogic --> "onSelectorStart" UnityAction
+BattleLogic --> "onSelectorSelect" UnityAction
+BattleLogic --> "refreshWorld" UnityAction
+BattleLogic --> "refreshBattle" UnityAction
+BattleLogic --> "WorldData" World
+BattleLogic --> "BattleData" Battle
+BattleLogic --> "ResolveQueue" ResolveQueue
+@enduml

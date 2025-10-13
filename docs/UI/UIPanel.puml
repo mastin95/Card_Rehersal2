@@ -1,0 +1,17 @@
+@startuml
+class UIPanel {
+    + display_speed : float = 4f
+    + <<virtual>> Toggle(instant:bool) : void
+    + <<virtual>> Show(instant:bool) : void
+    + <<virtual>> Hide(instant:bool) : void
+    + <<virtual>> Hide(delay:float) : void
+    + SetVisible(visi:bool, instant:bool) : void
+    + <<virtual>> AfterHide() : void
+    + IsVisible() : bool
+    + IsFullyVisible() : bool
+    + GetAlpha() : float
+}
+MonoBehaviour <|-- UIPanel
+UIPanel --> "onShow" UnityAction
+UIPanel --> "onHide" UnityAction
+@enduml

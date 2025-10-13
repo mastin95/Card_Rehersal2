@@ -1,0 +1,6 @@
+@startuml
+class EffectResetStat {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectResetStat
+@enduml

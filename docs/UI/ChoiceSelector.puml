@@ -1,0 +1,10 @@
+@startuml
+class ChoiceSelector {
+    + OnClickChoice(index:int) : void
+    + OnClickCancel() : void
+    + <<override>> Show(iability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + <<override>> ShouldShow() : bool
+    + {static} Get() : ChoiceSelector
+}
+SelectorPanel <|-- ChoiceSelector
+@enduml

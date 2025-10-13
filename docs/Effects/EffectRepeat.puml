@@ -1,0 +1,15 @@
+@startuml
+class EffectRepeat {
+    + <<override>> DoEffect(logic:BattleLogic, iability:AbilityData, character:BattleCharacter, card:Card) : void
+    + <<override>> DoEffect(logic:BattleLogic, iability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, iability:AbilityData, character:BattleCharacter, card:Card, target:Card) : void
+    + GetRepeatCount(battle:Battle, iability:AbilityData) : int
+}
+enum EffectRepeatType {
+    FixedValue,
+    SelectedValue,
+}
+EffectData <|-- EffectRepeat
+EffectRepeat --> "ability" AbilityData
+EffectRepeat --> "type" EffectRepeatType
+@enduml

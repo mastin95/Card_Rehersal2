@@ -1,0 +1,13 @@
+@startuml
+class AvatarUI {
+    + SetAvatar(avatar:AvatarData) : void
+    + SetDefaultAvatar() : void
+    + SetImage(sprite:Sprite) : void
+    + Hide() : void
+    + GetAvatar() : AvatarData
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- AvatarUI
+AvatarUI --> "onClick<AvatarData>" "UnityAction`1"
+@enduml

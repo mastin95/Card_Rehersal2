@@ -1,0 +1,7 @@
+@startuml
+class EffectCreate {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:CardData) : void
+}
+EffectData <|-- EffectCreate
+EffectCreate --> "create_pile" PileType
+@enduml

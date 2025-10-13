@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 23b67ac638dd6084b9d17cba6097a16f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Items/item_ongoing_speed2.asset
+  uploadId: 793508

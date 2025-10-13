@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6af3f1ec7316a454387ed01924afa8ab
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Status/burned.asset
+  uploadId: 793508

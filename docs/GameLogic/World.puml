@@ -1,0 +1,125 @@
+@startuml
+class World {
+    + filename : string
+    + version : string
+    + title : string
+    + game_uid : string
+    + online : bool
+    + scenario_id : string
+    + seed : int
+    + completed : bool = false
+    + map_id : string
+    + map_location_id : int
+    + map_index : int = 0
+    + event_id : string
+    + event_text : string
+    + event_champion : string
+    + shop_buy_ratio : float = 1f
+    + shop_sell_ratio : float = 1f
+    + World()
+    + World(filename:string)
+    + FixData() : void
+    + <<virtual>> IsMultiplayer() : bool
+    + <<virtual>> AreAllPlayersReady() : bool
+    + <<virtual>> AreAllPlayersConnected() : bool
+    + CanControlChampion(player_id:int, champion:Champion) : bool
+    + <<virtual>> AreAllChampionsDead() : bool
+    + <<virtual>> ResetActionCompleted(completed:bool) : void
+    + <<virtual>> SetActionCompleted(player_id:int, completed:bool) : void
+    + <<virtual>> AreAllActionsCompleted() : bool
+    + <<virtual>> AreAllActionsCompleted(player_id:int) : bool
+    + AddPlayer(user_id:string, username:string) : Player
+    + DisconnectAll() : void
+    + GetPlayer(user_id:string) : Player
+    + GetPlayer(id:int) : Player
+    + AddChampion(champ:Champion) : void
+    + RemoveChampion(uid:string) : void
+    + RemoveChampion(slot_x:int) : void
+    + GetSlotChampion(slot_x:int) : Champion
+    + GetFirstChampion(player_id:int) : Champion
+    + GetChampion(uid:string) : Champion
+    + GetNextActionChampion(player_id:int) : Champion
+    + AddAlly(ally:CharacterAlly) : void
+    + RemoveAlly(uid:string) : void
+    + GetAlly(uid:string) : CharacterAlly
+    + GetAlly(character:CharacterData) : CharacterAlly
+    + GetSlotAly(slot_x:int) : CharacterAlly
+    + SetCustomValue(id:string, value:int) : void
+    + AddCustomValue(id:string, value:int) : void
+    + GetCustomValue(id:string) : int
+    + CanMoveTo(dest:MapLocation) : bool
+    + AddExplored(location:MapLocation) : void
+    + IsExplored(location:MapLocation) : bool
+    + GetMap(mdata:MapData) : Map
+    + GetMap(map_id:string) : Map
+    + GetLocation(map_id:string, loc_id:int) : MapLocation
+    + GetCurrentLocation() : MapLocation
+    + GetCurrentLocationDepth() : int
+    + GetLocationSeed(offset:int) : int
+    + GetEvent() : T
+    + GetEmptySlotPos() : int
+    + <<virtual>> CountCharacters() : int
+    + GetAverageXP() : int
+    + GetBuyCost(item:CardData) : int
+    + GetSellCost(item:CardData) : int
+    + GetUpgradeCost(card:CardData, level:int) : int
+    + HasStarted() : bool
+    + HasEnded() : bool
+    + GetCompleteScore() : int
+    + GetXpScore() : int
+    + GetCardsScore() : int
+    + GetTotalScore() : int
+    + Save() : void
+    + Save(filename:string) : void
+    + {static} Save(filename:string, data:World) : void
+    + {static} NewGame(filename:string) : World
+    + {static} Load(filename:string) : World
+    + {static} AutoLoad(filename:string) : World
+    + {static} NewOrLoad(filename:string) : World
+    + {static} Override(data:World) : void
+    + {static} SetLastSave(user_id:string, filename:string) : void
+    + {static} GetLastSave(user_id:string) : string
+    + {static} SetLastSaveMulti(user_id:string, filename:string) : void
+    + {static} GetLastSaveMulti(user_id:string) : string
+    + {static} HasLastSave(user_id:string) : bool
+    + {static} HasSave(filename:string) : bool
+    + {static} Delete(filename:string) : void
+    + {static} Unload() : void
+    + {static} GetLoaded() : World
+    + {static} GetAllSolo(user_id:string) : List<World>
+    + {static} GetAllMultiplayer(user_id:string) : List<World>
+    + {static} GetAll(user_id:string) : List<World>
+    + {static} GetAll() : List<World>
+}
+class EventQueueItem {
+    + event_id : string
+    + champion_uid : string
+}
+enum WorldState {
+    None= 0,
+    Setup= 2,
+    Map= 10,
+    Battle= 20,
+    EventChoice= 30,
+    EventText= 32,
+    Reward= 50,
+    Trash= 51,
+    Shop= 52,
+    Upgrade= 54,
+    LevelUp= 55,
+    Ended= 100,
+}
+class "List`1"<T> {
+}
+class "Dictionary`2"<T1,T2> {
+}
+World o-> "state" WorldState
+World o-> "battle" Battle
+World o-> "players<Player>" "List`1"
+World o-> "champions<Champion>" "List`1"
+World o-> "allies<CharacterAlly>" "List`1"
+World o-> "maps<Map>" "List`1"
+World o-> "custom_ints<string,int>" "Dictionary`2"
+World o-> "shop_cards<string>" "List`1"
+World o-> "shop_items<string>" "List`1"
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class ProgressBar {
+    + value : float
+    + value_max : float
+}
+MonoBehaviour <|-- ProgressBar
+ProgressBar --> "fill" Image
+ProgressBar --> "txt" Text
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+class MouseInput {
+    + {static} IsLeftClick() : bool
+    + {static} IsMiddleClick() : bool
+    + {static} IsRightClick() : bool
+    + {static} IsLeftHold() : bool
+    + {static} IsMiddleHold() : bool
+    + {static} IsRightHold() : bool
+    + {static} IsLeftRelease() : bool
+    + {static} IsMiddleRelease() : bool
+    + {static} IsRightRelease() : bool
+    + {static} GetMousePosition() : Vector2
+    + {static} GetMouseDelta() : Vector2
+    + {static} GetMouseScroll() : float
+}
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+enum BoardRefType {
+    None= 0,
+    PackCard= 4,
+}
+class BoardRef {
+    + index : int
+    + opponent : bool
+    + {static} Get(type:BoardRefType, opponent:bool) : BoardRef
+    + {static} Get(type:BoardRefType, index:int) : BoardRef
+}
+MonoBehaviour <|-- BoardRef
+BoardRef --> "type" BoardRefType
+@enduml

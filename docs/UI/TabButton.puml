@@ -1,0 +1,19 @@
+@startuml
+class TabButton {
+    + group : string
+    + active : bool
+    + Activate() : void
+    + Deactivate() : void
+    + IsActive() : bool
+    + {static} SetAll(group:string, act:bool) : void
+    + {static} GetAll(group:string) : List<TabButton>
+    + {static} GetAll() : List<TabButton>
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- TabButton
+TabButton --> "highlight" GameObject
+TabButton --> "ui_panel" UIPanel
+TabButton --> "onClick" UnityAction
+TabButton --> "onClickAny<TabButton>" "UnityAction`1"
+@enduml

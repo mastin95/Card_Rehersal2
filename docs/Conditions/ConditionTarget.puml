@@ -1,0 +1,16 @@
+@startuml
+class ConditionTarget {
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Slot) : bool
+}
+enum ConditionTargetType {
+    None= 0,
+    Card= 10,
+    Character= 20,
+    Slot= 30,
+}
+ConditionData <|-- ConditionTarget
+ConditionTarget --> "type" ConditionTargetType
+ConditionTarget --> "oper" ConditionOperatorBool
+@enduml

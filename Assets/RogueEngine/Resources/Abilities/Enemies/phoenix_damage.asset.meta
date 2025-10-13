@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2e55c5001775c3848b0abee790d45ce3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/phoenix_damage.asset
+  uploadId: 793508

@@ -1,0 +1,19 @@
+@startuml
+class NetworkData {
+    + url : string
+    + port : ushort
+    + {static} Get() : NetworkData
+}
+enum ServerType {
+    Peer2Peer= 0,
+    UnityServices= 10,
+    Dedicated= 20,
+}
+enum SoloType {
+    UseNetcode= 0,
+    Offline= 10,
+}
+ScriptableObject <|-- NetworkData
+NetworkData --> "server_type" ServerType
+NetworkData --> "solo_type" SoloType
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+class RewardCard {
+    + Set(card:CardData) : void
+    + Hide() : void
+    + GetCard() : CardData
+    + GetLevel() : int
+    + OnClick(ucard:CardUI) : void
+    + OnClickRight(ucard:CardUI) : void
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- RewardCard
+RewardCard --> "onClick<RewardCard>" "UnityAction`1"
+RewardCard --> "onClickRight<RewardCard>" "UnityAction`1"
+@enduml

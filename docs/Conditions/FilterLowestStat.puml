@@ -1,0 +1,8 @@
+@startuml
+class FilterLowestStat {
+    + <<override>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<Card>, dest:List<Card>) : List<Card>
+    + <<override>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<BattleCharacter>, dest:List<BattleCharacter>) : List<BattleCharacter>
+}
+FilterData <|-- FilterLowestStat
+FilterLowestStat --> "stat" EffectStatType
+@enduml

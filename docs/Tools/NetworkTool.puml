@@ -1,0 +1,36 @@
+@startuml
+class NetworkTool {
+    + {static} Serialize(obj:T) : byte[]
+    + {static} Deserialize(bytes:byte[]) : T
+    + {static} Serializer(serializer:BufferSerializer<T>, data:TD) : void
+    + {static} NetSerialize(obj:T, size:int) : byte[]
+    + {static} NetDeserialize(bytes:byte[]) : T
+    + {static} NetSerializeArray(serializer:BufferSerializer<TS>, array:string[]) : void
+    + {static} NetSerializeArray(serializer:BufferSerializer<TS>, array:T[]) : void
+    + {static} SerializeInt32(data:int) : byte[]
+    + {static} DeserializeInt32(bytes:byte[]) : int
+    + {static} SerializeUInt64(data:ulong) : byte[]
+    + {static} DeserializeUInt64(bytes:byte[]) : ulong
+    + {static} SerializeString(data:string) : byte[]
+    + {static} DeserializeString(bytes:byte[]) : string
+    + {static} SerializeToString(obj:T) : string
+    + {static} DeserializeFromString(str:string) : T
+    + {static} SerializeObject(serializer:BufferSerializer<T>, data:T1) : void
+    + {static} SerializeDictionary(serializer:BufferSerializer<T>, data:Dictionary<T1, T2>) : void
+    + {static} SerializeDictionaryEnum(serializer:BufferSerializer<T>, data:Dictionary<T1, T2>) : void
+    + {static} SerializeDictionary(serializer:BufferSerializer<T>, data:Dictionary<string, T2>) : void
+    + {static} SerializeDictionary(serializer:BufferSerializer<T>, data:Dictionary<string, string>) : void
+    + {static} SerializeDictionaryNetObject(serializer:BufferSerializer<T>, data:Dictionary<string, T2>) : void
+    + {static} SerializeDictionaryNetObject(serializer:BufferSerializer<T>, data:Dictionary<T1, T2>) : void
+    + {static} SerializeDictionaryObject(serializer:BufferSerializer<T>, data:Dictionary<string, T2>) : void
+    + {static} SerializeDictionaryObject(serializer:BufferSerializer<T>, data:Dictionary<T1, T2>) : void
+    + {static} SerializeDictionaryEnumObject(serializer:BufferSerializer<T>, data:Dictionary<T1, T2>) : void
+    + {static} Hash16(string_id:string) : ushort
+    + {static} Hash32(string_id:string) : uint
+    + {static} Hash64(string_id:string) : ulong
+    + {static} ResolveDns(url:string) : IPAddress
+    + {static} HostToIP(host:string) : string
+    + {static} GetLocalIp() : string
+    + {static} <<async>> GetOnlineIp() : Task<string>
+}
+@enduml

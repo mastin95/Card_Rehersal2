@@ -1,0 +1,38 @@
+@startuml
+class CardLine {
+    + SetLine(card:ChampionCard) : void
+    + SetLine(card:CardData, level:int, quantity:int, invalid:bool) : void
+    + SetLine(title:string) : void
+    + SetSelected(selected:bool) : void
+    + Hide() : void
+    + GetLevelIcon(level:int) : Sprite
+    + GetCard() : CardData
+    + GetChampionCard() : ChampionCard
+    + IsHidden() : bool
+    + OnPointerClick(eventData:PointerEventData) : void
+    + OnClickDelete() : void
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- CardLine
+IPointerClickHandler <|-- CardLine
+IPointerEnterHandler <|-- CardLine
+IPointerExitHandler <|-- CardLine
+CardLine --> "image" Image
+CardLine --> "frame" Image
+CardLine --> "highlight" Image
+CardLine --> "title" Text
+CardLine --> "value" Text
+CardLine --> "level_icon" Image
+CardLine --> "level_txt" Text
+CardLine --> "cost" IconValue
+CardLine --> "delete_btn" UIPanel
+CardLine --> "click_audio" AudioClip
+CardLine --> "disabled_mat" Material
+CardLine --> "default_mat" Material
+CardLine --> "onClick<CardLine>" "UnityAction`1"
+CardLine --> "onClickRight<CardLine>" "UnityAction`1"
+CardLine --> "onClickDelete<CardLine>" "UnityAction`1"
+@enduml

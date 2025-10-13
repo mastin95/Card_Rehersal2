@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 730acb64f8d1a964c9170745b8a52ffa
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Choices/altar_give.asset
+  uploadId: 793508

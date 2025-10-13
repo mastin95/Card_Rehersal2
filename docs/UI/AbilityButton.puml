@@ -1,0 +1,16 @@
+@startuml
+class AbilityButton {
+    + SetAbility(card:Card, iability:AbilityData) : void
+    + Hide() : void
+    + OnClick() : void
+    + GetAbility() : AbilityData
+    + IsVisible() : bool
+    + MouseEnter() : void
+    + MouseExit() : void
+    + {static} GetFocus(pos:Vector3, range:float) : AbilityButton
+    + {static} GetNearest(pos:Vector3, range:float) : AbilityButton
+}
+MonoBehaviour <|-- AbilityButton
+AbilityButton --> "text" Text
+AbilityButton --> "focus_highlight" Image
+@enduml

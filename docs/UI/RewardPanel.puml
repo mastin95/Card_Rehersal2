@@ -1,0 +1,22 @@
+@startuml
+class RewardPanel {
+    + <<override>> RefreshPanel() : void
+    + OnClickNewCard() : void
+    + OnClickNewItem() : void
+    + OnClickSkip() : void
+    + <<override>> Hide(instant:bool) : void
+    + <<override>> ShouldShow() : bool
+    + <<override>> IsAutomatic() : bool
+    + {static} Get() : RewardPanel
+}
+MapPanel <|-- RewardPanel
+RewardPanel --> "portrait" Image
+RewardPanel --> "reward_gold" Text
+RewardPanel --> "reward_xp" Text
+RewardPanel --> "reward_gold_img" Image
+RewardPanel --> "reward_xp_img" Image
+RewardPanel --> "new_card_btn" Button
+RewardPanel --> "new_card_panel" UIPanel
+RewardPanel --> "new_item_btn" Button
+RewardPanel --> "new_item_panel" UIPanel
+@enduml

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fed430f4ce928dd459c6f74368c0f735
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Choices/lost_run.asset
+  uploadId: 793508

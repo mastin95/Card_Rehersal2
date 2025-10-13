@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2f648bb052830234d8c61580b3ff2df0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Battles/battle_phoenix.asset
+  uploadId: 793508

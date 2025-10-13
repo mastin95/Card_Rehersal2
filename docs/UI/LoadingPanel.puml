@@ -1,0 +1,9 @@
+@startuml
+class LoadingPanel {
+    + IsOnline() : bool
+    + OnClickQuit() : void
+    + {static} Get() : LoadingPanel
+}
+UIPanel <|-- LoadingPanel
+LoadingPanel --> "load_txt" Text
+@enduml

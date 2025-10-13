@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 756b14a4bbfd8ee4bb47496f08961869
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Materials/FX/FXzzz.mat
+  uploadId: 793508

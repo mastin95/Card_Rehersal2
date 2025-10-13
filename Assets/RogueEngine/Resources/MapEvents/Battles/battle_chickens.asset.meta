@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 726e764938f2b3448aaf493419334dd4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Battles/battle_chickens.asset
+  uploadId: 793508

@@ -1,0 +1,13 @@
+@startuml
+abstract class AIPlayer {
+    + player_id : int
+    + ai_level : int
+    + <<virtual>> Update() : void
+    + CanPlay() : bool
+    + IsResolving() : bool
+    + {static} Create(type:AIType, gameplay:BattleLogic, id:int, level:int) : AIPlayer
+}
+enum AIType {
+    Behavior= 0,
+}
+@enduml

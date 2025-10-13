@@ -1,0 +1,16 @@
+@startuml
+class OptionString {
+    + value : string
+    + title : string
+}
+class OptionSelector {
+    + OnClickLeft() : void
+    + OnClickRight() : void
+    + SetIndex(index:int) : void
+    + GetSelected() : OptionString
+    + GetSelectedValue() : string
+    + GetSelectedTitle() : string
+}
+MonoBehaviour <|-- OptionSelector
+OptionSelector --> "select_text" Text
+@enduml

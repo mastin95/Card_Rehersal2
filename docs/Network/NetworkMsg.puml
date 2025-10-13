@@ -1,0 +1,236 @@
+@startuml
+class MsgPlayerConnect {
+    + user_id : string
+    + username : string
+    + game_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgNewScenario {
+    + scenario : string
+    + filename : string
+    + title : string
+    + online : bool
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgLoadScenario {
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgAddChampion {
+    + champion_id : string
+    + slot_x : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgStartGame {
+    + seed : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgStartTest {
+    + seed : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgAfterConnected {
+    + success : bool
+    + player_id : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgMatchmaking {
+    + user_id : string
+    + username : string
+    + group : string
+    + players : int
+    + refresh : bool
+    + time : float
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MatchmakingResult {
+    + success : bool
+    + players : int
+    + group : string
+    + server_url : string
+    + game_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgLobbyCreate {
+    + user_id : string
+    + username : string
+    + title : string
+    + subtitle : string
+    + filename : string
+    + load : bool
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgLobbyJoin {
+    + user_id : string
+    + username : string
+    + uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class LobbyList {
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgLobbyUID {
+    + uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgMapMove {
+    + champion_uid : string
+    + map_id : string
+    + location_id : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgMapCard {
+    + champion_uid : string
+    + card_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgMapItem {
+    + champion_uid : string
+    + item_id : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgMapEvent {
+    + champion_uid : string
+    + event_id : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgEventChoice {
+    + champion_uid : string
+    + choice : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgRewardChoice {
+    + champion_uid : string
+    + target_id : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgChampionCard {
+    + champion_uid : string
+    + card_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgLevelUp {
+    + champion_uid : string
+    + skill_id : string
+    + target_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgShop {
+    + champion_uid : string
+    + item_id : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgChampion {
+    + champion_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgID {
+    + champion_uid : string
+    + select_id : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgPlayCard {
+    + card_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgMove {
+    + character_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgDamaged {
+    + character_uid : string
+    + damage : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgUse {
+    + character_uid : string
+    + uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgUID {
+    + uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgCastAbility {
+    + ability_id : string
+    + card_uid : string
+    + target_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgCastAbilitySlot {
+    + ability_id : string
+    + card_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgSecret {
+    + secret_uid : string
+    + triggerer_uid : string
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgInt {
+    + value : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgChat {
+    + username : string
+    + text : string
+    + index : int
+    + MsgChat()
+    + MsgChat(user:string, txt:string)
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgUserData {
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgRefreshWorld {
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class MsgRefreshBattle {
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+INetworkSerializable <|-- MsgPlayerConnect
+INetworkSerializable <|-- MsgNewScenario
+INetworkSerializable <|-- MsgLoadScenario
+MsgLoadScenario --> "world" World
+INetworkSerializable <|-- MsgAddChampion
+INetworkSerializable <|-- MsgStartGame
+INetworkSerializable <|-- MsgStartTest
+MsgStartTest o-> "test_state" WorldState
+INetworkSerializable <|-- MsgAfterConnected
+MsgAfterConnected --> "world" World
+INetworkSerializable <|-- MsgMatchmaking
+INetworkSerializable <|-- MatchmakingResult
+INetworkSerializable <|-- MsgLobbyCreate
+INetworkSerializable <|-- MsgLobbyJoin
+INetworkSerializable <|-- LobbyList
+INetworkSerializable <|-- MsgLobbyUID
+INetworkSerializable <|-- MsgMapMove
+INetworkSerializable <|-- MsgMapCard
+INetworkSerializable <|-- MsgMapItem
+INetworkSerializable <|-- MsgMapEvent
+INetworkSerializable <|-- MsgEventChoice
+INetworkSerializable <|-- MsgRewardChoice
+INetworkSerializable <|-- MsgChampionCard
+INetworkSerializable <|-- MsgLevelUp
+INetworkSerializable <|-- MsgShop
+INetworkSerializable <|-- MsgChampion
+INetworkSerializable <|-- MsgID
+INetworkSerializable <|-- MsgPlayCard
+MsgPlayCard --> "slot" Slot
+INetworkSerializable <|-- MsgMove
+MsgMove --> "slot" Slot
+INetworkSerializable <|-- MsgDamaged
+INetworkSerializable <|-- MsgUse
+INetworkSerializable <|-- MsgUID
+INetworkSerializable <|-- MsgCastAbility
+INetworkSerializable <|-- MsgCastAbilitySlot
+MsgCastAbilitySlot --> "slot" Slot
+INetworkSerializable <|-- MsgSecret
+INetworkSerializable <|-- MsgInt
+INetworkSerializable <|-- MsgChat
+INetworkSerializable <|-- MsgUserData
+MsgUserData --> "user_data" UserData
+INetworkSerializable <|-- MsgRefreshWorld
+MsgRefreshWorld --> "world_data" World
+INetworkSerializable <|-- MsgRefreshBattle
+MsgRefreshBattle --> "battle_data" Battle
+@enduml

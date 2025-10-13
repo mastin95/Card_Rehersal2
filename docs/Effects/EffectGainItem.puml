@@ -1,0 +1,7 @@
+@startuml
+class EffectGainItem {
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+}
+EffectData <|-- EffectGainItem
+EffectGainItem --> "item" CardData
+@enduml

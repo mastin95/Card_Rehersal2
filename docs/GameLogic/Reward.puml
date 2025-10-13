@@ -1,0 +1,10 @@
+@startuml
+class Reward {
+    + gold : int
+    + xp : int
+}
+class "List`1"<T> {
+}
+Reward o-> "cards<string>" "List`1"
+Reward o-> "items<string>" "List`1"
+@enduml

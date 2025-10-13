@@ -1,0 +1,19 @@
+@startuml
+class IntentData {
+    + id : string
+    + show_value : bool
+    + priority : int
+    + title : string
+    + text : string
+    + {static} Load(folder:string) : void
+    + GetTitle() : string
+    + GetText() : string
+    + {static} Get(id:string) : IntentData
+    + {static} GetAll() : List<IntentData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- IntentData
+IntentData --> "icon" Sprite
+IntentData o-> "intent_list<IntentData>" "List`1"
+@enduml

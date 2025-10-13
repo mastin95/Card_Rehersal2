@@ -1,0 +1,50 @@
+@startuml
+enum StatusEffect {
+    None= 0,
+    ManaCostBonus= 2,
+    SpeedBonus= 7,
+    HandBonus= 8,
+    AttackPower= 10,
+    MagicPower= 12,
+    Armor= 15,
+    Stunned= 20,
+    Sleep= 22,
+    Courageous= 30,
+    Fearful=31,
+    Vulnerable= 32,
+    Evasive= 33,
+    Poisoned= 40,
+    Burned= 42,
+    StatusResistance= 50,
+    BurnHeal= 52,
+    Thorn= 55,
+    Keep= 60,
+}
+enum StatusDuration {
+    Persistant= 0,
+    AutoReduce= 10,
+    OneTurn= 20,
+}
+class StatusData {
+    + id : string
+    + is_negative : bool
+    + title : string
+    + desc : string
+    + animation : string
+    + GetTitle() : string
+    + GetDesc() : string
+    + GetDesc(value:int) : string
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : StatusData
+    + {static} Get(effect:StatusEffect) : StatusData
+    + {static} GetAll() : List<StatusData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- StatusData
+StatusData --> "effect" StatusEffect
+StatusData --> "duration" StatusDuration
+StatusData --> "icon" Sprite
+StatusData --> "status_fx" GameObject
+StatusData o-> "status_list<StatusData>" "List`1"
+@enduml

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ab6a39f625ec14846bbd3dd582a4d498
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Adventurer/neverending_strikes.asset
+  uploadId: 793508

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 074612bc7fe1c7346978b47e255bf3f4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/draw_next1.asset
+  uploadId: 793508

@@ -1,0 +1,12 @@
+@startuml
+class ConditionCountTarget {
+    + value : int
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+}
+ConditionData <|-- ConditionCountTarget
+ConditionCountTarget --> "pile" PileType
+ConditionCountTarget --> "oper" ConditionOperatorInt
+ConditionCountTarget --> "has_type" ItemType
+ConditionCountTarget --> "has_team" TeamData
+ConditionCountTarget --> "has_trait" TraitData
+@enduml

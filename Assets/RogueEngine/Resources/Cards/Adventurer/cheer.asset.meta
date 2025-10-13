@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e1f82d4f9aafb5d46b51d43ce80b9bcd
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Adventurer/cheer.asset
+  uploadId: 793508

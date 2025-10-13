@@ -1,0 +1,51 @@
+﻿@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package "Behaviors" {
+!include_many ./Behaviors/*.puml
+}
+package "Conditions" {
+!include_many ./Conditions/*.puml
+}
+package "Data" {
+!include_many ./Data/*.puml
+}
+package "Editor" {
+!include_many ./Editor/*.puml
+}
+package "Effects" {
+!include_many ./Effects/*.puml
+}
+package "Events" {
+!include_many ./Events/*.puml
+}
+package "FX" {
+!include_many ./FX/*.puml
+}
+package "GameClient" {
+!include_many ./GameClient/*.puml
+}
+package "GameLogic" {
+!include_many ./GameLogic/*.puml
+}
+package "GameServer" {
+!include_many ./GameServer/*.puml
+}
+package "Map" {
+!include_many ./Map/*.puml
+}
+package "Menu" {
+!include_many ./Menu/*.puml
+}
+package "Network" {
+!include_many ./Network/*.puml
+}
+package "Tools" {
+!include_many ./Tools/*.puml
+}
+package "UI" {
+!include_many ./UI/*.puml
+}
+@enduml

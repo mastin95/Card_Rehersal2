@@ -1,0 +1,8 @@
+@startuml
+class EffectRemoveStatus {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectRemoveStatus
+EffectRemoveStatus --> "remove_status" StatusData
+@enduml

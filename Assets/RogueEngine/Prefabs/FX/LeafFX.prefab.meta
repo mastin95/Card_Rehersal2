@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8d68eb12f4dda644184359acd4008081
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/LeafFX.prefab
+  uploadId: 793508

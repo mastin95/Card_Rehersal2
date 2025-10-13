@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a59b30a8d46849545851a0e81b8ee39a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/bear_hibernate.asset
+  uploadId: 793508

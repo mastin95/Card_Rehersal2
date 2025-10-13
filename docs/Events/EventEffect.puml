@@ -1,0 +1,18 @@
+@startuml
+class EventEffect {
+    + value : int
+    + text : string
+    + <<override>> AreEventsConditionMet(world:World, champion:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, triggerer:Champion) : void
+    + <<override>> GetText() : string
+    + {static} <<new>> Get(id:string) : EventChoice
+}
+enum EventTarget {
+    None= 0,
+    ChampionActive= 10,
+    ChampionAll= 15,
+}
+EventData <|-- EventEffect
+EventEffect --> "target" EventTarget
+EventEffect --> "chain_event" EventData
+@enduml

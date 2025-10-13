@@ -1,0 +1,34 @@
+@startuml
+class Tutorial {
+    + TriggerEndStep(trigger:TutoEndTrigger, time:float) : void
+    + TriggerStartGroup(trigger:TutoStartTrigger, target:Card) : void
+    + ShowGroup(trigger:TutoStartTrigger, target:Card) : void
+    + ShowGroup(group:TutoStepGroup) : void
+    + ShowNext() : void
+    + Show(step:TutoStep) : void
+    + EndGroup() : void
+    + Hide(step:TutoStep) : void
+    + Hide() : void
+    + CanDo(trigger:TutoEndTrigger) : bool
+    + CanDo(trigger:TutoEndTrigger, slot:Slot) : bool
+    + CanDo(trigger:TutoEndTrigger, target:BattleCharacter) : bool
+    + CanDo(trigger:TutoEndTrigger, target:Card) : bool
+    + GetNextIndex() : int
+    + GetEndTrigger() : TutoEndTrigger
+    + HideAll() : void
+    + {static} IsTuto() : bool
+    + {static} Get() : Tutorial
+}
+enum TutoStartTrigger {
+    StartTurn= 0,
+    PlayCard= 10,
+}
+enum TutoEndTrigger {
+    Click= 0,
+    EndTurn= 5,
+    PlayCard= 10,
+    Move= 20,
+    SelectTarget= 30,
+}
+MonoBehaviour <|-- Tutorial
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class LevelTab {
+    + level : int
+    + SetSelected(selected:bool) : void
+    + IsSelected() : bool
+    + OnClick() : void
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- LevelTab
+LevelTab --> "select_color" Color
+LevelTab --> "normal_color" Color
+LevelTab --> "onClick<int>" "UnityAction`1"
+@enduml

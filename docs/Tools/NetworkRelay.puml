@@ -1,0 +1,11 @@
+@startuml
+class NetworkRelay {
+    + {static} <<async>> HostGame(maxConn:int) : Task<RelayConnectData>
+    + {static} <<async>> JoinGame(joinCode:string) : Task<RelayConnectData>
+}
+class RelayConnectData {
+    + url : string
+    + port : ushort
+    + join_code : string
+}
+@enduml

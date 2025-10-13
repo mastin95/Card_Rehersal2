@@ -1,0 +1,11 @@
+@startuml
+class EffectDamage {
+    + ignore_shield : bool
+    + shield_only : bool
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+    + <<override>> DoMapEffect(logic:WorldLogic, ability:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + GetDamage(ability:AbilityData, caster:BattleCharacter, card:Card) : int
+}
+EffectData <|-- EffectDamage
+@enduml

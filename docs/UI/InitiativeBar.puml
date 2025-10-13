@@ -1,0 +1,6 @@
+@startuml
+class InitiativeBar {
+}
+MonoBehaviour <|-- InitiativeBar
+InitiativeBar --> "turn_line" RectTransform
+@enduml

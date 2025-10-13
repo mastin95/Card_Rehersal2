@@ -1,0 +1,11 @@
+﻿@startuml
+title Diagrama de prueba
+
+class EventBattle
+class BattleLogic
+class BattleCharacter
+
+EventBattle --> BattleLogic : StartBattle()/Run
+BattleLogic --> BattleCharacter : Create(CharacterData, level)\n(player_id = -1)
+
+@enduml

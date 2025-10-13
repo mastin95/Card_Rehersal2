@@ -1,0 +1,9 @@
+@startuml
+class ConditionSelf {
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Slot) : bool
+}
+ConditionData <|-- ConditionSelf
+ConditionSelf --> "oper" ConditionOperatorBool
+@enduml

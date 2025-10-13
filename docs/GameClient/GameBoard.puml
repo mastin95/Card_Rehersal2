@@ -1,0 +1,12 @@
+@startuml
+class GameBoard {
+    + RaycastMouseBoard() : Vector3
+    + GetAngles() : Vector3
+    + {static} Get() : GameBoard
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- GameBoard
+GameBoard --> "onCharacterSpawned<BoardCharacter>" "UnityAction`1"
+GameBoard --> "onCharacterKilled<BoardCharacter>" "UnityAction`1"
+@enduml

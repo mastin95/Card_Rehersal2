@@ -1,0 +1,20 @@
+@startuml
+class DropdownValueItem {
+    + id : string
+    + text : string
+}
+class DropdownValue {
+    + AddOption(id:string, text:string) : void
+    + ClearOptions() : void
+    + SetValue(value:string) : void
+    + GetSelected() : DropdownValueItem
+    + GetSelectedValue() : string
+    + GetSelectText() : string
+    + interactable : bool <<get>> <<set>>
+    + value : int <<get>> <<set>>
+}
+class "UnityAction`2"<T1,T2> {
+}
+MonoBehaviour <|-- DropdownValue
+DropdownValue --> "onValueChanged<int,string>" "UnityAction`2"
+@enduml

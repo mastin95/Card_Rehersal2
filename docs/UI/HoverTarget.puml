@@ -1,0 +1,16 @@
+@startuml
+class HoverTarget {
+    + text : string
+    + delay : float = 0.5f
+    + text_size : int = 22
+    + width : int = 350
+    + height : int = 140
+    + GetText() : string
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+    + IsHover() : bool
+}
+MonoBehaviour <|-- HoverTarget
+IPointerEnterHandler <|-- HoverTarget
+IPointerExitHandler <|-- HoverTarget
+@enduml

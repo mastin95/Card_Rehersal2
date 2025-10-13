@@ -1,0 +1,9 @@
+@startuml
+class IconValue {
+    + value : int
+    + auto_refresh : bool = true
+    + Refresh() : void
+    + SetMat(mat:Material) : void
+}
+MonoBehaviour <|-- IconValue
+@enduml

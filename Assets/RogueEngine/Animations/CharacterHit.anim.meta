@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7362f09881baf0143995370aee9262c6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Animations/CharacterHit.anim
+  uploadId: 793508

@@ -1,0 +1,8 @@
+@startuml
+class MouseLineFX {
+    + dot_spacing : float = 0.2f
+    + AddDot() : void
+}
+MonoBehaviour <|-- MouseLineFX
+MouseLineFX --> "dot_template" GameObject
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class EventShop {
+    + buy_mult : float = 1f
+    + sell_mult : float = 1f
+    + cards_random_amount : int = 0
+    + items_random_amount : int = 0
+    + <<override>> DoEvent(logic:WorldLogic, champion:Champion) : void
+    + {static} <<new>> Get(id:string) : EventShop
+}
+class "List`1"<T> {
+}
+EventData <|-- EventShop
+EventShop o-> "shop_list<EventShop>" "List`1"
+@enduml

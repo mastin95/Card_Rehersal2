@@ -1,0 +1,10 @@
+@startuml
+class IntentIcon {
+    + SetIntent(intent:IntentData, value:int) : void
+    + Hide() : void
+}
+MonoBehaviour <|-- IntentIcon
+IntentIcon --> "intent_img" Image
+IntentIcon --> "intent_value" Text
+IntentIcon --> "intent_txt" HoverTargetUI
+@enduml

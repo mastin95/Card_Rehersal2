@@ -1,0 +1,14 @@
+@startuml
+class TutoStepGroup {
+    + turn_min : int = 0
+    + turn_max : int = 99
+    + forced : bool
+    + SetTriggered() : void
+    + HasChampion(champion_id:string) : bool
+    + {static} Get(trigger:TutoStartTrigger, character:BattleCharacter, turn:int) : TutoStepGroup
+    + {static} Get(trigger:TutoStartTrigger, character:BattleCharacter, target:Card, turn:int) : TutoStepGroup
+}
+MonoBehaviour <|-- TutoStepGroup
+TutoStepGroup --> "start_trigger" TutoStartTrigger
+TutoStepGroup --> "start_target" CardData
+@enduml

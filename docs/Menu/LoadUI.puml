@@ -1,0 +1,16 @@
+@startuml
+class LoadUI {
+    + SetLine(game:World) : void
+    + Hide() : void
+    + GetWorld() : World
+    + OnClick() : void
+    + OnClickDelete() : void
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- LoadUI
+LoadUI --> "title" Text
+LoadUI --> "scenario_txt" Text
+LoadUI --> "onClick<LoadUI>" "UnityAction`1"
+LoadUI --> "onClickDelete<LoadUI>" "UnityAction`1"
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+class HandCard {
+    + move_speed : float = 10f
+    + move_rotate_speed : float = 4f
+    + move_max_rotate : float = 10f
+    + play_y_percent_min : float = 0.25f
+    + deck_angle : float
+    + SetCard(card:Card) : void
+    + Kill() : void
+    + IsFocus() : bool
+    + IsDrag() : bool
+    + GetCard() : Card
+    + GetCardData() : CardData
+    + GetCardUID() : string
+    + TryPlayCard() : void
+    + PlayCard(target:Slot) : void
+    + {static} GetDrag() : HandCard
+    + {static} GetFocus() : HandCard
+    + {static} Get(uid:string) : HandCard
+    + {static} UnselectAll() : void
+    + {static} GetAll() : List<HandCard>
+}
+MonoBehaviour <|-- HandCard
+HandCard --> "card_glow" Image
+HandCard --> "deck_position" Vector2
+HandCard --> "CardData" CardData
+@enduml

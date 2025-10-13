@@ -1,0 +1,10 @@
+@startuml
+class SaveTool {
+    + {static} LoadFile(filename:string) : T
+    + {static} SaveFile(filename:string, data:T) : void
+    + {static} DeleteFile(filename:string) : void
+    + {static} GetAllSave(extension:string) : List<string>
+    + {static} DoesFileExist(filename:string) : bool
+    + {static} IsValidFilename(filename:string) : bool
+}
+@enduml

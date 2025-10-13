@@ -1,0 +1,13 @@
+@startuml
+class EventLose {
+    + lose_gold : int
+    + hp_damage : int
+    + text : string
+    + <<override>> AreEventsConditionMet(world:World, triggerer:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, triggerer:Champion) : void
+    + Spend(logic:WorldLogic, champion:Champion) : void
+}
+EventData <|-- EventLose
+EventLose --> "target" EventTarget
+EventLose --> "chain_event" EventData
+@enduml

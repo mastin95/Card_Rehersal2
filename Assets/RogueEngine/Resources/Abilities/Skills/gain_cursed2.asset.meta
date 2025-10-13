@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4477a6a45cb5c5645a0ac0999c357db8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/gain_cursed2.asset
+  uploadId: 793508

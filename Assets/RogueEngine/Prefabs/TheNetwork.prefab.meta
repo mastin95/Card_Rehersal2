@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 752035390e25f2448b1be2fbea6ae38e
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/TheNetwork.prefab
+  uploadId: 793508

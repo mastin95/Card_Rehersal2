@@ -1,0 +1,23 @@
+@startuml
+class EffectAddStat {
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+    + <<override>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+enum EffectStatType {
+    None= 0,
+    Mana= 5,
+    HP= 10,
+    Shield= 12,
+    Speed= 20,
+    Energy= 22,
+    Hand=24,
+    XP= 30,
+    Level= 31,
+    Gold= 32,
+}
+EffectData <|-- EffectAddStat
+EffectAddStat --> "type" EffectStatType
+@enduml

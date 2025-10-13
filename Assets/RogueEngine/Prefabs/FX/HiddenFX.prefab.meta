@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e72747cc0e9c38d44bd336fd52003b7c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/HiddenFX.prefab
+  uploadId: 793508

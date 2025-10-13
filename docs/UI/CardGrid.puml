@@ -1,0 +1,8 @@
+@startuml
+class CardGrid {
+    + GetColumnAndRow(rows:int, columns:int) : void
+    + GetGrid() : GridLayoutGroup
+    + GetRect() : RectTransform
+}
+MonoBehaviour <|-- CardGrid
+@enduml

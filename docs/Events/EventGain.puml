@@ -1,0 +1,14 @@
+@startuml
+class EventGain {
+    + gain_gold : int
+    + gain_xp : int
+    + hp_heal : int
+    + text : string
+    + <<override>> AreEventsConditionMet(world:World, triggerer:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, triggerer:Champion) : void
+    + Gain(logic:WorldLogic, champion:Champion) : void
+}
+EventData <|-- EventGain
+EventGain --> "target" EventTarget
+EventGain --> "chain_event" EventData
+@enduml

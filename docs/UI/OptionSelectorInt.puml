@@ -1,0 +1,19 @@
+@startuml
+class OptionInt {
+    + value : int
+    + title : string
+}
+class OptionSelectorInt {
+    + OnClickLeft() : void
+    + OnClickRight() : void
+    + SetIndex(index:int) : void
+    + SetValue(value:int) : void
+    + SetLocked(locked:bool) : void
+    + GetSelected() : OptionInt
+    + GetSelectedValue() : int
+    + GetSelectedTitle() : string
+}
+MonoBehaviour <|-- OptionSelectorInt
+OptionSelectorInt --> "select_text" Text
+OptionSelectorInt --> "onChange" UnityAction
+@enduml

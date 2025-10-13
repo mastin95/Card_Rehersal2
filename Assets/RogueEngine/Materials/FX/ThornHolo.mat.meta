@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a7f64ff6f885caf4aab3452b5051a8ab
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Materials/FX/ThornHolo.mat
+  uploadId: 793508

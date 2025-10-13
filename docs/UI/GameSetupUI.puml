@@ -1,0 +1,12 @@
+@startuml
+class GameSetupUI {
+    + OnClickScenarioPrev() : void
+    + OnClickScenarioNext() : void
+    + OnClickStart() : void
+}
+MonoBehaviour <|-- GameSetupUI
+GameSetupUI --> "scenario_txt" Text
+GameSetupUI --> "player_count" Text
+GameSetupUI --> "input_seed" InputField
+GameSetupUI --> "host_group" GameObject
+@enduml

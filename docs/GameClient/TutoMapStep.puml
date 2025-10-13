@@ -1,0 +1,11 @@
+@startuml
+class TutoMapStep {
+    + forced : bool
+    + GetStepIndex() : int
+    + {static} Get(group:TutoMapStepGroup, step:int) : TutoMapStep
+    + {static} HideAll() : void
+}
+UIPanel <|-- TutoMapStep
+TutoMapStep --> "end_trigger" TutoMapEndTrigger
+TutoMapStep --> "trigger_target" CardData
+@enduml

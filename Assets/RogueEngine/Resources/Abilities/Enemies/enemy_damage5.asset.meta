@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5137fc93e00605543a01ffa627aa7b8f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/enemy_damage5.asset
+  uploadId: 793508

@@ -1,0 +1,10 @@
+@startuml
+class BattleScene {
+    + {static} Get() : BattleScene
+}
+struct BattleBG {
+}
+MonoBehaviour <|-- BattleScene
+BattleBG --> "planet" MapData
+BattleBG --> "bg" Sprite
+@enduml

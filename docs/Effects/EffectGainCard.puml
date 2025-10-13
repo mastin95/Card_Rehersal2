@@ -1,0 +1,9 @@
+@startuml
+class EffectGainCard {
+    + level : int = 1
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectGainCard
+EffectGainCard --> "card" CardData
+@enduml

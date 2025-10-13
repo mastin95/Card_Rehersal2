@@ -1,0 +1,8 @@
+@startuml
+class ConditionScenario {
+    + <<override>> IsMapEventConditionMet(data:World, evt:EventEffect, champion:Champion) : bool
+}
+ConditionData <|-- ConditionScenario
+ConditionScenario --> "scenario" ScenarioData
+ConditionScenario --> "oper" ConditionOperatorBool
+@enduml

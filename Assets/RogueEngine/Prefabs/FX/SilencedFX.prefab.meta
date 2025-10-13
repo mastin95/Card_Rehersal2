@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0a2325e55f302f84aa511ce672526fad
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/SilencedFX.prefab
+  uploadId: 793508

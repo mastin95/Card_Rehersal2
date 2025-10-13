@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 241b5beb42ed7ba40bbc2e31505fac07
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Curses/draw_mana1.asset
+  uploadId: 793508

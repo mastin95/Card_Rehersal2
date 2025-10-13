@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: abbbd32fe1e7c964090115363ce9c332
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/remove_shield_self.asset
+  uploadId: 793508

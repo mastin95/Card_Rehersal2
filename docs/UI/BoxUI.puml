@@ -1,0 +1,42 @@
+@startuml
+class BoxUI {
+    + SetCard(card:Card) : void
+    + SetItem(champion:Champion, item:ChampionItem) : void
+    + SetItemCard(card:Card, quantity:int) : void
+    + SetCard(card:CardData) : void
+    + SetItem(item:CardData) : void
+    + SetCharacter(charact:CharacterData) : void
+    + SetCharacter(charact:ChampionData) : void
+    + SetEmpty() : void
+    + SetSelected(select:bool) : void
+    + SetClickable(clickable:bool) : void
+    + Show() : void
+    + Hide() : void
+    + GetCharacterData() : CharacterData
+    + GetChampionData() : ChampionData
+    + GetCardData() : CardData
+    + GetItem() : ChampionItem
+    + GetCard() : Card
+    + GetUID() : string
+    + IsHover() : bool
+    + OnPointerClick(eventData:PointerEventData) : void
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+    + {static} GetHover() : BoxUI
+    + {static} GetHoverCard() : BoxUI
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- BoxUI
+IPointerEnterHandler <|-- BoxUI
+IPointerExitHandler <|-- BoxUI
+IPointerClickHandler <|-- BoxUI
+BoxUI --> "title" Text
+BoxUI --> "desc" Text
+BoxUI --> "icon" Image
+BoxUI --> "value" Text
+BoxUI --> "selected" Image
+BoxUI --> "frame" Image
+BoxUI --> "onClick<BoxUI>" "UnityAction`1"
+BoxUI --> "onClickRight<BoxUI>" "UnityAction`1"
+@enduml

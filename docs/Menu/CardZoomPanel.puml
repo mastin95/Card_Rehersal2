@@ -1,0 +1,14 @@
+@startuml
+class CardZoomPanel {
+    + ShowCard(card:CardData, level:int) : void
+    + RefreshCard() : void
+    + OnClickLevel(level:int) : void
+    + GetCard() : CardData
+    + GetCardId() : string
+    + {static} Get() : CardZoomPanel
+}
+UIPanel <|-- CardZoomPanel
+CardZoomPanel --> "card_ui" CardUI
+CardZoomPanel --> "title" Text
+CardZoomPanel --> "desc" Text
+@enduml

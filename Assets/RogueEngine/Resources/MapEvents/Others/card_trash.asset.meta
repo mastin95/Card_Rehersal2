@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 94e6cfd8938b8d84684516de98da1dfa
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Others/card_trash.asset
+  uploadId: 793508

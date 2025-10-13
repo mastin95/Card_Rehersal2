@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b564cf4d07049d846adfe0b03712280a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Effects/remove_fearful.asset
+  uploadId: 793508

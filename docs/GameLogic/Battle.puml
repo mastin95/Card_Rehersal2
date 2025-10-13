@@ -1,0 +1,104 @@
+@startuml
+class Battle {
+    + battle_id : string
+    + active_character : string
+    + turn_count : int = 0
+    + turn_timer : float = 0f
+    + win_result : int = 0
+    + selector_player_id : int = 0
+    + selector_ability_id : string
+    + selector_caster_uid : string
+    + selector_card_uid : string
+    + marked_character : string
+    + last_played : string
+    + last_destroyed : string
+    + last_summoned : string
+    + last_targeted : string
+    + ability_triggerer : string
+    + rolled_value : int
+    + selected_value : int
+    + Battle()
+    + Battle(id:string, world:World)
+    + <<virtual>> IsAllyTurn() : bool
+    + <<virtual>> IsEnemyTurn() : bool
+    + <<virtual>> IsPlayerTurn(player_id:int) : bool
+    + <<virtual>> IsPlayerActionTurn(player_id:int) : bool
+    + <<virtual>> IsPlayerSelectorTurn(player_id:int) : bool
+    + <<virtual>> IsCharacterTurn(champ:BattleCharacter) : bool
+    + <<virtual>> IsCharacterActionTurn(champ:BattleCharacter) : bool
+    + <<virtual>> IsCharacterSelectorTurn(champ:BattleCharacter) : bool
+    + CanControlCharacter(player_id:int, character:BattleCharacter) : bool
+    + CanControlCard(player_id:int, card:Card) : bool
+    + <<virtual>> CanPlayCardAnyTarget(card:Card, skip_cost:bool) : bool
+    + <<virtual>> CanPlayCard(card:Card, target:Slot, skip_cost:bool) : bool
+    + <<virtual>> CanMoveCharacter(character:BattleCharacter, target:Slot) : bool
+    + <<virtual>> CanUseItem(caster:BattleCharacter, item:Card) : bool
+    + <<virtual>> CanSelectAbility(caster:BattleCharacter, card:Card, ability:AbilityData) : bool
+    + <<virtual>> CanAnyPlayAbilityTrigger(caster:BattleCharacter, card:Card) : bool
+    + <<virtual>> IsPlayTargetValid(card:Card, target:BattleCharacter) : bool
+    + <<virtual>> IsPlayTargetValid(card:Card, target:Slot) : bool
+    + GetValidPlayCards(character:BattleCharacter, skip_cost:bool) : List<Card>
+    + GetIntentCard(character:BattleCharacter, turn:int) : Card
+    + CountAlive() : int
+    + CountAliveTeam(enemy:bool) : int
+    + GetFirstInitiative() : BattleCharacter
+    + GetOrderIndex(character:BattleCharacter) : int
+    + GetFrontCharacter(enemy_side:bool) : BattleCharacter
+    + GetBackCharacter(enemy_side:bool) : BattleCharacter
+    + GetActiveCharacter() : BattleCharacter
+    + GetCharacter(uid:string) : BattleCharacter
+    + GetChampion(player_id:int) : BattleCharacter
+    + GetCard(card_uid:string) : Card
+    + GetHandCard(card_uid:string) : Card
+    + GetPowerCard(card_uid:string) : Card
+    + GetDeckCard(card_uid:string) : Card
+    + GetDiscardCard(card_uid:string) : Card
+    + GetVoidCard(card_uid:string) : Card
+    + GetTempCard(card_uid:string) : Card
+    + GetSlotCharacter(slot:Slot) : BattleCharacter
+    + GetEmptySlot(enemy:bool) : Slot
+    + IsInHand(card:Card) : bool
+    + IsInPower(card:Card) : bool
+    + IsInDeck(card:Card) : bool
+    + IsInDiscard(card:Card) : bool
+    + IsInVoid(card:Card) : bool
+    + IsInTemp(card:Card) : bool
+    + HasStarted() : bool
+    + HasEnded() : bool
+    + IsActive() : bool
+    + GetCharacterListSwap() : ListSwap<BattleCharacter>
+    + GetCardListSwap() : ListSwap<Card>
+    + GetSlotListSwap() : ListSwap<Slot>
+    + GetCardDataListSwap() : ListSwap<CardData>
+    + {static} CloneNew(source:Battle) : Battle
+    + {static} Clone(source:Battle, dest:Battle) : void
+    + {static} CloneList(source:List<string>, dest:List<string>) : void
+    + {static} CloneHash(source:HashSet<string>, dest:HashSet<string>) : void
+}
+enum BattlePhase {
+    None= 0,
+    StartTurn= 10,
+    Main= 20,
+    EndTurn= 30,
+    Ended= 50,
+}
+enum SelectorType {
+    None= 0,
+    SelectTarget= 10,
+    SelectorCard= 20,
+    SelectorChoice= 30,
+    SelectorCost= 40,
+}
+class "List`1"<T> {
+}
+class "HashSet`1"<T> {
+}
+Battle o-> "phase" BattlePhase
+Battle o-> "characters<BattleCharacter>" "List`1"
+Battle o-> "initiatives<string>" "List`1"
+Battle o-> "initiatives_next<string>" "List`1"
+Battle o-> "selector" SelectorType
+Battle --> "play_target" Slot
+Battle o-> "ability_played<string>" "HashSet`1"
+Battle --> "world_data" World
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class ToggleText {
+}
+MonoBehaviour <|-- ToggleText
+ToggleText o-> "on_color" Color
+ToggleText o-> "off_color" Color
+@enduml

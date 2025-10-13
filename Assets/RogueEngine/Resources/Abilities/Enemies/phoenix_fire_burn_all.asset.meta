@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 093700bda43e7a2438f75144752ef047
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/phoenix_fire_burn_all.asset
+  uploadId: 793508

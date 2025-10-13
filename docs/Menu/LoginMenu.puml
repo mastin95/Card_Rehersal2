@@ -1,0 +1,16 @@
+@startuml
+class LoginMenu {
+    + OnClickLogin() : void
+    + OnClickGo() : void
+    + OnClickQuit() : void
+    + FadeToScene(scene:string) : void
+    + {static} Get() : LoginMenu
+}
+MonoBehaviour <|-- LoginMenu
+LoginMenu --> "login_panel" UIPanel
+LoginMenu --> "login_user" InputField
+LoginMenu --> "login_pass" InputField
+LoginMenu --> "login_button" Button
+LoginMenu --> "error_msg" Text
+LoginMenu --> "music" AudioClip
+@enduml

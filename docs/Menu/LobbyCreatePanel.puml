@@ -1,0 +1,18 @@
+@startuml
+class LobbyCreatePanel {
+    + RefreshLoad() : void
+    + OnClickCreate() : void
+    + OnClickLoad(ui:LoadUI) : void
+    + OnClickBack() : void
+    + ShowCreate() : void
+    + ShowLoad() : void
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : LobbyCreatePanel
+}
+UIPanel <|-- LobbyCreatePanel
+LobbyCreatePanel --> "create_panel" UIPanel
+LobbyCreatePanel --> "load_panel" UIPanel
+LobbyCreatePanel --> "title_field" InputField
+LobbyCreatePanel --> "scenario_field" OptionSelector
+LobbyCreatePanel --> "scenario_group" GameObject
+@enduml

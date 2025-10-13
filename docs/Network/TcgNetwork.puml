@@ -1,0 +1,67 @@
+@startuml
+class TcgNetwork {
+    + Init() : void
+    + StartHost(port:ushort) : void
+    + StartServer(port:ushort) : void
+    + StartClient(server_url:string, port:ushort) : void
+    + StartHostOffline() : void
+    + StartHostRelay(relay:RelayConnectData) : void
+    + StartClientRelay(relay:RelayConnectData) : void
+    + Disconnect() : void
+    + <<async>> WaitUntilConnected(seconds_max:int) : Task
+    + <<async>> WaitUntilDisconnected(seconds_max:int) : Task
+    + SetConnectionExtraData(bytes:byte[]) : void
+    + SetConnectionExtraData(data:string) : void
+    + SetConnectionExtraData(data:T) : void
+    + GetClientsIds() : IReadOnlyList<ulong>
+    + GetClient(client_id:ulong) : NetworkClient
+    + CountClients() : int
+    + IsConnecting() : bool
+    + IsConnected() : bool
+    + IsActive() : bool
+    + Address : string <<get>>
+    + Port : ushort <<get>>
+    + ClientID : ulong <<get>>
+    + ServerID : ulong <<get>>
+    + IsServer : bool <<get>>
+    + IsClient : bool <<get>>
+    + IsHost : bool <<get>>
+    + IsOnline : bool <<get>>
+    + DeltaTick : float <<get>>
+    + {static} MsgSizeMax : int <<get>>
+    + {static} MsgSize : int <<get>>
+    + {static} Get() : TcgNetwork
+}
+class ConnectionData {
+    + user_id : string = ""
+    + username : string = ""
+    + GetExtraString() : string
+    + GetExtraData() : T
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class SerializedData {
+    + SerializedData(r:FastBufferReader)
+    + SerializedData(d:INetworkSerializable)
+    + GetString() : string
+    + Get() : T
+    + PreRead() : void
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- TcgNetwork
+TcgNetwork --> "data" NetworkData
+TcgNetwork --> "onTick" UnityAction
+TcgNetwork --> "onConnect" UnityAction
+TcgNetwork --> "onDisconnect" UnityAction
+TcgNetwork --> "onClientJoin<ulong>" "UnityAction`1"
+TcgNetwork --> "onClientQuit<ulong>" "UnityAction`1"
+TcgNetwork --> "onClientReady<ulong>" "UnityAction`1"
+TcgNetwork --> "checkApproval" ApprovalEvent
+TcgNetwork --> "LocalTime" NetworkTime
+TcgNetwork --> "ServerTime" NetworkTime
+TcgNetwork --> "NetworkManager" NetworkManager
+TcgNetwork --> "Transport" TcgTransport
+TcgNetwork --> "Messaging" NetworkMessaging
+TcgNetwork --> "Auth" Authenticator
+INetworkSerializable <|-- ConnectionData
+@enduml

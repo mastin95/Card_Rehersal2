@@ -1,0 +1,24 @@
+@startuml
+class LobbyClientService {
+    + <<override>> <<async>> Connect() : void
+    + <<override>> <<async>> RefreshLobby() : void
+    + <<override>> <<async>> RefreshGame() : void
+    + <<override>> <<async>> CreateGame(title:string, subtitle:string, filename:string, load:bool) : void
+    + <<override>> <<async>> JoinGame(game_id:string) : void
+    + <<override>> <<async>> LeaveGame() : void
+    + <<override>> <<async>> StartGame() : void
+    + <<override>> <<async>> SendChat(text:string) : void
+    + <<override>> StartMatchmaking(group:string, nb_players:int) : void
+    + <<override>> <<async>> Disconnect() : void
+    + <<override>> <<async>> KeepAlive() : void
+    + ConvertList(lobbies:List<Lobby>) : LobbyList
+    + ConvertLobby(lobby:Lobby) : LobbyGame
+    + WriteChat(msgs:List<MsgChat>, username:string) : string
+    + ReadChat(players:List<Unity.Services.Lobbies.Models.Player>) : List<MsgChat>
+    + ReadChat(data:string, username:string) : List<MsgChat>
+    + <<override>> IsInLobby() : bool
+    + <<override>> GetRelayData() : RelayConnectData
+    + {static} <<new>> Get() : LobbyClientService
+}
+LobbyClient <|-- LobbyClientService
+@enduml

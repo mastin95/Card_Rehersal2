@@ -1,0 +1,10 @@
+@startuml
+class ConditionCardData {
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:Card) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:Slot) : bool
+}
+ConditionData <|-- ConditionCardData
+ConditionCardData --> "card_type" CardData
+ConditionCardData --> "oper" ConditionOperatorBool
+@enduml

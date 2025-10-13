@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 13d4b9bedfb500c479fdea0ba98de1a7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Intents/intent_attack_x.asset
+  uploadId: 793508

@@ -1,0 +1,103 @@
+@startuml
+class Card {
+    + card_id : string
+    + uid : string
+    + player_id : int
+    + owner_uid : string
+    + level : int
+    + mana : int = 0
+    + mana_ongoing : int = 0
+    + Card(card_id:string, uid:string, player_id:int)
+    + <<virtual>> ClearOngoing() : void
+    + <<virtual>> Clear() : void
+    + <<virtual>> GetMana() : int
+    + <<virtual>> IsEnemy() : bool
+    + <<virtual>> SetCard(icard:CardData, lvl:int) : void
+    + SetTraits(icard:CardData) : void
+    + SetAbilities(icard:CardData) : void
+    + SetTrait(id:string, value:int) : void
+    + AddTrait(id:string, value:int) : void
+    + AddOngoingTrait(id:string, value:int) : void
+    + RemoveTrait(id:string) : void
+    + GetTrait(id:string) : CardTrait
+    + GetOngoingTrait(id:string) : CardTrait
+    + GetTraitValue(trait:TraitData) : int
+    + <<virtual>> GetTraitValue(id:string) : int
+    + HasTrait(trait:TraitData) : bool
+    + HasTrait(id:string) : bool
+    + GetAllTraits() : List<CardTrait>
+    + SetStat(id:string, value:int) : void
+    + AddStat(id:string, value:int) : void
+    + AddOngoingStat(id:string, value:int) : void
+    + RemoveStat(id:string) : void
+    + GetStatValue(trait:TraitData) : int
+    + GetStatValue(id:string) : int
+    + HasStat(trait:TraitData) : bool
+    + HasStat(id:string) : bool
+    + GetAllStats() : List<CardTrait>
+    + AddStatus(sdata:StatusData, value:int) : void
+    + AddOngoingStatus(sdata:StatusData, value:int) : void
+    + RemoveStatus(type:StatusEffect) : void
+    + GetAllStatus() : List<CardStatus>
+    + HasStatus(effect:StatusEffect) : bool
+    + GetStatus(id:string) : CardStatus
+    + GetStatus(effect:StatusEffect) : CardStatus
+    + GetOngoingStatus(id:string) : CardStatus
+    + GetOngoingStatus(effect:StatusEffect) : CardStatus
+    + <<virtual>> GetStatusValue(effect:StatusEffect) : int
+    + <<virtual>> ReduceStatusValues() : void
+    + <<virtual>> RemoveOnceStatus() : void
+    + AddAbility(ability:AbilityData) : void
+    + RemoveAbility(ability:AbilityData) : void
+    + AddOngoingAbility(ability:AbilityData) : void
+    + ClearOngoingAbility() : void
+    + GetAbility(trigger:AbilityTrigger) : AbilityData
+    + HasAbility(ability:AbilityData) : bool
+    + HasAbility(trigger:AbilityTrigger) : bool
+    + HasAbility(trigger:AbilityTrigger, target:AbilityTarget) : bool
+    + HasEffect(trigger:AbilityTrigger) : bool
+    + AreAbilityConditionsMet(ability_trigger:AbilityTrigger, data:Battle, caster:BattleCharacter, card:Card) : bool
+    + GetAbilities() : List<AbilityData>
+    + GetAbilityValue(character:BattleCharacter) : int
+    + Hash : int <<get>>
+    + {static} Create(icard:CardData, level:int, player:BattleCharacter) : Card
+    + {static} Create(icard:CardData, level:int, owner:BattleCharacter, uid:string) : Card
+    + {static} CloneNew(source:Card) : Card
+    + {static} Clone(source:Card, dest:Card) : void
+    + {static} CloneNull(source:Card, dest:Card) : void
+    + {static} CloneDict(source:Dictionary<string, Card>, dest:Dictionary<string, Card>) : void
+    + {static} CloneListRef(ref_dict:Dictionary<string, Card>, source:List<Card>, dest:List<Card>) : void
+}
+class CardStatus {
+    + id : string
+    + value : int
+    + CardStatus(id:string, type:StatusEffect, value:int)
+    + {static} CloneNew(copy:CardStatus) : CardStatus
+    + {static} Clone(source:CardStatus, dest:CardStatus) : void
+    + {static} CloneList(source:List<CardStatus>, dest:List<CardStatus>) : void
+}
+class CardTrait {
+    + id : string
+    + value : int
+    + CardTrait(id:string, value:int)
+    + CardTrait(trait:TraitData, value:int)
+    + {static} CloneNew(copy:CardTrait) : CardTrait
+    + {static} Clone(source:CardTrait, dest:CardTrait) : void
+    + {static} CloneList(source:List<CardTrait>, dest:List<CardTrait>) : void
+}
+class "List`1"<T> {
+}
+Card o-> "traits<CardTrait>" "List`1"
+Card o-> "ongoing_traits<CardTrait>" "List`1"
+Card o-> "status<CardStatus>" "List`1"
+Card o-> "ongoing_status<CardStatus>" "List`1"
+Card o-> "abilities<string>" "List`1"
+Card o-> "abilities_ongoing<string>" "List`1"
+Card --> "CardData" CardData
+Card --> "Data" CardData
+CardStatus --> "effect" StatusEffect
+CardStatus --> "StatusData" StatusData
+CardStatus --> "Data" StatusData
+CardTrait --> "TraitData" TraitData
+CardTrait --> "Data" TraitData
+@enduml

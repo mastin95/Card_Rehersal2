@@ -1,0 +1,7 @@
+@startuml
+class SceneSettings {
+    + {static} Get() : SceneSettings
+}
+MonoBehaviour <|-- SceneSettings
+SceneSettings --> "start_audio" AudioClip
+@enduml

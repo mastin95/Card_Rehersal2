@@ -1,0 +1,8 @@
+@startuml
+class ConditionSelectedValue {
+    + value : int
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card) : bool
+}
+ConditionData <|-- ConditionSelectedValue
+ConditionSelectedValue --> "oper" ConditionOperatorInt
+@enduml

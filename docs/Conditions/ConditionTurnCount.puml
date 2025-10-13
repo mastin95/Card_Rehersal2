@@ -1,0 +1,8 @@
+@startuml
+class ConditionTurnCount {
+    + turn : int = 1
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card) : bool
+}
+ConditionData <|-- ConditionTurnCount
+ConditionTurnCount --> "oper" ConditionOperatorInt
+@enduml

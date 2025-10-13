@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6a217469c0bc04f4b93f7a1094249ed4
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/Characters/Bull.prefab
+  uploadId: 793508

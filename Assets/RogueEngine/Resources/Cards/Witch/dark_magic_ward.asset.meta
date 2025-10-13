@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1b585e98931d67943b6b69784f62fd00
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Witch/dark_magic_ward.asset
+  uploadId: 793508

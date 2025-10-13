@@ -1,0 +1,33 @@
+@startuml
+class BattleUI {
+    + OnClickNextTurn() : void
+    + OnClickDeck() : void
+    + OnClickDiscard() : void
+    + OnClickRestart() : void
+    + OnClickMenu() : void
+    + OnClickBack() : void
+    + OnClickEscape() : void
+    + OnClickQuit() : void
+    + {static} IsUIOpened() : bool
+    + {static} IsOverUI() : bool
+    + {static} IsOverUILayer(sorting_layer:string) : bool
+    + {static} IsOverUILayer(sorting_layer:int) : bool
+    + {static} IsOverRectTransform(canvas:Canvas, rect:RectTransform) : bool
+    + {static} ScreenToRectPos(canvas:Canvas, rect:RectTransform, screen_pos:Vector2) : Vector2
+    + {static} MouseToWorld(mouse_pos:Vector2, distance:float) : Vector3
+    + {static} FormatNumber(value:int) : string
+    + {static} Get() : BattleUI
+}
+MonoBehaviour <|-- BattleUI
+BattleUI --> "game_canvas" Canvas
+BattleUI --> "panel_canvas" Canvas
+BattleUI --> "top_canvas" Canvas
+BattleUI --> "menu_panel" UIPanel
+BattleUI --> "quit_btn" Text
+BattleUI --> "mana_txt" Text
+BattleUI --> "end_turn_button" Button
+BattleUI --> "deck_group" GameObject
+BattleUI --> "discard_group" GameObject
+BattleUI --> "deck_value" Text
+BattleUI --> "discard_value" Text
+@enduml

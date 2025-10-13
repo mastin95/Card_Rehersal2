@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a2929f96c0e9fcd45809839e8118a29a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/BurnedFX.prefab
+  uploadId: 793508

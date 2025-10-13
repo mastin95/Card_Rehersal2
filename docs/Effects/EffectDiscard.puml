@@ -1,0 +1,7 @@
+@startuml
+class EffectDiscard {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectDiscard
+@enduml

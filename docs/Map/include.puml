@@ -1,0 +1,8 @@
+@startuml
+!include .\\MapHero.puml
+!include .\\MapLocationDot.puml
+!include .\\MapPath.puml
+!include .\\MapScene.puml
+!include .\\MapUI.puml
+!include .\\MapViewer.puml
+@enduml

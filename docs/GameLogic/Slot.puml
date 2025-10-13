@@ -1,0 +1,19 @@
+@startuml
+struct Slot {
+    + x : int
+    + enemy : bool
+    + {static} x_min : int = 1
+    + {static} x_max : int = 4
+    + Slot(x:int, e:bool)
+    + IsValid() : bool
+    + {static} GetRandom(e:bool, rand:System.Random) : Slot
+    + {static} GetRandom(rand:System.Random) : Slot
+    + {static} Get(x:int, e:bool) : Slot
+    + {static} GetAll() : List<Slot>
+    + <<override>> Equals(o:object) : bool
+    + <<override>> GetHashCode() : int
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+INetworkSerializable <|-- Slot
+Slot --> "None" Slot
+@enduml

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e1e303c91cb4c8a4e8e58c4d6cc73ab8
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/Tutorials/TutorialBattle1.prefab
+  uploadId: 793508

@@ -1,0 +1,20 @@
+@startuml
+class SetupSlot {
+    + x : int
+    + OnClickPrev() : void
+    + OnClickNext() : void
+    + OnClickNew() : void
+    + OnClickDelete() : void
+    + <<virtual>> GetSlot() : Slot
+    + <<virtual>> HasSlot(slot:Slot) : bool
+    + <<virtual>> IsInside(wpos:Vector3) : bool
+    + <<virtual>> IsNearest(pos:Vector3, range:float) : bool
+    + {static} GetNearest(pos:Vector3, range:float) : SetupSlot
+    + {static} Get(slot:Slot) : SetupSlot
+    + {static} GetAll() : List<SetupSlot>
+}
+MonoBehaviour <|-- SetupSlot
+SetupSlot --> "empty_area" GameObject
+SetupSlot --> "edit_area" GameObject
+SetupSlot --> "title" Text
+@enduml

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6bb719eea2a54254780b2be1f0966548
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/Map/MapLine.prefab
+  uploadId: 793508

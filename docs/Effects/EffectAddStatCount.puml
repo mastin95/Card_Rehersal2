@@ -1,0 +1,13 @@
+@startuml
+class EffectAddStatCount {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+    + <<override>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectAddStatCount
+EffectAddStatCount --> "type" EffectStatType
+EffectAddStatCount --> "pile" PileType
+EffectAddStatCount --> "has_type" ItemType
+EffectAddStatCount --> "has_team" TeamData
+EffectAddStatCount --> "has_trait" TraitData
+@enduml

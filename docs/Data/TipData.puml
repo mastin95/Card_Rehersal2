@@ -1,0 +1,14 @@
+@startuml
+class TipData {
+    + title : string
+    + desc : string
+    + HasEffect(effect:EffectData) : bool
+    + {static} Load(folder:string) : void
+    + {static} Get(effect:EffectData) : TipData
+    + {static} GetAll() : List<TipData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- TipData
+TipData o-> "tip_list<TipData>" "List`1"
+@enduml

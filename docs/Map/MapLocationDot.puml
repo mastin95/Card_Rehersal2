@@ -1,0 +1,17 @@
+@startuml
+class MapLocationDot {
+    + map_id : string
+    + loc_id : int
+    + SetAlpha(alpha:float) : void
+    + GetIcon() : Sprite
+    + GetMap() : Map
+    + GetLocation() : MapLocation
+    + {static} Get(location_id:int) : MapLocationDot
+    + {static} GetAll() : List<MapLocationDot>
+}
+MonoBehaviour <|-- MapLocationDot
+MapLocationDot --> "circle" SpriteRenderer
+MapLocationDot --> "hightlight_current" SpriteRenderer
+MapLocationDot --> "highlight_next" SpriteRenderer
+MapLocationDot --> "icon" SpriteRenderer
+@enduml

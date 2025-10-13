@@ -1,0 +1,10 @@
+@startuml
+class EndGamePanel {
+    + <<override>> Show(instant:bool) : void
+    + OnClickQuit() : void
+    + {static} Get() : EndGamePanel
+}
+UIPanel <|-- EndGamePanel
+EndGamePanel --> "player_name" Text
+EndGamePanel --> "player_avatar" Image
+@enduml

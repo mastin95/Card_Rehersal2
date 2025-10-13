@@ -1,0 +1,26 @@
+@startuml
+class LobbyClientDedicated {
+    + <<override>> <<async>> Connect() : void
+    + <<override>> <<async>> StartMatchmaking(group:string, nb_players:int) : void
+    + <<override>> StopMatchmaking() : void
+    + <<override>> RefreshLobby() : void
+    + <<override>> KeepAlive() : void
+    + <<override>> CreateGame(title:string, subtitle:string, filename:string, load:bool) : void
+    + <<override>> JoinGame(game_uid:string) : void
+    + <<override>> LeaveGame() : void
+    + <<override>> StartGame() : void
+    + <<override>> SendChat(msg:string) : void
+    + Connect(url:string, port:ushort, callback:UnityAction<bool>) : void
+    + <<override>> Disconnect() : void
+    + <<override>> IsMatchmaking() : bool
+    + GetGroup() : string
+    + GetNbPlayers() : int
+    + GetTimer() : float
+    + <<override>> IsConnected() : bool
+    + IsConnecting() : bool
+    + ServerID : ulong <<get>>
+    + {static} <<new>> Get() : LobbyClientDedicated
+}
+LobbyClient <|-- LobbyClientDedicated
+LobbyClientDedicated --> "Messaging" NetworkMessaging
+@enduml

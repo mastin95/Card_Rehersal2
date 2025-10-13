@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: deae25d42ed063f4392782cea61d582c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/phoenix_summon.asset
+  uploadId: 793508

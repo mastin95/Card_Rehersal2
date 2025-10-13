@@ -1,0 +1,17 @@
+@startuml
+class EventChoiceLine {
+    + SetText(index:int, text:string, subtext:string) : void
+    + SetLine(index:int, choice:ChoiceElement) : void
+    + SetHighlight(active:bool) : void
+    + Hide() : void
+    + OnClick() : void
+    + GetEvent() : EventData
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- EventChoiceLine
+EventChoiceLine --> "text" Text
+EventChoiceLine --> "subtext" Text
+EventChoiceLine --> "highlight" Image
+EventChoiceLine --> "onClick<EventChoiceLine>" "UnityAction`1"
+@enduml

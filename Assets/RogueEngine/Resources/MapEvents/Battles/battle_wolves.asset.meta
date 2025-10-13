@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0d1e65b3c87f99444b1308e1fb408477
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Battles/battle_wolves.asset
+  uploadId: 793508

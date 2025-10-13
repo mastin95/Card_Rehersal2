@@ -1,0 +1,114 @@
+@startuml
+class AbilityData {
+    + id : string
+    + value : int
+    + upgrade_value : float
+    + caster_anim : string
+    + target_anim : string
+    + title : string
+    + desc : string
+    + {static} Load(folder:string) : void
+    + GetTitle() : string
+    + GetDesc() : string
+    + GetDesc(card:ChampionData) : string
+    + GetDesc(card:CharacterData) : string
+    + GetDesc(card:CardData) : string
+    + GetDesc(character:BattleCharacter, card:Card) : string
+    + GetValue() : int
+    + GetValue(character:BattleCharacter, card:Card) : int
+    + GetValue(level:int) : int
+    + GetBonusValue(character:BattleCharacter, card:Card) : int
+    + GetDamageEstimate(world:World, card:Card, target:BattleCharacter) : int
+    + AreMapTriggerConditionsMet(world:World, champion:Champion, item:ChampionItem) : bool
+    + AreMapTargetConditionsMet(world:World, champion:Champion, item:ChampionItem, target:Champion) : bool
+    + AreTriggerConditionsMet(data:Battle, caster:BattleCharacter, card:Card) : bool
+    + AreTriggerConditionsMet(data:Battle, caster:BattleCharacter, card:Card, trigger_card:Card) : bool
+    + AreTargetConditionsMet(data:Battle, caster:BattleCharacter, card:Card, target_card:Card) : bool
+    + AreTargetConditionsMet(data:Battle, caster:BattleCharacter, card:Card, target_player:BattleCharacter) : bool
+    + AreTargetConditionsMet(data:Battle, caster:BattleCharacter, card:Card, target_slot:Slot) : bool
+    + AreTargetConditionsMet(data:Battle, caster:BattleCharacter, card:Card, target_card:CardData) : bool
+    + CanTarget(data:Battle, caster:BattleCharacter, card:Card, target:Card) : bool
+    + CanTarget(data:Battle, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + CanTarget(data:Battle, caster:BattleCharacter, card:Card, target:Slot) : bool
+    + IsCardSelectionValid(data:Battle, caster:BattleCharacter, card:Card, target:Card, card_array:ListSwap<Card>) : bool
+    + DoEffects(logic:BattleLogic, caster:BattleCharacter, card:Card) : void
+    + DoEffects(logic:BattleLogic, caster:BattleCharacter, card:Card, target:Card) : void
+    + DoEffects(logic:BattleLogic, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + DoEffects(logic:BattleLogic, caster:BattleCharacter, card:Card, target:Slot) : void
+    + DoEffects(logic:BattleLogic, caster:BattleCharacter, card:Card, target:CardData) : void
+    + DoOngoingEffects(logic:BattleLogic, caster:BattleCharacter, card:Card, target:Card) : void
+    + DoOngoingEffects(logic:BattleLogic, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + DoMapEffects(logic:WorldLogic, caster:Champion, item:ChampionItem, target:Champion) : void
+    + DoMapOngoingEffects(logic:WorldLogic, caster:Champion, item:ChampionItem, target:Champion) : void
+    + IsAttack() : bool
+    + HasEffect() : bool
+    + HasStatus(type:StatusEffect) : bool
+    + AddValidCards(data:Battle, caster:BattleCharacter, card:Card, source:List<Card>, targets:List<Card>) : void
+    + GetCardTargets(data:Battle, caster:BattleCharacter, card:Card, memory_array:ListSwap<Card>) : List<Card>
+    + GetCharacterTargets(data:Battle, caster:BattleCharacter, card:Card, memory_array:ListSwap<BattleCharacter>) : List<BattleCharacter>
+    + GetWorldCharacterTargets(data:World, caster:Champion, item:ChampionItem, memory_array:ListSwap<Champion>) : List<Champion>
+    + GetSlotTargets(data:Battle, caster:BattleCharacter, card:Card, memory_array:ListSwap<Slot>) : List<Slot>
+    + GetCardDataTargets(data:Battle, caster:BattleCharacter, card:Card, memory_array:ListSwap<CardData>) : List<CardData>
+    + CanPlayTarget(data:Battle, card:Card, character:BattleCharacter) : bool
+    + CanPlayTarget(data:Battle, card:Card, selected:Slot) : bool
+    + HasValidSelectTarget(game_data:Battle, caster:BattleCharacter, card:Card) : bool
+    + HasValidBoardTarget(game_data:Battle, caster:BattleCharacter, card:Card) : bool
+    + HasValidCardTarget(game_data:Battle, caster:BattleCharacter, card:Card) : bool
+    + HasValidCardTarget(game_data:Battle, caster:BattleCharacter, card:Card, list:List<Card>) : bool
+    + HasValidSlotTarget(game_data:Battle, caster:BattleCharacter, card:Card) : bool
+    + IsSelector() : bool
+    + IsPlayTarget() : bool
+    + {static} Get(id:string) : AbilityData
+    + {static} GetAll() : List<AbilityData>
+}
+enum AbilityTrigger {
+    None= 0,
+    Ongoing= 2,
+    OnPlay= 10,
+    OnPlayOther= 12,
+    StartOfTurn= 20,
+    EndOfTurn= 22,
+    OnDraw= 30,
+    OnDrawOther= 31,
+    OnDeath= 40,
+    OnDeathOther= 41,
+    OnDamaged= 42,
+    BattleStart= 50,
+    BattleEnd= 52,
+}
+enum AbilityTarget {
+    None= 0,
+    CardSelf= 1,
+    CharacterSelf= 4,
+    AllCharacters= 7,
+    AllCardsHand= 11,
+    AllCardsAllPiles= 12,
+    AllSlots= 15,
+    AllCardData= 17,
+    PlayTarget= 20,
+    AbilityTriggerer= 25,
+    SelectTarget= 30,
+    CardSelector= 40,
+    ChoiceSelector= 50,
+    LastPlayed= 70,
+    LastTargeted= 72,
+    LastDestroyed= 74,
+    LastSummoned= 77,
+}
+class "List`1"<T> {
+}
+class "Dictionary`2"<T1,T2> {
+}
+ScriptableObject <|-- AbilityData
+AbilityData --> "trigger" AbilityTrigger
+AbilityData --> "target" AbilityTarget
+AbilityData --> "status_bonus" StatusEffect
+AbilityData --> "board_fx" GameObject
+AbilityData --> "caster_fx" GameObject
+AbilityData --> "target_fx" GameObject
+AbilityData --> "projectile_fx" GameObject
+AbilityData --> "cast_audio" AudioClip
+AbilityData --> "target_audio" AudioClip
+AbilityData o-> "ability_list<AbilityData>" "List`1"
+AbilityData o-> "ability_dict<string,AbilityData>" "Dictionary`2"
+@enduml

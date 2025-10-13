@@ -1,0 +1,15 @@
+@startuml
+class WarningText {
+    + Show(txt:string) : void
+    + {static} ShowText(txt:string) : void
+    + {static} ShowNotYourTurn() : void
+    + {static} ShowExhausted() : void
+    + {static} ShowNoMana() : void
+    + {static} ShowSpellImmune() : void
+    + {static} ShowInvalidTarget() : void
+    + {static} Get() : WarningText
+}
+MonoBehaviour <|-- WarningText
+WarningText --> "warning_audio" AudioClip
+WarningText --> "text" Text
+@enduml

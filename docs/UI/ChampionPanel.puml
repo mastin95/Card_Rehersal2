@@ -1,0 +1,25 @@
+@startuml
+class ChampionPanel {
+    + card_size : float = 0.5f
+    + <<override>> RefreshPanel() : void
+    + RefreshDeck() : void
+    + ShowChampion(champ:Champion) : void
+    + ShowChampion(champ:ChampionData) : void
+    + OnClickItem(slot:BoxUI) : void
+    + OnClickLevelUp() : void
+    + {static} Get() : ChampionPanel
+}
+MapPanel <|-- ChampionPanel
+ChampionPanel --> "name_txt" Text
+ChampionPanel --> "level_txt" Text
+ChampionPanel --> "xp_txt" Text
+ChampionPanel --> "hp_txt" Text
+ChampionPanel --> "speed_txt" Text
+ChampionPanel --> "hand_txt" Text
+ChampionPanel --> "energy_txt" Text
+ChampionPanel --> "lvl_up_btn" GameObject
+ChampionPanel --> "scroll_rect" ScrollRect
+ChampionPanel --> "scroll_content" RectTransform
+ChampionPanel --> "grid_content" CardGrid
+ChampionPanel --> "card_prefab" GameObject
+@enduml

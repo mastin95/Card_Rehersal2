@@ -1,0 +1,13 @@
+@startuml
+class EffectAddStatDelayed {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+enum EffectDelayedStatType {
+    None= 0,
+    Mana= 5,
+    Shield= 12,
+    Card= 24,
+}
+EffectData <|-- EffectAddStatDelayed
+EffectAddStatDelayed --> "type" EffectDelayedStatType
+@enduml

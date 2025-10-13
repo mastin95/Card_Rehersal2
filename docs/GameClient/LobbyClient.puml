@@ -1,0 +1,37 @@
+@startuml
+abstract class LobbyClient {
+    + {static} players_max : int = 4
+    + <<virtual>> <<async>> Connect() : void
+    + <<virtual>> <<async>> RefreshLobby() : void
+    + <<virtual>> <<async>> RefreshGame() : void
+    + <<virtual>> <<async>> CreateGame(title:string, subtitle:string, filename:string, load:bool) : void
+    + <<virtual>> <<async>> JoinGame(game_id:string) : void
+    + <<virtual>> <<async>> LeaveGame() : void
+    + <<virtual>> <<async>> StartGame() : void
+    + <<virtual>> <<async>> SendChat(text:string) : void
+    + <<virtual>> <<async>> KeepAlive() : void
+    + <<virtual>> <<async>> KeepAlive(game_id:string) : void
+    + <<virtual>> <<async>> StartMatchmaking(group:string, nb_players:int) : void
+    + <<virtual>> <<async>> StopMatchmaking() : void
+    + <<virtual>> <<async>> Disconnect() : void
+    + <<virtual>> IsMatchmaking() : bool
+    + <<virtual>> CanConnectToGame() : bool
+    + <<virtual>> IsConnected() : bool
+    + <<virtual>> IsInLobby() : bool
+    + <<virtual>> IsLoading() : bool
+    + <<virtual>> GetRelayData() : RelayConnectData
+    + UserID : string <<get>>
+    + Username : string <<get>>
+    + {static} Get() : LobbyClient
+}
+class "UnityAction`1"<T> {
+}
+class "UnityAction`2"<T1,T2> {
+}
+MonoBehaviour <|-- LobbyClient
+LobbyClient --> "onConnect<bool>" "UnityAction`1"
+LobbyClient --> "onMatchmaking<MatchmakingResult>" "UnityAction`1"
+LobbyClient --> "onLobbyList<LobbyList>" "UnityAction`1"
+LobbyClient --> "onLobbyRefresh<LobbyGame>" "UnityAction`1"
+LobbyClient --> "onChat<string,string>" "UnityAction`2"
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+class BoardCharacter {
+    + move_speed : float = 5f
+    + death_delay : float = 0.7f
+    + SetChampion(champion:Champion) : void
+    + SetCharacter(character:BattleCharacter) : void
+    + Kill() : void
+    + DelayDamage(damage:int, duration:float) : void
+    + GetDelayedHP() : int
+    + IsDamagedDelayed() : bool
+    + IsDead() : bool
+    + GetCharacter() : BattleCharacter
+    + GetCharacterID() : string
+    + GetPlayerID() : int
+    + GetUID() : string
+    + IsFocus() : bool
+    + IsActive() : bool
+    + {static} Get(uid:string) : BoardCharacter
+    + {static} GetFocus() : BoardCharacter
+    + {static} GetMouseRaycast(range:float) : BoardCharacter
+    + {static} GetAll() : List<BoardCharacter>
+}
+MonoBehaviour <|-- BoardCharacter
+BoardCharacter --> "onKill" UnityAction
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+class LobbyServer {
+    + {static} lobby_expiration_time : ulong = 30
+    + {static} max_players : int = 4
+    + EndMatch(uid:string) : void
+    + GetClient(client_id:ulong) : ClientData
+    + GetClientByUser(username:string) : ClientData
+    + CreatePlayer(client_id:ulong, user_id:string, username:string) : LobbyPlayer
+    + AddPlayerGame(player:LobbyPlayer, game:LobbyGame) : void
+    + RemovePlayerGame(user_id:string, game:LobbyGame) : void
+    + RemovePlayerAllGames(user_id:string) : void
+    + GetGame(game_id:string) : LobbyGame
+    + ServerID : ulong <<get>>
+    + {static} Get() : LobbyServer
+}
+class MatchPlayerData {
+    + user_id : string
+    + username : string
+    + group : string
+    + nb_players : int
+}
+class MatchData {
+    + group : string
+    + game_uid : string
+    + server_url : string
+    + ended : bool = false
+    + MatchData(grp:string, uid:string, url:string, players:int)
+}
+MonoBehaviour <|-- LobbyServer
+LobbyServer --> "Messaging" NetworkMessaging
+@enduml

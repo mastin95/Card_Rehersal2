@@ -1,0 +1,6 @@
+@startuml
+class EventRandom {
+    + <<override>> DoEvent(logic:WorldLogic, triggerer:Champion) : void
+}
+EventData <|-- EventRandom
+@enduml

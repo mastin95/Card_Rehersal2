@@ -1,0 +1,20 @@
+@startuml
+class ChatUI {
+    + SendChat(msg:string) : void
+    + OnPressChat() : void
+    + CloseChat() : void
+    + IsOpened() : bool
+    + {static} IsAnyOpened() : bool
+    + {static} Get() : ChatUI
+}
+class ChatItem {
+    + user : string
+    + msg : string
+}
+MonoBehaviour <|-- ChatUI
+ChatUI --> "send_group" UIPanel
+ChatUI --> "msg_group" UIPanel
+ChatUI --> "chat_input" InputField
+ChatUI o-> "chat_key" Key
+ChatUI --> "user_color" Color
+@enduml

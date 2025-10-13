@@ -1,0 +1,9 @@
+@startuml
+class SelectorPanel {
+    + <<virtual>> Show(ability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + <<virtual>> ShouldShow() : bool
+    + {static} GetAll() : List<SelectorPanel>
+    + {static} HideAll() : void
+}
+UIPanel <|-- SelectorPanel
+@enduml

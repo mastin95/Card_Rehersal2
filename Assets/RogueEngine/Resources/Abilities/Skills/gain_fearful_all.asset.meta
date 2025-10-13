@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9e5dbee6b717706478f35c4051b87b38
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/gain_fearful_all.asset
+  uploadId: 793508

@@ -1,0 +1,20 @@
+@startuml
+class IconButton {
+    + group : string
+    + value : string
+    + on_if_all_off : bool
+    + SetActive(act:bool) : void
+    + Activate() : void
+    + Deactivate() : void
+    + IsActive() : bool
+    + {static} IsAllOff(group:string) : bool
+    + {static} DeactivateAll(group:string) : void
+    + {static} GetAll(group:string) : List<IconButton>
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- IconButton
+IconButton --> "active_img" Image
+IconButton --> "disabled_img" Image
+IconButton --> "onClick<IconButton>" "UnityAction`1"
+@enduml

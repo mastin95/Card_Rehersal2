@@ -1,0 +1,17 @@
+﻿@startuml
+title Enemigo: creación y propiedad
+
+participant EventBattle
+participant BattleLogic
+participant BattleCharacter
+participant CharacterData
+
+EventBattle -> BattleLogic : AddEnemy(enemy, pos, level)
+BattleLogic -> BattleCharacter : Create(CharacterData, level)
+note right of BattleCharacter
+  player_id = -1  // Enemy player
+end note
+
+BattleLogic -> BattleLogic : StartBattle/Turns
+BattleLogic -> BattleLogic : PlayCard(...)
+@enduml

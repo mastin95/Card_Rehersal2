@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: be19380a491c8c245afe0dd96e02ba78
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/PotionFX.prefab
+  uploadId: 793508

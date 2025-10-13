@@ -1,0 +1,12 @@
+@startuml
+class TutoStep {
+    + forced : bool
+    + GetStepIndex() : int
+    + {static} Get(group:TutoStepGroup, step:int) : TutoStep
+    + {static} HideAll() : void
+}
+UIPanel <|-- TutoStep
+TutoStep --> "end_trigger" TutoEndTrigger
+TutoStep --> "trigger_target" CharacterData
+TutoStep --> "trigger_target_card" CardData
+@enduml

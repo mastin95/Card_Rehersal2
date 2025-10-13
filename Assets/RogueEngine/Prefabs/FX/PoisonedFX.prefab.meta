@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 08ad2f4aab8ffdb40ace3902fe348812
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/PoisonedFX.prefab
+  uploadId: 793508

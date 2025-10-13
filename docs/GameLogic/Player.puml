@@ -1,0 +1,17 @@
+@startuml
+class Player {
+    + player_id : int
+    + user_id : string
+    + username : string
+    + avatar : string
+    + connected : bool = false
+    + ready : bool = false
+    + gold : int = 0
+    + Player(id:int, user_id:string, username:string)
+    + IsReady() : bool
+    + IsConnected() : bool
+    + <<virtual>> IsAlly() : bool
+    + <<virtual>> IsEnemy() : bool
+}
+Player --> "udata" UserData
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+class CharacterData {
+    + id : string
+    + title : string
+    + hp : int
+    + speed : int
+    + hand : int
+    + energy : int
+    + level_max : int = 1
+    + level_up_hp : int
+    + level_up_speed : float
+    + level_up_hand : float
+    + level_up_energy : float
+    + reward_gold : int
+    + reward_xp : int
+    + desc : string
+    + <<virtual>> GetHP(level:int) : int
+    + <<virtual>> GetSpeed(level:int) : int
+    + <<virtual>> GetHand(level:int) : int
+    + <<virtual>> GetEnergy(level:int) : int
+    + {static} Load(folder:string) : void
+    + GetFullArt() : Sprite
+    + GetPortraitArt() : Sprite
+    + GetPrefab() : GameObject
+    + GetTitle() : string
+    + GetDesc() : string
+    + GetAbilitiesDesc() : string
+    + {static} Get(id:string) : CharacterData
+    + {static} GetAll() : List<CharacterData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- CharacterData
+CharacterData --> "art_full" Sprite
+CharacterData --> "art_portrait" Sprite
+CharacterData --> "prefab" GameObject
+CharacterData --> "behavior" BehaviorData
+CharacterData --> "spawn_fx" GameObject
+CharacterData --> "death_fx" GameObject
+CharacterData --> "spawn_audio" AudioClip
+CharacterData --> "death_audio" AudioClip
+CharacterData o-> "character_list<CharacterData>" "List`1"
+@enduml

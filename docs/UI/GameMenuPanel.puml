@@ -1,0 +1,7 @@
+@startuml
+class GameMenuPanel {
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : GameMenuPanel
+}
+UIPanel <|-- GameMenuPanel
+@enduml

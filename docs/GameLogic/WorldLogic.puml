@@ -1,0 +1,69 @@
+@startuml
+class WorldLogic {
+    + WorldLogic(logic:BattleLogic, world:World)
+    + <<virtual>> SetData(world:World) : void
+    + <<virtual>> CreateGame(scenario:ScenarioData, online:bool, filename:string, title:string) : void
+    + <<virtual>> CreateChampion(player_id:int, champion:ChampionData, slot_x:int) : void
+    + <<virtual>> StartGame(seed:int) : void
+    + <<virtual>> StartTest(test_state:WorldState) : void
+    + <<virtual>> GenerateMaps() : void
+    + <<virtual>> CheckIfDead() : void
+    + <<virtual>> EndGame(victory:bool) : void
+    + <<virtual>> Update(delta:float) : void
+    + <<virtual>> UpdateOngoing() : void
+    + <<virtual>> TriggerAbilityType(trigger:AbilityTrigger) : void
+    + <<virtual>> TriggerAbilityType(trigger:AbilityTrigger, champion:Champion) : void
+    + <<virtual>> TriggerAbility(ability:AbilityData, champion:Champion, item:ChampionItem) : void
+    + <<virtual>> Move(champion:Champion, loc:MapLocation) : void
+    + <<virtual>> SelectCardReward(champion:Champion, card_id:string) : void
+    + <<virtual>> SelectItemReward(champion:Champion, item_id:string) : void
+    + <<virtual>> SelectEventChoice(champion:Champion, choice_id:string) : void
+    + <<virtual>> UpgradeCard(champion:Champion, card:ChampionCard) : void
+    + <<virtual>> TrashCard(champion:Champion, card:ChampionCard) : void
+    + <<virtual>> LevelUp(champion:Champion) : void
+    + <<virtual>> BuyCard(champion:Champion, card:CardData) : void
+    + <<virtual>> BuyItem(champion:Champion, item:CardData) : void
+    + <<virtual>> SellItem(champion:Champion, item:CardData) : void
+    + <<virtual>> UseItem(champion:Champion, item:ChampionItem) : void
+    + <<virtual>> GainChampion(character:ChampionData, player_id:int) : void
+    + <<virtual>> RemoveChampion(character:Champion) : void
+    + <<virtual>> GainAlly(character:CharacterData, player_id:int) : void
+    + <<virtual>> RemoveAlly(character:CharacterAlly) : void
+    + <<virtual>> TriggerMapEvent(champion:Champion, loc:MapLocation) : void
+    + <<virtual>> TriggerEvent(champion:Champion, evt:EventData) : void
+    + <<virtual>> TriggerTextEvent(champion:Champion, text:string) : void
+    + <<virtual>> TriggerEventNext(champion:Champion, evt:EventData) : void
+    + <<virtual>> CompleteAction(champion:Champion) : void
+    + <<virtual>> CompleteAction(player_id:int) : void
+    + <<virtual>> StopMapEvent() : void
+    + <<virtual>> GoToNextMap() : void
+    + <<virtual>> ChangeState(state:WorldState) : void
+    + <<virtual>> StartBattle(battle:EventBattle) : void
+    + <<virtual>> FleeBattle(player_id:int) : void
+    + <<virtual>> EndBattle(result:int) : void
+    + <<virtual>> GainLevelUpRewards(champion:Champion) : void
+    + <<virtual>> GainCardRewards(rarity:RarityData) : void
+    + <<virtual>> GainBattleRewards(battle:EventBattle) : void
+    + <<virtual>> GetRandomCardsByProbability(cards:List<CardData>, nb:int, seed_offset:int) : List<CardData>
+    + <<virtual>> RefreshWorld() : void
+    + IsResolving() : bool
+}
+class "UnityAction`2"<T1,T2> {
+}
+class "Queue`1"<T> {
+}
+WorldLogic --> "onGameStart" UnityAction
+WorldLogic --> "onGameEnd" UnityAction
+WorldLogic --> "onGameTest" UnityAction
+WorldLogic --> "onRefreshWorld" UnityAction
+WorldLogic --> "onMoved<Champion,MapLocation>" "UnityAction`2"
+WorldLogic --> "onEventStarted<Champion,EventData>" "UnityAction`2"
+WorldLogic --> "onEventChoice<Champion,EventData>" "UnityAction`2"
+WorldLogic --> "onRewardChoice<Champion,CardData>" "UnityAction`2"
+WorldLogic --> "onUpgradeCard<Champion,CardData>" "UnityAction`2"
+WorldLogic --> "onBuyCard<Champion,CardData>" "UnityAction`2"
+WorldLogic --> "onBuyItem<Champion,CardData>" "UnityAction`2"
+WorldLogic --> "onMapAbility<Champion,AbilityData>" "UnityAction`2"
+WorldLogic o-> "event_queue<EventQueueItem>" "Queue`1"
+WorldLogic --> "WorldData" World
+@enduml

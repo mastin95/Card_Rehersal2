@@ -1,0 +1,7 @@
+@startuml
+class MobileResizeUI {
+    + size : float = 1f
+}
+MonoBehaviour <|-- MobileResizeUI
+MobileResizeUI --> "position_offset" Vector2
+@enduml

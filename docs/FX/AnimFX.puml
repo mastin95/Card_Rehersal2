@@ -1,0 +1,22 @@
+@startuml
+class AnimFX {
+    + MoveTo(pos:Vector3, duration:float) : void
+    + ScaleTo(value:float, duration:float) : void
+    + Callback(duration:float, callback:UnityAction) : void
+    + Clear() : void
+    + {static} Create(target:GameObject) : AnimFX
+}
+enum AnimActionType {
+    None= 0,
+    Move= 5,
+    Size= 10,
+}
+class AnimAction {
+    + value : float = 0f
+    + duration : float = 1f
+}
+MonoBehaviour <|-- AnimFX
+AnimAction --> "type" AnimActionType
+AnimAction --> "target_pos" Vector3
+AnimAction o-> "callback" UnityAction
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+class GameOverPanel {
+    + card_offset : float = 180f
+    + RefreshPanel() : void
+    + GoToUnlocked() : void
+    + OnClickQuit() : void
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : GameOverPanel
+}
+UIPanel <|-- GameOverPanel
+GameOverPanel --> "score_panel" UIPanel
+GameOverPanel --> "title" Text
+GameOverPanel --> "completed_txt" Text
+GameOverPanel --> "xp_txt" Text
+GameOverPanel --> "cards_txt" Text
+GameOverPanel --> "total_txt" Text
+GameOverPanel --> "btn_txt" Text
+GameOverPanel --> "unlock_panel" UIPanel
+GameOverPanel --> "card_zone" RectTransform
+@enduml

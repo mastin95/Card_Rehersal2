@@ -1,0 +1,14 @@
+@startuml
+class LanPanel {
+    + OnClickHost() : void
+    + OnClickHostLoad() : void
+    + OnClickJoin() : void
+    + OnClickConnect() : void
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : LanPanel
+}
+UIPanel <|-- LanPanel
+LanPanel --> "main_panel" UIPanel
+LanPanel --> "join_panel" UIPanel
+LanPanel --> "host_input" InputField
+@enduml

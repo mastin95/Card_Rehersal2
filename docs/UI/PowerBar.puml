@@ -1,0 +1,5 @@
+@startuml
+class PowerBar {
+}
+MonoBehaviour <|-- PowerBar
+@enduml

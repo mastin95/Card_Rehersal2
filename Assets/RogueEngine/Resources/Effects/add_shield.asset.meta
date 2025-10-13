@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 224dbc2a70e370e47ba243478c4a2578
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Effects/add_shield.asset
+  uploadId: 793508

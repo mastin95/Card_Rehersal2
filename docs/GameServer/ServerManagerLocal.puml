@@ -1,0 +1,9 @@
+@startuml
+class ServerManagerLocal {
+    + SendToClient(client_id:ulong, tag:ushort, data:INetworkSerializable, delivery:NetworkDelivery) : void
+    + GetClient(client_id:ulong) : ClientData
+    + ServerID : ulong <<get>>
+}
+MonoBehaviour <|-- ServerManagerLocal
+ServerManagerLocal --> "Messaging" NetworkMessaging
+@enduml

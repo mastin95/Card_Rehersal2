@@ -1,0 +1,15 @@
+@startuml
+class BoardSlot {
+    + x : int
+    + enemy : bool
+    + <<virtual>> GetSlot() : Slot
+    + <<virtual>> HasSlot(slot:Slot) : bool
+    + <<virtual>> IsInside(wpos:Vector3) : bool
+    + <<virtual>> IsNearest(pos:Vector3, range:float) : bool
+    + {static} GetNearest(pos:Vector3, range:float) : BoardSlot
+    + {static} GetMouseRaycast(range:float) : BoardSlot
+    + {static} Get(slot:Slot) : BoardSlot
+    + {static} GetAll() : List<BoardSlot>
+}
+MonoBehaviour <|-- BoardSlot
+@enduml

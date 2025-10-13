@@ -1,0 +1,4 @@
+@startuml
+!include .\\AIPlayer.puml
+!include .\\AIPlayerBehavior.puml
+@enduml

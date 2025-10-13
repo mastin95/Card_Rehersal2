@@ -1,0 +1,11 @@
+@startuml
+class "ListSwap`1"<T> {
+    + Get() : List<T>
+    + GetOther(skip:List<T>) : List<T>
+    + Clear() : void
+}
+class "List`1"<T> {
+}
+"ListSwap`1" o-> "swap1<T>" "List`1"
+"ListSwap`1" o-> "swap2<T>" "List`1"
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class CardUIHoverExtra {
+    + Hide() : void
+    + GetCardData() : CardData
+    + IsFocus() : bool
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+}
+MonoBehaviour <|-- CardUIHoverExtra
+IPointerEnterHandler <|-- CardUIHoverExtra
+IPointerExitHandler <|-- CardUIHoverExtra
+CardUIHoverExtra --> "hover_area" GameObject
+CardUIHoverExtra --> "hover_text" Text
+@enduml

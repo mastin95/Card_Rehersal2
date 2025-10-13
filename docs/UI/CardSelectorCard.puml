@@ -1,0 +1,14 @@
+@startuml
+class CardSelectorCard {
+    + SetCard(card:Card) : void
+    + SetIndex(index:int) : void
+    + SetTargetPos(pos:Vector3) : void
+    + SetTargetScale(scale:Vector3) : void
+    + GetCard() : Card
+    + GetIndex() : int
+    + GetTargetPos() : Vector3
+    + GetTargetScale() : Vector3
+}
+MonoBehaviour <|-- CardSelectorCard
+CardSelectorCard --> "card_ui" CardUI
+@enduml

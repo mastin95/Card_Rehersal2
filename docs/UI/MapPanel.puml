@@ -1,0 +1,11 @@
+@startuml
+class MapPanel {
+    + <<virtual>> RefreshPanel() : void
+    + <<virtual>> ShouldShow() : bool
+    + <<virtual>> ShouldRefresh() : bool
+    + <<virtual>> IsAutomatic() : bool
+    + <<override>> Show(instant:bool) : void
+    + {static} GetAll() : List<MapPanel>
+}
+UIPanel <|-- MapPanel
+@enduml

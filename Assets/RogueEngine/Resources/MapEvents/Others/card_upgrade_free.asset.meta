@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fa1225d7a3c03734da729fe5170ebb2d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Others/card_upgrade_free.asset
+  uploadId: 793508

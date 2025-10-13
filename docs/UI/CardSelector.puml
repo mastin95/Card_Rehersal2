@@ -1,0 +1,26 @@
+@startuml
+class CardSelector {
+    + card_spacing : float = 100f
+    + RefreshPanel() : void
+    + <<override>> Show(iability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + Show(card_list:List<Card>, title:string, sort:bool) : void
+    + OnClickOK() : void
+    + OnClickMouseDown() : void
+    + OnClickMouseUp() : void
+    + OnClickCancel() : void
+    + OnClickNext() : void
+    + OnClickPrev() : void
+    + IsAbility() : bool
+    + <<override>> Show(instant:bool) : void
+    + <<override>> Hide(instant:bool) : void
+    + <<override>> ShouldShow() : bool
+    + {static} Get() : CardSelector
+}
+SelectorPanel <|-- CardSelector
+CardSelector --> "card_prefab" GameObject
+CardSelector --> "content" RectTransform
+CardSelector --> "title" Text
+CardSelector --> "subtitle" Text
+CardSelector --> "select_button" Button
+CardSelector --> "select_button_text" Text
+@enduml

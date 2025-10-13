@@ -1,0 +1,9 @@
+@startuml
+class ConditionSlotValue {
+    + value_x : int = 0
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Slot) : bool
+}
+ConditionData <|-- ConditionSlotValue
+ConditionSlotValue --> "oper_x" ConditionOperatorInt
+@enduml

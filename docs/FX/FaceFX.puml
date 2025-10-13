@@ -1,0 +1,11 @@
+@startuml
+class FaceFX {
+}
+enum FaceType {
+    FaceCamera= 0,
+    FaceCameraCenter= 5,
+    FaceBoard= 10,
+}
+MonoBehaviour <|-- FaceFX
+FaceFX --> "type" FaceType
+@enduml

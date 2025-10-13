@@ -1,0 +1,10 @@
+@startuml
+class StatusIcon {
+    + SetStatus(status:StatusData, value:int) : void
+    + SetTrait(trait:TraitData, value:int) : void
+    + Hide() : void
+}
+MonoBehaviour <|-- StatusIcon
+StatusIcon --> "icon_img" Image
+StatusIcon --> "icon_txt" Text
+@enduml

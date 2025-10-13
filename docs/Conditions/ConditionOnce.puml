@@ -1,0 +1,6 @@
+@startuml
+class ConditionOnce {
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card) : bool
+}
+ConditionData <|-- ConditionOnce
+@enduml

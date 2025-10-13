@@ -1,0 +1,17 @@
+@startuml
+class GameplayData {
+    + xp_per_level : int = 100
+    + cards_max : int = 10
+    + turn_duration : float = 60f
+    + progress_unlock_cards : int = 2
+    + progress_unlock_items : int = 1
+    + test_disable_intent : bool
+    + GetXpForNextLevel(level:int) : int
+    + GetDefaultScenario(multiplayer:bool) : ScenarioData
+    + {static} Get() : GameplayData
+}
+ScriptableObject <|-- GameplayData
+GameplayData --> "test_scenario" ScenarioData
+GameplayData --> "test_champion" ChampionData
+GameplayData --> "test_battle" EventBattle
+@enduml

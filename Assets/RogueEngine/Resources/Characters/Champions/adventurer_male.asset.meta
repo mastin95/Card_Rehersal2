@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 25fe4477250d2fc4cb19c4b6047d16b3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Characters/Champions/adventurer_male.asset
+  uploadId: 793508

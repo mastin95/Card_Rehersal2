@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 75812011059449344899a4e5c3d159e4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Adventurer/weak_spot_stab.asset
+  uploadId: 793508

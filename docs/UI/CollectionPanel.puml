@@ -1,0 +1,28 @@
+@startuml
+class CollectionPanel {
+    + RefreshCards() : void
+    + IsAvailable(card:CardData) : bool
+    + OnClickTeam(button:IconButton) : void
+    + OnChangeToggle() : void
+    + OnChangeDropdown() : void
+    + OnChangeSearch() : void
+    + OnClickCard(card:CardUI) : void
+    + OnClickCardRight(card:CardUI) : void
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : CollectionPanel
+}
+UIPanel <|-- CollectionPanel
+CollectionPanel --> "scroll_rect" ScrollRect
+CollectionPanel --> "scroll_content" RectTransform
+CollectionPanel --> "grid_content" CardGrid
+CollectionPanel --> "card_prefab" GameObject
+CollectionPanel --> "toggle_power" Toggle
+CollectionPanel --> "toggle_attack" Toggle
+CollectionPanel --> "toggle_skill" Toggle
+CollectionPanel --> "toggle_common" Toggle
+CollectionPanel --> "toggle_rare" Toggle
+CollectionPanel --> "sort_dropdown" Dropdown
+CollectionPanel --> "search" InputField
+CollectionPanel --> "color_ui" Material
+CollectionPanel --> "grayscale_ui" Material
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+!include .\\Battle.puml
+!include .\\BattleCharacter.puml
+!include .\\BattleLogic.puml
+!include .\\Card.puml
+!include .\\Champion.puml
+!include .\\ConnectSettings.puml
+!include .\\GameAction.puml
+!include .\\Map.puml
+!include .\\MapLocation.puml
+!include .\\Player.puml
+!include .\\Reward.puml
+!include .\\Slot.puml
+!include .\\World.puml
+!include .\\WorldLogic.puml
+@enduml

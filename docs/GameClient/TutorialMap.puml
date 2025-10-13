@@ -1,0 +1,35 @@
+@startuml
+class TutorialMap {
+    + TriggerEndStep(trigger:TutoMapEndTrigger, time:float) : void
+    + TriggerStartGroup(trigger:TutoMapStartTrigger, depth:int, champion:Champion, target:EventData) : void
+    + ShowGroup(trigger:TutoMapStartTrigger, depth:int, champion:Champion, target:EventData) : void
+    + ShowGroup(group:TutoMapStepGroup) : void
+    + ShowNext() : void
+    + Show(step:TutoMapStep) : void
+    + EndGroup() : void
+    + Hide(step:TutoMapStep) : void
+    + Hide() : void
+    + CanDo(trigger:TutoMapEndTrigger) : bool
+    + CanDo(trigger:TutoMapEndTrigger, target:CardData) : bool
+    + GetNextIndex() : int
+    + GetEndTrigger() : TutoMapEndTrigger
+    + HideAll() : void
+    + {static} IsTuto() : bool
+    + {static} Get() : TutorialMap
+}
+enum TutoMapStartTrigger {
+    MapView= 0,
+    Move= 10,
+    EventStart= 15,
+    CardReward= 20,
+}
+enum TutoMapEndTrigger {
+    Click= 0,
+    Move= 10,
+    SelectChoice= 15,
+    Upgrade= 20,
+    Buy= 22,
+    Sell= 23,
+}
+MonoBehaviour <|-- TutorialMap
+@enduml

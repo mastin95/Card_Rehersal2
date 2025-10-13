@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 41fadefc745008f47949f1cc29aa66aa
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/MagicFX.prefab
+  uploadId: 793508

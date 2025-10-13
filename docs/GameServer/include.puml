@@ -1,0 +1,7 @@
+@startuml
+!include .\\GameServer.puml
+!include .\\LobbyGame.puml
+!include .\\LobbyServer.puml
+!include .\\ServerManager.puml
+!include .\\ServerManagerLocal.puml
+@enduml

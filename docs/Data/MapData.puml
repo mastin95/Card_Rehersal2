@@ -1,0 +1,33 @@
+@startuml
+class MapData {
+    + id : string
+    + title : string
+    + map_scene : string
+    + battle_scene : string
+    + depth : int = 12
+    + width_min : int = 4
+    + width_max : int = 6
+    + fork_probability : float = 0.25f
+    + GetLocationEvent(depth:int, index:int, rand:System.Random) : EventData
+    + GetFixedLocation(depth:int, index:int) : FixedLocationData
+    + GetFixedWidth(depth:int) : int
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : MapData
+    + {static} GetAll() : List<MapData>
+}
+class FixedWidthData {
+    + depth : int
+    + width : int
+}
+class FixedLocationData {
+    + depth : int
+    + index_min : int
+    + index_max : int
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- MapData
+MapData --> "map_tutorial" GameObject
+MapData o-> "map_list<MapData>" "List`1"
+FixedLocationData --> "evt" EventData
+@enduml

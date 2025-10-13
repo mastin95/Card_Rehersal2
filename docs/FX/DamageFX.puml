@@ -1,0 +1,8 @@
+@startuml
+class DamageFX {
+    + SetValue(value:int) : void
+    + SetValue(value:string) : void
+}
+MonoBehaviour <|-- DamageFX
+DamageFX --> "text_value" Text
+@enduml

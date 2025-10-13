@@ -1,0 +1,8 @@
+@startuml
+class EffectClearStatus {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectClearStatus
+EffectClearStatus --> "status" StatusData
+@enduml

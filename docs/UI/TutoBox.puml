@@ -1,0 +1,8 @@
+@startuml
+class TutoBox {
+    + SetNextButton(active:bool) : void
+    + OnClickNext() : void
+}
+MonoBehaviour <|-- TutoBox
+TutoBox --> "next_btn" Button
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class BehaviorRandom {
+    + <<override>> SelectPlayCard(data:Battle, character:BattleCharacter, cards:List<Card>, turn:int) : Card
+    + <<override>> SelectCharacterTarget(data:Battle, character:BattleCharacter, card:Card, characters:List<BattleCharacter>, turn:int) : BattleCharacter
+    + <<override>> SelectCardTarget(data:Battle, character:BattleCharacter, card:Card, cards:List<Card>, turn:int) : Card
+    + <<override>> SelectSlotTarget(data:Battle, character:BattleCharacter, card:Card, slots:List<Slot>, turn:int) : Slot
+    + <<override>> GetBehaviorText() : string
+}
+BehaviorData <|-- BehaviorRandom
+@enduml

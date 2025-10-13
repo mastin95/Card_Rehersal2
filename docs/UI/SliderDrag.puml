@@ -1,0 +1,16 @@
+@startuml
+class SliderDrag {
+    + OnPointerDown(eventData:PointerEventData) : void
+    + OnPointerUp(eventData:PointerEventData) : void
+    + maxValue : float <<get>> <<set>>
+    + minValue : float <<get>> <<set>>
+    + value : float <<get>> <<set>>
+}
+MonoBehaviour <|-- SliderDrag
+IPointerUpHandler <|-- SliderDrag
+IPointerDownHandler <|-- SliderDrag
+SliderDrag --> "onStartDrag" UnityAction
+SliderDrag --> "onEndDrag" UnityAction
+SliderDrag --> "onValueChanged" UnityAction
+SliderDrag --> "Slider" Slider
+@enduml

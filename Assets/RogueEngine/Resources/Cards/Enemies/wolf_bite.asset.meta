@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dd2fa883c7ac0384699e985018cadf42
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Enemies/wolf_bite.asset
+  uploadId: 793508

@@ -1,0 +1,145 @@
+@startuml
+class BattleCharacter {
+    + character_id : string
+    + player_id : int
+    + uid : string
+    + is_champion : bool
+    + level : int
+    + turn : int = 0
+    + damage : int = 0
+    + mana_spent : int = 0
+    + initiative : int = 0
+    + is_dead : bool = false
+    + hp : int
+    + shield : int
+    + mana : int
+    + speed : int
+    + hand : int
+    + energy : int
+    + speed_ongoing : int = 0
+    + hand_ongoing : int = 0
+    + hp_ongoing : int = 0
+    + delayed_shield : int = 0
+    + delayed_energy : int = 0
+    + delayed_hand : int = 0
+    + BattleCharacter()
+    + BattleCharacter(id:int, uid:string)
+    + <<virtual>> Refresh() : void
+    + <<virtual>> ClearOngoing() : void
+    + <<virtual>> SetCharacter(champ:Champion) : void
+    + <<virtual>> SetCharacter(charact:CharacterData) : void
+    + <<virtual>> SetScenarioDifficulty(scenario:ScenarioData) : void
+    + SetTraits(champ:ChampionData) : void
+    + SetTraits(charact:CharacterData) : void
+    + SetAbilities(champ:ChampionData) : void
+    + SetAbilities(charact:CharacterData) : void
+    + <<virtual>> GetHP() : int
+    + <<virtual>> GetHP(offset:int) : int
+    + <<virtual>> GetHPMax() : int
+    + <<virtual>> GetDamage() : int
+    + <<virtual>> GetShield() : int
+    + <<virtual>> GetMana() : int
+    + <<virtual>> GetManaMax() : int
+    + <<virtual>> GetSpeed() : int
+    + <<virtual>> GetHand() : int
+    + <<virtual>> GetEnergy() : int
+    + <<virtual>> IsEnemy() : bool
+    + <<virtual>> GetImportance() : int
+    + AddCard(card_list:List<Card>, card:Card) : void
+    + RemoveCard(card_list:List<Card>, card:Card) : void
+    + <<virtual>> RemoveCardFromAllGroups(card:Card) : void
+    + <<virtual>> GetRandomCard(card_list:List<Card>, rand:System.Random) : Card
+    + HasCard(card_list:List<Card>, card:Card) : bool
+    + GetHandCard(uid:string) : Card
+    + GetDeckCard(uid:string) : Card
+    + GetDiscardCard(uid:string) : Card
+    + GetItem(item_uid:string) : Card
+    + GetCard(uid:string) : Card
+    + SetTrait(id:string, value:int) : void
+    + AddTrait(id:string, value:int) : void
+    + AddOngoingTrait(id:string, value:int) : void
+    + RemoveTrait(id:string) : void
+    + GetTrait(id:string) : CardTrait
+    + GetOngoingTrait(id:string) : CardTrait
+    + GetAllTraits() : List<CardTrait>
+    + GetTraitValue(trait:TraitData) : int
+    + <<virtual>> GetTraitValue(id:string) : int
+    + HasTrait(trait:TraitData) : bool
+    + HasTrait(id:string) : bool
+    + AddStatus(sdata:StatusData, value:int) : void
+    + AddOngoingStatus(sdata:StatusData, value:int) : void
+    + ReduceStatus(effect:StatusEffect, val:int) : void
+    + RemoveStatus(effect:StatusEffect) : void
+    + GetStatus(id:string) : CardStatus
+    + GetStatus(effect:StatusEffect) : CardStatus
+    + GetOngoingStatus(id:string) : CardStatus
+    + GetOngoingStatus(effect:StatusEffect) : CardStatus
+    + GetAllStatus() : List<CardStatus>
+    + HasStatus(effect:StatusEffect) : bool
+    + <<virtual>> GetStatusValue(effect:StatusEffect) : int
+    + <<virtual>> ReduceStatusValues() : void
+    + <<virtual>> RemoveOnceStatus() : void
+    + AddAbility(ability:AbilityData) : void
+    + RemoveAbility(ability:AbilityData) : void
+    + AddOngoingAbility(ability:AbilityData) : void
+    + ClearOngoingAbility() : void
+    + GetAbility(trigger:AbilityTrigger) : AbilityData
+    + HasAbility(ability:AbilityData) : bool
+    + HasAbility(trigger:AbilityTrigger) : bool
+    + HasAbility(trigger:AbilityTrigger, target:AbilityTarget) : bool
+    + AreAbilityConditionsMet(ability_trigger:AbilityTrigger, data:Battle, caster:BattleCharacter, card:Card) : bool
+    + GetAbilities() : List<AbilityData>
+    + AddHistory(type:ushort, card:Card) : void
+    + AddHistory(type:ushort, card:Card, target:Card) : void
+    + AddHistory(type:ushort, character:BattleCharacter, target:Slot) : void
+    + AddHistory(type:ushort, card:Card, target:BattleCharacter) : void
+    + AddHistory(type:ushort, card:Card, ability:AbilityData) : void
+    + AddHistory(type:ushort, card:Card, ability:AbilityData, target:Card) : void
+    + AddHistory(type:ushort, card:Card, ability:AbilityData, target:BattleCharacter) : void
+    + AddHistory(type:ushort, card:Card, ability:AbilityData, target:Slot) : void
+    + <<virtual>> CanTriggerAbilities() : bool
+    + <<virtual>> CanPayMana(card:Card) : bool
+    + <<virtual>> PayMana(card:Card) : void
+    + <<virtual>> IsAlly() : bool
+    + <<virtual>> CanPlayTurn() : bool
+    + <<virtual>> IsDead() : bool
+    + GetPrefab() : GameObject
+    + Hash : int <<get>>
+    + {static} CloneNew(source:BattleCharacter) : BattleCharacter
+    + {static} Clone(source:BattleCharacter, dest:BattleCharacter) : void
+    + {static} CloneList(source:List<BattleCharacter>, dest:List<BattleCharacter>) : void
+    + {static} Create(champion:Champion) : BattleCharacter
+    + {static} Create(charact:CharacterData, level:int) : BattleCharacter
+    + {static} Create(charact:CharacterData, uid:string, level:int) : BattleCharacter
+}
+class ActionHistory {
+    + type : ushort
+    + card_uid : string
+    + character_uid : string
+    + target_uid : string
+    + ability_id : string
+}
+class "Dictionary`2"<T1,T2> {
+}
+class "List`1"<T> {
+}
+BattleCharacter --> "slot" Slot
+BattleCharacter o-> "cards_all<string,Card>" "Dictionary`2"
+BattleCharacter o-> "cards_deck<Card>" "List`1"
+BattleCharacter o-> "cards_hand<Card>" "List`1"
+BattleCharacter o-> "cards_discard<Card>" "List`1"
+BattleCharacter o-> "cards_void<Card>" "List`1"
+BattleCharacter o-> "cards_power<Card>" "List`1"
+BattleCharacter o-> "cards_item<Card>" "List`1"
+BattleCharacter o-> "cards_temp<Card>" "List`1"
+BattleCharacter o-> "traits<CardTrait>" "List`1"
+BattleCharacter o-> "ongoing_traits<CardTrait>" "List`1"
+BattleCharacter o-> "status<CardStatus>" "List`1"
+BattleCharacter o-> "ongoing_status<CardStatus>" "List`1"
+BattleCharacter o-> "abilities<string>" "List`1"
+BattleCharacter o-> "abilities_ongoing<string>" "List`1"
+BattleCharacter o-> "history_list<ActionHistory>" "List`1"
+BattleCharacter --> "ChampionData" ChampionData
+BattleCharacter --> "CharacterData" CharacterData
+ActionHistory --> "slot" Slot
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class ConditionItem {
+    + <<override>> IsMapEventConditionMet(data:World, evt:EventEffect, champion:Champion) : bool
+}
+ConditionData <|-- ConditionItem
+ConditionItem --> "item" CardData
+@enduml

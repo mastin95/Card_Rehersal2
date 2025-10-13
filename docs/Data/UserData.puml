@@ -1,0 +1,26 @@
+@startuml
+class UserData {
+    + id : string
+    + username : string
+    + version : string
+    + email : string
+    + avatar : string
+    + cardback : string
+    + UserData()
+    + UserData(user_id:string, username:string)
+    + FixData() : void
+    + UnlockCard(card:CardData) : void
+    + IsCardUnlocked(card:CardData) : bool
+    + GetJustUnlockedCards() : List<string>
+    + ClearJustUnlocked() : void
+    + GetAvatar() : string
+    + GetCardback() : string
+    + Save() : void
+    + {static} Save(data:UserData) : void
+    + {static} NewUser(user_id:string, username:string) : UserData
+    + {static} Load(user_id:string) : UserData
+    + {static} HasSave(user_id:string) : bool
+    + {static} Delete(user_id:string) : void
+    + {static} GetFilename(user_id:string) : string
+}
+@enduml

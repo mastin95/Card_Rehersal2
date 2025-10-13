@@ -1,0 +1,10 @@
+@startuml
+class InventoryUI {
+    + GetHover() : BoxUI
+    + {static} Get() : InventoryUI
+}
+MonoBehaviour <|-- InventoryUI
+InventoryUI --> "info_panel" UIPanel
+InventoryUI --> "info_title" Text
+InventoryUI --> "info_text" Text
+@enduml

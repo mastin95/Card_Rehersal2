@@ -1,0 +1,11 @@
+@startuml
+class AuthenticatorLocal {
+    + <<override>> <<async>> Login(username:string) : Task<bool>
+    + <<override>> <<async>> RefreshLogin() : Task<bool>
+    + <<override>> <<async>> LoadUserData() : Task<UserData>
+    + <<override>> <<async>> SaveUserData() : Task<bool>
+    + <<override>> Logout() : void
+    + <<override>> GetUserData() : UserData
+}
+Authenticator <|-- AuthenticatorLocal
+@enduml

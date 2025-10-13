@@ -1,0 +1,9 @@
+@startuml
+class EffectRoll {
+    + dice : int = 6
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Slot) : void
+}
+EffectData <|-- EffectRoll
+@enduml

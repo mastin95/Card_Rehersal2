@@ -1,0 +1,12 @@
+@startuml
+class BoardCharacterFX {
+    + spawn_anim : string = "spawn"
+    + death_anim : string = "death"
+}
+MonoBehaviour <|-- BoardCharacterFX
+BoardCharacterFX --> "fx_target" Transform
+BoardCharacterFX --> "spawn_fx" GameObject
+BoardCharacterFX --> "death_fx" GameObject
+BoardCharacterFX --> "spawn_audio" AudioClip
+BoardCharacterFX --> "death_audio" AudioClip
+@enduml

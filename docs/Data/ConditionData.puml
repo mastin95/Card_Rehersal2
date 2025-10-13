@@ -1,0 +1,27 @@
+@startuml
+class ConditionData {
+    + <<virtual>> IsMapEventConditionMet(data:World, evt:EventEffect, champion:Champion) : bool
+    + <<virtual>> IsMapTriggerConditionMet(data:World, evt:AbilityData, champion:Champion, item:ChampionItem) : bool
+    + <<virtual>> IsMapTargetConditionMet(data:World, evt:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : bool
+    + <<virtual>> IsTriggerConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card) : bool
+    + <<virtual>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:Card) : bool
+    + <<virtual>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + <<virtual>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:Slot) : bool
+    + <<virtual>> IsTargetConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card, target:CardData) : bool
+    + CompareBool(condition:bool, oper:ConditionOperatorBool) : bool
+    + CompareInt(ival1:int, oper:ConditionOperatorInt, ival2:int) : bool
+}
+enum ConditionOperatorInt {
+    Equal,
+    NotEqual,
+    GreaterEqual,
+    LessEqual,
+    Greater,
+    Less,
+}
+enum ConditionOperatorBool {
+    IsTrue,
+    IsFalse,
+}
+ScriptableObject <|-- ConditionData
+@enduml

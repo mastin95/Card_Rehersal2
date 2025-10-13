@@ -1,0 +1,7 @@
+@startuml
+class MenuLoadPanel {
+    + OnClickQuit() : void
+    + {static} Get() : MenuLoadPanel
+}
+UIPanel <|-- MenuLoadPanel
+@enduml

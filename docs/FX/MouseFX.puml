@@ -1,0 +1,6 @@
+@startuml
+class MouseFX {
+    + speed : float = 20f
+}
+MonoBehaviour <|-- MouseFX
+@enduml

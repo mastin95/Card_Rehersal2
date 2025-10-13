@@ -1,0 +1,18 @@
+@startuml
+class HoverTargetUI {
+    + text : string
+    + delay : float = 0.5f
+    + text_size : int = 22
+    + width : int = 350
+    + height : int = 140
+    + GetText() : string
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+    + GetCanvas() : Canvas
+    + GetRect() : RectTransform
+    + IsHover() : bool
+}
+MonoBehaviour <|-- HoverTargetUI
+IPointerEnterHandler <|-- HoverTargetUI
+IPointerExitHandler <|-- HoverTargetUI
+@enduml

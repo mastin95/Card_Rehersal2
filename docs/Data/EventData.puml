@@ -1,0 +1,20 @@
+@startuml
+class EventData {
+    + id : string
+    + depth_min : int = 0
+    + depth_max : int = 0
+    + <<virtual>> AreEventsConditionMet(world:World, triggerer:Champion) : bool
+    + <<virtual>> DoEvent(logic:WorldLogic, triggerer:Champion) : void
+    + <<virtual>> GetText() : string
+    + <<virtual>> HasText() : bool
+    + Get() : T
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : EventData
+    + {static} GetAll() : List<EventData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- EventData
+EventData --> "icon" Sprite
+EventData o-> "evt_list<EventData>" "List`1"
+@enduml

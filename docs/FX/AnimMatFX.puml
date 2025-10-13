@@ -1,0 +1,20 @@
+@startuml
+class AnimMatFX {
+    + SetFloat(name:string, value:float, duration:float) : void
+    + Callback(duration:float, callback:UnityAction) : void
+    + Clear() : void
+    + {static} Create(obj:GameObject, target:Material) : AnimMatFX
+}
+enum AnimMatActionType {
+    None= 0,
+    Float= 5,
+}
+class AnimMatAction {
+    + target_name : string
+    + target_value : float
+    + duration : float = 1f
+}
+MonoBehaviour <|-- AnimMatFX
+AnimMatAction --> "type" AnimMatActionType
+AnimMatAction o-> "callback" UnityAction
+@enduml

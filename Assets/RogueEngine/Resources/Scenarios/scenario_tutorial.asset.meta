@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7b31781c0401f874a9c0d6a735cb3a0e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Scenarios/scenario_tutorial.asset
+  uploadId: 793508

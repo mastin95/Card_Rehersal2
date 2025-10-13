@@ -1,0 +1,29 @@
+@startuml
+class UpgradePanel {
+    + <<override>> RefreshPanel() : void
+    + OnClickCard(dline:CardLine) : void
+    + OnClickUpgrade() : void
+    + OnClickQuit() : void
+    + <<override>> Show(instant:bool) : void
+    + <<override>> ShouldShow() : bool
+    + <<override>> IsAutomatic() : bool
+    + {static} Get() : UpgradePanel
+}
+MapPanel <|-- UpgradePanel
+UpgradePanel --> "scroll_view" ScrollRect
+UpgradePanel --> "content_rect" RectTransform
+UpgradePanel --> "content_grid" GridLayoutGroup
+UpgradePanel --> "card_line_prefab" GameObject
+UpgradePanel --> "unselect_area" GameObject
+UpgradePanel --> "upgrade_area" GameObject
+UpgradePanel --> "max_area" GameObject
+UpgradePanel --> "free_text" Text
+UpgradePanel --> "card_current" CardUI
+UpgradePanel --> "card_next" CardUI
+UpgradePanel --> "card_max" CardUI
+UpgradePanel --> "text_current" Text
+UpgradePanel --> "text_current2" Text
+UpgradePanel --> "text_next" Text
+UpgradePanel --> "gold_cost" Text
+UpgradePanel --> "gold_icon" Image
+@enduml

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b8e698908f3e3c14da45553b47998f6d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Battles/battle_tutorial2.asset
+  uploadId: 793508

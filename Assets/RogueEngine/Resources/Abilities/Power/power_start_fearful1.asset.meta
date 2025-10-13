@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 721bf7050604dca4da75134b911c378f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Power/power_start_fearful1.asset
+  uploadId: 793508

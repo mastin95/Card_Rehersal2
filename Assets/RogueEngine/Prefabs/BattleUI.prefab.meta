@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b2cda006105c05b428bace831c06c984
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/BattleUI.prefab
+  uploadId: 793508

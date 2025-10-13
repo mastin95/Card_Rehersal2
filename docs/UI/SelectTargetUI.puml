@@ -1,0 +1,11 @@
+@startuml
+class SelectTargetUI {
+    + <<override>> Show(iability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + OnClickClose() : void
+    + <<override>> ShouldShow() : bool
+    + {static} Get() : SelectTargetUI
+}
+SelectorPanel <|-- SelectTargetUI
+SelectTargetUI --> "title" Text
+SelectTargetUI --> "desc" Text
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+class MainMenu {
+    + <<async>> RefreshUser() : void
+    + CreateGame(type:GameType) : void
+    + CreateGame(type:GameType, filename:string, game_uid:string) : void
+    + LoadGame(type:GameType, filename:string) : void
+    + JoinGame(type:GameType, game_uid:string, server_url:string) : void
+    + StartGame() : void
+    + StartMathmaking(group:string) : void
+    + OnClickSoloNew() : void
+    + OnClickSoloLoad() : void
+    + OnClickMultiLobby() : void
+    + OnClickMultiLAN() : void
+    + OnClickCancelMatch() : void
+    + OnClickAvatar() : void
+    + OnClickSettings() : void
+    + OnClickLogout() : void
+    + OnClickQuit() : void
+    + {static} Get() : MainMenu
+}
+MonoBehaviour <|-- MainMenu
+MainMenu --> "music" AudioClip
+MainMenu --> "ambience" AudioClip
+MainMenu --> "username_txt" Text
+MainMenu --> "avatar" AvatarUI
+MainMenu --> "loader" GameObject
+MainMenu --> "version_text" Text
+@enduml

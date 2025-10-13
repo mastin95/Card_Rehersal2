@@ -1,0 +1,7 @@
+@startuml
+class ConditionTurn {
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card) : bool
+}
+ConditionData <|-- ConditionTurn
+ConditionTurn --> "oper" ConditionOperatorBool
+@enduml

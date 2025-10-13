@@ -1,0 +1,39 @@
+@startuml
+class LobbyGame {
+    + game_uid : string
+    + game_url : string
+    + title : string
+    + subtitle : string
+    + filename : string
+    + load : bool
+    + players_max : int = 0
+    + join_code : string
+    + last_update : ulong = 0
+    + expired : bool
+    + started : bool
+    + LobbyGame()
+    + LobbyGame(uid:string)
+    + CanBeJoined() : bool
+    + GetPlayer(user_id:string) : LobbyPlayer
+    + HasPlayer(user_id:string) : bool
+    + IsHost(user_id:string) : bool
+    + AddPlayer(player:LobbyPlayer) : void
+    + RemovePlayer(user_id:string) : void
+    + AddChat(chat:MsgChat) : void
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class LobbyPlayer {
+    + user_id : string
+    + username : string
+    + game_uid : string
+    + LobbyPlayer()
+    + LobbyPlayer(uid:string, user:string)
+    + NetworkSerialize(serializer:BufferSerializer<T>) : void
+}
+class "List`1"<T> {
+}
+INetworkSerializable <|-- LobbyGame
+LobbyGame o-> "players<LobbyPlayer>" "List`1"
+LobbyGame o-> "chats<MsgChat>" "List`1"
+INetworkSerializable <|-- LobbyPlayer
+@enduml

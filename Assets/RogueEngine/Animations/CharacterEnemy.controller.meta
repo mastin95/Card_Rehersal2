@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f6bed6e1ed55efd46a63cecca573ebcb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Animations/CharacterEnemy.controller
+  uploadId: 793508

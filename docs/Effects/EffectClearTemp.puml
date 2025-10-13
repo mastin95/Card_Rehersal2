@@ -1,0 +1,7 @@
+@startuml
+class EffectClearTemp {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectClearTemp
+@enduml

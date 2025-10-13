@@ -1,0 +1,13 @@
+@startuml
+class EventChoicePanel {
+    + ShowText(text:string) : void
+    + ShowChoices(evt:EventChoice) : void
+    + <<override>> RefreshPanel() : void
+    + <<override>> ShouldShow() : bool
+    + <<override>> ShouldRefresh() : bool
+    + <<override>> IsAutomatic() : bool
+    + {static} Get() : EventChoicePanel
+}
+MapPanel <|-- EventChoicePanel
+EventChoicePanel --> "text" Text
+@enduml

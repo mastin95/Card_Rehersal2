@@ -1,0 +1,31 @@
+﻿@startuml
+title Flujo del juego (RogueEngine / Card Chip Battle)
+
+start
+:Mapa (World/MapScene);\nElegir nodo/Evento;
+if (Tipo de Evento?) then (Batalla)
+  :EventBattle / EventBattleFixed;\nInstanciar enemigos (CharacterData[]);
+  :BattleLogic.AddEnemy(enemy, pos_x, level);
+  :BattleCharacter.Create(CharacterData, level)\n--> player_id = -1 (Enemy);
+  :Crear Battle;\nTurno enemigo/jugador;
+
+  partition "Jugar carta (enemigo o jugador)" {
+    :Seleccionar carta/targets\n(AIBehavior o UI);
+    :GameAction -> GameServer (validación);
+    :BattleLogic.PlayCard(...);
+    :AbilityData → Conditions → Filter/Targets → Effects → Chain;
+    :Actualizar estado (HP/Status/Mazos/Slots);
+  }
+
+  if (¿Win/Lose?) then (Sí)
+    :WorldLogic.EndEvent();\nCalcular Reward;
+    :Volver al mapa;
+  else (No)
+    :Siguiente turno;
+  endif
+else (No combate)
+  :EventChoice/Reward/Shop/Effect/Upgrade ...;\n(usa EffectData/ConditionData si aplica);
+  :Terminar evento;
+endif
+stop
+@enduml

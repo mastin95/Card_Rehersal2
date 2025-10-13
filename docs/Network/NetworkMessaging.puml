@@ -1,0 +1,42 @@
+@startuml
+class NetworkMessaging {
+    + NetworkMessaging(network:TcgNetwork)
+    + ListenMsg(type:string, callback:System.Action<ulong, FastBufferReader>) : void
+    + UnListenMsg(type:string) : void
+    + SendEmpty(type:string, target:ulong, delivery:NetworkDelivery) : void
+    + SendBytes(type:string, target:ulong, msg:byte[], delivery:NetworkDelivery) : void
+    + SendString(type:string, target:ulong, msg:string, delivery:NetworkDelivery) : void
+    + SendInt(type:string, target:ulong, data:int, delivery:NetworkDelivery) : void
+    + SendUInt64(type:string, target:ulong, data:ulong, delivery:NetworkDelivery) : void
+    + SendFloat(type:string, target:ulong, data:float, delivery:NetworkDelivery) : void
+    + SendObject(type:string, target:ulong, data:T, delivery:NetworkDelivery) : void
+    + SendEmpty(type:string, targets:IReadOnlyList<ulong>, delivery:NetworkDelivery) : void
+    + SendBytes(type:string, targets:IReadOnlyList<ulong>, msg:byte[], delivery:NetworkDelivery) : void
+    + SendString(type:string, targets:IReadOnlyList<ulong>, msg:string, delivery:NetworkDelivery) : void
+    + SendInt(type:string, targets:IReadOnlyList<ulong>, data:int, delivery:NetworkDelivery) : void
+    + SendUInt64(type:string, targets:IReadOnlyList<ulong>, data:ulong, delivery:NetworkDelivery) : void
+    + SendFloat(type:string, targets:IReadOnlyList<ulong>, data:float, delivery:NetworkDelivery) : void
+    + SendObject(type:string, targets:IReadOnlyList<ulong>, data:T, delivery:NetworkDelivery) : void
+    + SendEmptyAll(type:string, delivery:NetworkDelivery) : void
+    + SendStringAll(type:string, msg:string, delivery:NetworkDelivery) : void
+    + SendIntAll(type:string, data:int, delivery:NetworkDelivery) : void
+    + SendUInt64All(type:string, data:ulong, delivery:NetworkDelivery) : void
+    + SendFloatAll(type:string, data:float, delivery:NetworkDelivery) : void
+    + SendBytesAll(type:string, msg:byte[], delivery:NetworkDelivery) : void
+    + SendObjectAll(type:string, data:T, delivery:NetworkDelivery) : void
+    + Send(type:string, target:ulong, writer:FastBufferWriter, delivery:NetworkDelivery) : void
+    + Send(type:string, targets:IReadOnlyList<ulong>, writer:FastBufferWriter, delivery:NetworkDelivery) : void
+    + SendAll(type:string, writer:FastBufferWriter, delivery:NetworkDelivery) : void
+    + Forward(type:string, target:ulong, reader:FastBufferReader, delivery:NetworkDelivery) : void
+    + Forward(type:string, targets:IReadOnlyList<ulong>, reader:FastBufferReader, delivery:NetworkDelivery) : void
+    + ForwardAll(type:string, source_client:ulong, reader:FastBufferReader, delivery:NetworkDelivery) : void
+    + IsOnline : bool <<get>>
+    + IsServer : bool <<get>>
+    + ServerID : ulong <<get>>
+    + ClientID : ulong <<get>>
+    + {static} Get() : NetworkMessaging
+}
+class "IReadOnlyList`1"<T> {
+}
+NetworkMessaging --> "ClientList<ulong>" "IReadOnlyList`1"
+@enduml

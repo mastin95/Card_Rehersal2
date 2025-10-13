@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2c87d762b743177489b6bd9351e425fd
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/Gameplay/BattleCamera.prefab
+  uploadId: 793508

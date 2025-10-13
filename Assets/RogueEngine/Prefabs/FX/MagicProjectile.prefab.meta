@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 80ec2da95252be64b8bcbf8556e05234
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/MagicProjectile.prefab
+  uploadId: 793508

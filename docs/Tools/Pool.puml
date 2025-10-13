@@ -1,0 +1,12 @@
+@startuml
+class "Pool`1"<T> {
+    + Create() : T
+    + Dispose(elem:T) : void
+    + DisposeAll() : void
+    + Clear() : void
+    + GetAllActive() : HashSet<T>
+    + Count : int <<get>>
+    + CountAvailable : int <<get>>
+    + CountCapacity : int <<get>>
+}
+@enduml

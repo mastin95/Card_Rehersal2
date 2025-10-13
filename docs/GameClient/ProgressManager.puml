@@ -1,0 +1,7 @@
+@startuml
+class ProgressManager {
+    + <<async>> UnlockNewRewards(nb_cards:int, nb_items:int) : void
+    + {static} Get() : ProgressManager
+}
+MonoBehaviour <|-- ProgressManager
+@enduml

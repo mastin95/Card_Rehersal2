@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 780f2e71933c2dd489c8cf5d156f327b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Materials/FX/FXSmokeAdd.mat
+  uploadId: 793508

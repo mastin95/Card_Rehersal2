@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9fcedc2e36ec1cf4bb01dd1eab302b5b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Attacks/attack_magic_damage3.asset
+  uploadId: 793508

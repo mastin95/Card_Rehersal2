@@ -1,0 +1,23 @@
+@startuml
+class CharacterInfoUI {
+    + ShowCharacter(character:BattleCharacter) : void
+    + GetStatusText(bcharacter:BattleCharacter) : string
+    + Hide() : void
+    + {static} Get() : CharacterInfoUI
+}
+MonoBehaviour <|-- CharacterInfoUI
+CharacterInfoUI --> "panel" UIPanel
+CharacterInfoUI --> "champion_panel" UIPanel
+CharacterInfoUI --> "enemy_panel" UIPanel
+CharacterInfoUI --> "title" Text
+CharacterInfoUI --> "level_txt" Text
+CharacterInfoUI --> "status_txt" Text
+CharacterInfoUI --> "skill_label_txt" Text
+CharacterInfoUI --> "behavior_label_txt" Text
+CharacterInfoUI --> "skill_txt" Text
+CharacterInfoUI --> "behavior_txt" Text
+CharacterInfoUI --> "hp_txt" Text
+CharacterInfoUI --> "speed_txt" Text
+CharacterInfoUI --> "cards_txt" Text
+CharacterInfoUI --> "energy_txt" Text
+@enduml

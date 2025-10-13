@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c76a042973191fa48b635ce7ef2d1fe6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/dragon_thorn_courage.asset
+  uploadId: 793508

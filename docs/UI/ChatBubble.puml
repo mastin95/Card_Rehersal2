@@ -1,0 +1,10 @@
+@startuml
+class ChatBubble {
+    + SetLine(msg:string, duration:float) : void
+    + Hide() : void
+}
+MonoBehaviour <|-- ChatBubble
+ChatBubble --> "msg_txt" Text
+ChatBubble --> "bubble" Image
+ChatBubble --> "group" CanvasGroup
+@enduml

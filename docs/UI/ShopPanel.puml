@@ -1,0 +1,22 @@
+@startuml
+class ShopPanel {
+    + <<override>> RefreshPanel() : void
+    + OnClickSlot(slot:BoxUI) : void
+    + OnClickCard(card:CardUI) : void
+    + OnClickBuy() : void
+    + OnClickQuit() : void
+    + <<override>> Show(instant:bool) : void
+    + <<override>> ShouldShow() : bool
+    + <<override>> IsAutomatic() : bool
+    + {static} Get() : ShopPanel
+}
+MapPanel <|-- ShopPanel
+ShopPanel --> "info_panel" UIPanel
+ShopPanel --> "info_title" Text
+ShopPanel --> "info_desc" Text
+ShopPanel --> "info_item" BoxUI
+ShopPanel --> "info_card" CardUI
+ShopPanel --> "info_quantity" Text
+ShopPanel --> "info_price" Text
+ShopPanel --> "buy_button" Button
+@enduml

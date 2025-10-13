@@ -1,0 +1,18 @@
+@startuml
+class ChoiceSelectorChoice {
+    + choice : int
+    + SetChoice(index:int, choice:AbilityData) : void
+    + SetInteractable(interact:bool) : void
+    + Hide() : void
+    + OnClick() : void
+    + MouseEnter() : void
+    + MouseExit() : void
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- ChoiceSelectorChoice
+ChoiceSelectorChoice --> "title" Text
+ChoiceSelectorChoice --> "subtitle" Text
+ChoiceSelectorChoice --> "highlight" Image
+ChoiceSelectorChoice --> "onClick<int>" "UnityAction`1"
+@enduml

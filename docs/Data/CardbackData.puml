@@ -1,0 +1,15 @@
+@startuml
+class CardbackData {
+    + id : string
+    + sort_order : int
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : CardbackData
+    + {static} GetAll() : List<CardbackData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- CardbackData
+CardbackData --> "cardback" Sprite
+CardbackData --> "deck" Sprite
+CardbackData o-> "cardback_list<CardbackData>" "List`1"
+@enduml

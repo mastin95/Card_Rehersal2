@@ -1,0 +1,7 @@
+@startuml
+class DeviceVisibility {
+    + desktop : bool = true
+    + mobile : bool = true
+}
+MonoBehaviour <|-- DeviceVisibility
+@enduml

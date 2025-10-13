@@ -1,0 +1,9 @@
+@startuml
+class EffectDamageHalf {
+    + percentage : float = 0.5f
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + GetDamage(target:BattleCharacter) : int
+}
+EffectData <|-- EffectDamageHalf
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+class SceneNav {
+    + {static} RestartLevel() : void
+    + {static} GoTo(world:World) : void
+    + {static} GoTo(scene:string) : void
+    + {static} GoToLoginMenu() : void
+    + {static} GoToMenu() : void
+    + {static} GoToSetup() : void
+    + {static} GoToMap() : void
+    + {static} GetCurrentScene() : string
+    + {static} DoSceneExist(scene:string) : bool
+}
+@enduml

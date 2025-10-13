@@ -1,0 +1,75 @@
+@startuml
+class WebRequest {
+    + <<const>> METHOD_GET : string = "GET"
+    + <<const>> METHOD_POST : string = "POST"
+    + <<const>> METHOD_PATCH : string = "PATCH"
+    + <<const>> METHOD_DELETE : string = "DELETE"
+    + <<const>> timeout : int = 10
+    + {static} Create(url:string) : UnityWebRequest
+    + {static} Create(url:string, method:string, json_data:string, token:string) : UnityWebRequest
+    + {static} CreateRaw(url:string, method:string, contentType:string, data:byte[], token:string) : UnityWebRequest
+    + {static} CreateHeader(url:string) : UnityWebRequest
+    + {static} CreateTexture(url:string) : UnityWebRequest
+    + {static} CreateImageUploadForm(url:string, path:string, data:byte[], token:string) : UnityWebRequest
+    + {static} GetResponse(request:UnityWebRequest) : WebResponse
+    + {static} GetHeadResponse(request:UnityWebRequest) : HeadResponse
+}
+class WebTool {
+    + {static} JsonToObject(json:string) : T
+    + {static} JsonToArray(json:string) : T[]
+    + {static} ToJson(data:object) : string
+    + {static} Parse(int_str:string, default_val:int) : int
+    + {static} <<async>> SendRequest(url:string) : Task<WebResponse>
+    + {static} <<async>> SendRequest(request:UnityWebRequest) : Task<WebResponse>
+}
+class WebContext {
+    + method : string
+    + token : string
+    + path : string
+    + data : string
+    + SendResponse(value:T) : void
+    + SendResponse(value:ulong) : void
+    + SendResponse(value:int) : void
+    + SendResponse(value:bool) : void
+    + SendResponse(value:string) : void
+    + SendError(value:string) : void
+    + SendResponse() : void
+    + SendResponse(bytes:byte[], code:int) : void
+    + GetData() : T
+    + GetInt64() : ulong
+    + GetInt() : int
+    + GetBool() : bool
+    + GetClientID() : ulong
+    + GetIP() : string
+    + GetKey() : string
+    + IsKeyValid(key:string) : bool
+    + GetQuery(key:string) : string
+    + Close() : void
+    + {static} Create(http:HttpListenerContext) : WebContext
+}
+struct WebResponse {
+    + success : bool
+    + status : long
+    + data : string
+    + error : string
+    + GetInt64() : ulong
+    + GetInt() : int
+    + GetBool() : bool
+    + GetData() : T
+    + GetError() : string
+}
+class HeadResponse {
+    + success : bool
+    + status : long
+    + size : int
+    + content_type : string
+}
+class ErrorResponse {
+    + error : string
+}
+class "ListJson`1"<T> {
+    + error : string
+}
+WebContext --> "http" HttpListenerContext
+HeadResponse --> "last_edit" DateTime
+@enduml

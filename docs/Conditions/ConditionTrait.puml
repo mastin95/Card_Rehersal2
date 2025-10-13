@@ -1,0 +1,10 @@
+@startuml
+class ConditionTrait {
+    + value : int
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+}
+ConditionData <|-- ConditionTrait
+ConditionTrait --> "trait" TraitData
+ConditionTrait --> "oper" ConditionOperatorInt
+@enduml

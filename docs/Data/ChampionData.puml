@@ -1,0 +1,34 @@
+@startuml
+class ChampionData {
+    + id : string
+    + title : string
+    + hp : int
+    + speed : int
+    + hand : int
+    + energy : int
+    + level_up_hp : int
+    + level_up_speed : float
+    + level_up_hand : float
+    + level_up_energy : float
+    + desc : string
+    + {static} Load(folder:string) : void
+    + GetFullArt() : Sprite
+    + GetPortraitArt() : Sprite
+    + GetPrefab() : GameObject
+    + GetTitle() : string
+    + GetDesc() : string
+    + GetAbilitiesDesc() : string
+    + GetRewardCards(player:Player, rarity:RarityData) : List<CardData>
+    + GetLockedCards(player:Player) : List<CardData>
+    + {static} Get(id:string) : ChampionData
+    + {static} GetAll() : List<ChampionData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- ChampionData
+ChampionData --> "art_full" Sprite
+ChampionData --> "art_portrait" Sprite
+ChampionData --> "prefab" GameObject
+ChampionData --> "team" TeamData
+ChampionData o-> "champ_list<ChampionData>" "List`1"
+@enduml

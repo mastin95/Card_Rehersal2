@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1a0d041573c9166469dfe057eb6be0ad
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/UI/TutoBox.prefab
+  uploadId: 793508

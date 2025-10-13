@@ -1,0 +1,7 @@
+@startuml
+class EffectTransformCharacter {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectTransformCharacter
+EffectTransformCharacter --> "transform_to" CharacterData
+@enduml

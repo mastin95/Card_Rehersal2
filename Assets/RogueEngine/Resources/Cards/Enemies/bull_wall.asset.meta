@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dbab80bd8df97cc4cb6d26486c9cca2e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Enemies/bull_wall.asset
+  uploadId: 793508

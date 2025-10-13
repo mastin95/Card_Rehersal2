@@ -1,0 +1,11 @@
+@startuml
+class BehaviorData {
+    + <<virtual>> SelectPlayCard(data:Battle, character:BattleCharacter, cards:List<Card>, turn:int) : Card
+    + <<virtual>> SelectCharacterTarget(data:Battle, character:BattleCharacter, card:Card, characters:List<BattleCharacter>, turn:int) : BattleCharacter
+    + <<virtual>> SelectCardTarget(data:Battle, character:BattleCharacter, card:Card, cards:List<Card>, turn:int) : Card
+    + <<virtual>> SelectSlotTarget(data:Battle, character:BattleCharacter, card:Card, slots:List<Slot>, turn:int) : Slot
+    + <<virtual>> GetActionsPerTurn(data:Battle, character:BattleCharacter, turn:int) : int
+    + <<virtual>> GetBehaviorText() : string
+}
+ScriptableObject <|-- BehaviorData
+@enduml

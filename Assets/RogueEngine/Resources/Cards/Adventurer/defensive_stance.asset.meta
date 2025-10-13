@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4ee03696d5c179b4a8bdc86e7080ffb7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Adventurer/defensive_stance.asset
+  uploadId: 793508

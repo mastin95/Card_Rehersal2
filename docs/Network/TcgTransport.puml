@@ -1,0 +1,12 @@
+@startuml
+class TcgTransport {
+    + <<virtual>> Init() : void
+    + <<virtual>> SetServer(port:ushort) : void
+    + <<virtual>> SetClient(address:string, port:ushort) : void
+    + <<virtual>> SetHostRelayData(host:string, port:ushort, allocation_id:byte[], key:byte[], data:byte[]) : void
+    + <<virtual>> SetClientRelayData(host:string, port:ushort, allocation_id:byte[], key:byte[], data:byte[], host_data:byte[]) : void
+    + <<virtual>> GetAddress() : string
+    + <<virtual>> GetPort() : ushort
+}
+MonoBehaviour <|-- TcgTransport
+@enduml

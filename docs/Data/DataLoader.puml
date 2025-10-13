@@ -1,0 +1,9 @@
+@startuml
+class DataLoader {
+    + LoadData() : void
+    + {static} Get() : DataLoader
+}
+MonoBehaviour <|-- DataLoader
+DataLoader --> "data" GameplayData
+DataLoader --> "assets" AssetData
+@enduml

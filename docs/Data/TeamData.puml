@@ -1,0 +1,15 @@
+@startuml
+class TeamData {
+    + id : string
+    + title : string
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : TeamData
+    + {static} GetAll() : List<TeamData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- TeamData
+TeamData --> "icon" Sprite
+TeamData --> "color" Color
+TeamData o-> "team_list<TeamData>" "List`1"
+@enduml

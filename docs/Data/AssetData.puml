@@ -1,0 +1,25 @@
+@startuml
+class AssetData {
+    + {static} Get() : AssetData
+}
+ScriptableObject <|-- AssetData
+AssetData --> "character_spawn_fx" GameObject
+AssetData --> "character_destroy_fx" GameObject
+AssetData --> "damage_fx" GameObject
+AssetData --> "play_card_fx" GameObject
+AssetData --> "dice_roll_fx" GameObject
+AssetData --> "hover_text_box" GameObject
+AssetData --> "new_turn_fx" GameObject
+AssetData --> "win_fx" GameObject
+AssetData --> "lose_fx" GameObject
+AssetData --> "color_ui" Material
+AssetData --> "grayscale_ui" Material
+AssetData --> "character_spawn_audio" AudioClip
+AssetData --> "character_destroy_audio" AudioClip
+AssetData --> "hand_card_click_audio" AudioClip
+AssetData --> "new_turn_audio" AudioClip
+AssetData --> "win_audio" AudioClip
+AssetData --> "defeat_audio" AudioClip
+AssetData --> "win_music" AudioClip
+AssetData --> "defeat_music" AudioClip
+@enduml

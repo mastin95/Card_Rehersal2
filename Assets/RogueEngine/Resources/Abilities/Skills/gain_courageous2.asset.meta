@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7e8c32ceb1fde5b43be735636bc4a5c5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Skills/gain_courageous2.asset
+  uploadId: 793508

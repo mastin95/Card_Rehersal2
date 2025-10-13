@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4a6324894cd67d8489d2fdc24d5cd86a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Items/item_end_heal4.asset
+  uploadId: 793508

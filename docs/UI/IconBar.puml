@@ -1,0 +1,12 @@
+@startuml
+class IconBar {
+    + value : int = 0
+    + max_value : int = 4
+    + auto_refresh : bool = true
+    + Refresh() : void
+    + SetMat(mat:Material) : void
+}
+MonoBehaviour <|-- IconBar
+IconBar --> "sprite_full" Sprite
+IconBar --> "sprite_empty" Sprite
+@enduml

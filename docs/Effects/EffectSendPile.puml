@@ -1,0 +1,16 @@
+@startuml
+class EffectSendPile {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+enum PileType {
+    None= 0,
+    Hand= 20,
+    Power= 25,
+    Deck= 30,
+    Discard= 40,
+    Void= 50,
+    Temp= 90,
+}
+EffectData <|-- EffectSendPile
+EffectSendPile --> "pile" PileType
+@enduml

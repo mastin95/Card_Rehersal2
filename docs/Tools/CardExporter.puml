@@ -1,0 +1,11 @@
+@startuml
+class CardExporter {
+    + export_path : string = "C:/CardsExport"
+    + width : int = 856
+    + height : int = 1200
+    + level : int = 1
+}
+MonoBehaviour <|-- CardExporter
+CardExporter --> "render_cam" Camera
+CardExporter --> "card_ui" CardUI
+@enduml

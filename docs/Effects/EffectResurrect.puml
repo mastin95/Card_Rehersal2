@@ -1,0 +1,8 @@
+@startuml
+class EffectResurrect {
+    + percentage : float
+    + <<override>> DoMapEffect(logic:WorldLogic, ability:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectResurrect
+@enduml

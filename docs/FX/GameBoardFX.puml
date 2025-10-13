@@ -1,0 +1,5 @@
+@startuml
+class GameBoardFX {
+}
+MonoBehaviour <|-- GameBoardFX
+@enduml

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 087cde3718a1e0b409c0b88ae50c7ff8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Attacks/attack_damage2_all.asset
+  uploadId: 793508

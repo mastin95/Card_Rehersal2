@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 93ad65df42be48b49b87813d281daf03
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Status/magic_power_once.asset
+  uploadId: 793508

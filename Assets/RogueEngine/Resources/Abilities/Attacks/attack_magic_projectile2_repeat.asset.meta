@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 878e9ff546877f640a7cd1a6146bf332
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Attacks/attack_magic_projectile2_repeat.asset
+  uploadId: 793508

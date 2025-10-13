@@ -1,0 +1,22 @@
+@startuml
+class LobbyRoomPanel {
+    + max_chat_lines : int = 12
+    + ShowGame(room:LobbyGame) : void
+    + <<async>> StartGame(game:LobbyGame) : void
+    + OnClickStart() : void
+    + OnPressChatEnter() : void
+    + OnClickSendChat() : void
+    + OnClickBack() : void
+    + {static} Get() : LobbyRoomPanel
+}
+UIPanel <|-- LobbyRoomPanel
+LobbyRoomPanel --> "info_title" Text
+LobbyRoomPanel --> "info_subtitle" Text
+LobbyRoomPanel --> "info_players" Text
+LobbyRoomPanel --> "players_grid" Transform
+LobbyRoomPanel --> "players_line_template" PlayerLine
+LobbyRoomPanel --> "start_btn" Button
+LobbyRoomPanel --> "chat_group" Transform
+LobbyRoomPanel --> "chat_line_template" GameObject
+LobbyRoomPanel --> "chat_field" InputField
+@enduml

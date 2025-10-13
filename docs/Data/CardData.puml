@@ -1,0 +1,90 @@
+@startuml
+enum CardType {
+    None= 0,
+    Skill= 20,
+    Power= 30,
+}
+enum ItemType {
+    None= 0,
+    ItemQuest= 20,
+    ItemConsumable= 22,
+    ItemCard= 24,
+    ItemPassive= 26,
+}
+class CardData {
+    + id : string
+    + title : string
+    + mana : int
+    + level_max : int = 1
+    + upgrade_mana : int
+    + cost : int = 100
+    + text : string
+    + upg_text : string
+    + caster_anim : string
+    + target_anim : string
+    + {static} Load(folder:string) : void
+    + GetIconArt() : Sprite
+    + GetFullArt() : Sprite
+    + GetTitle() : string
+    + GetText(level:int, value_size:int) : string
+    + GetText(caster:BattleCharacter, card:Card, value_size:int) : string
+    + GetValue(ability_index:int, level:int) : int
+    + GetValue(ability_index:int, caster:BattleCharacter, card:Card) : int
+    + GetUpgradeCost(level:int) : int
+    + GetMana(level:int) : int
+    + GetPlayTypeId() : string
+    + GetTraitText() : string
+    + GetTips() : string
+    + GetAbilitiesDesc() : string
+    + IsItem() : bool
+    + IsCard() : bool
+    + IsBoardCard() : bool
+    + IsRequireTarget() : bool
+    + IsRequireTargetSpell(target:AbilityTarget) : bool
+    + IsDynamicManaCost() : bool
+    + HasTrait(trait:string) : bool
+    + HasTrait(trait:TraitData) : bool
+    + HasStat(trait:string) : bool
+    + HasStat(trait:TraitData) : bool
+    + GetStat(trait_id:string) : int
+    + GetStat(trait:TraitData) : int
+    + HasAbility(tability:AbilityData) : bool
+    + HasAbility(trigger:AbilityTrigger) : bool
+    + HasAbility(trigger:AbilityTrigger, target:AbilityTarget) : bool
+    + HasEffect(trigger:AbilityTrigger) : bool
+    + HasPlayTargetAbility() : bool
+    + HasPlayTargetAbility(target:AbilityTarget) : bool
+    + GetAbility(trigger:AbilityTrigger) : AbilityData
+    + IsAvailable(udata:UserData) : bool
+    + IsUnlockable(udata:UserData) : bool
+    + {static} Get(id:string) : CardData
+    + {static} GetRewardCards(user:UserData, team:TeamData, rarity:RarityData) : List<CardData>
+    + {static} GetRewardItems(user:UserData, team:TeamData, rarity:RarityData) : List<CardData>
+    + {static} GetRewardItems(user:UserData, item_list:CardData[], rarity:RarityData) : List<CardData>
+    + {static} GetLockedCards(user:UserData, team:TeamData) : List<CardData>
+    + {static} GetLockedItems(user:UserData, team:TeamData) : List<CardData>
+    + {static} GetAll() : List<CardData>
+}
+enum CardAvailability {
+    Available= 0,
+    Unlockable= 10,
+    Unlisted= 20,
+}
+class "List`1"<T> {
+}
+class "Dictionary`2"<T1,T2> {
+}
+ScriptableObject <|-- CardData
+CardData --> "art_icon" Sprite
+CardData --> "art_full" Sprite
+CardData --> "card_type" CardType
+CardData --> "item_type" ItemType
+CardData --> "team" TeamData
+CardData --> "rarity" RarityData
+CardData --> "intent" IntentData
+CardData --> "spawn_fx" GameObject
+CardData --> "spawn_audio" AudioClip
+CardData --> "availability" CardAvailability
+CardData o-> "card_list<CardData>" "List`1"
+CardData o-> "card_dict<string,CardData>" "Dictionary`2"
+@enduml

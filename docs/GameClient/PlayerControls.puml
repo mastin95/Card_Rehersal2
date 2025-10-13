@@ -1,0 +1,10 @@
+@startuml
+class PlayerControls {
+    + SelectCharacter(bcard:BoardCharacter) : void
+    + MouseRightClick() : void
+    + UnselectAll() : void
+    + GetSelected() : BoardCharacter
+    + {static} Get() : PlayerControls
+}
+MonoBehaviour <|-- PlayerControls
+@enduml

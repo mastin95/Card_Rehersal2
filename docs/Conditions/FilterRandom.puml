@@ -1,0 +1,10 @@
+@startuml
+class FilterRandom {
+    + amount : int = 1
+    + <<override>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<Card>, dest:List<Card>) : List<Card>
+    + <<override>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<BattleCharacter>, dest:List<BattleCharacter>) : List<BattleCharacter>
+    + <<override>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<Slot>, dest:List<Slot>) : List<Slot>
+    + <<override>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<CardData>, dest:List<CardData>) : List<CardData>
+}
+FilterData <|-- FilterRandom
+@enduml

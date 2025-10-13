@@ -1,0 +1,20 @@
+@startuml
+class EffectData {
+    + <<virtual>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+    + <<virtual>> DoMapEffect(logic:WorldLogic, ability:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : void
+    + <<virtual>> DoMapOngoingEffect(logic:WorldLogic, ability:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : void
+    + <<virtual>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card) : void
+    + <<virtual>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:Card) : void
+    + <<virtual>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<virtual>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:Slot) : void
+    + <<virtual>> DoEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:CardData) : void
+    + <<virtual>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:Card) : void
+    + <<virtual>> DoOngoingEffect(logic:BattleLogic, ability:AbilityData, character:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + AddOrSet(original_val:int, oper:EffectOperatorInt, add_value:int) : int
+}
+enum EffectOperatorInt {
+    Add,
+    Set,
+}
+ScriptableObject <|-- EffectData
+@enduml

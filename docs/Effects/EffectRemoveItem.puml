@@ -1,0 +1,7 @@
+@startuml
+class EffectRemoveItem {
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+}
+EffectData <|-- EffectRemoveItem
+EffectRemoveItem --> "item" CardData
+@enduml

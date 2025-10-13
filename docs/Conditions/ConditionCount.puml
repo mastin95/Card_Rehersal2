@@ -1,0 +1,18 @@
+@startuml
+enum ConditionPlayerType {
+    Self= 0,
+    Opponent= 1,
+    Both= 2,
+}
+class ConditionCount {
+    + value : int
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card) : bool
+}
+ConditionData <|-- ConditionCount
+ConditionCount --> "type" ConditionPlayerType
+ConditionCount --> "pile" PileType
+ConditionCount --> "oper" ConditionOperatorInt
+ConditionCount --> "has_type" ItemType
+ConditionCount --> "has_team" TeamData
+ConditionCount --> "has_trait" TraitData
+@enduml

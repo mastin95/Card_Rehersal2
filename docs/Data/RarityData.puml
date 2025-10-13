@@ -1,0 +1,16 @@
+@startuml
+class RarityData {
+    + id : string
+    + title : string
+    + probability : float = 1f
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : RarityData
+    + {static} GetAll() : List<RarityData>
+    + {static} GetTotalProbability() : float
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- RarityData
+RarityData --> "icon" Sprite
+RarityData o-> "rarity_list<RarityData>" "List`1"
+@enduml

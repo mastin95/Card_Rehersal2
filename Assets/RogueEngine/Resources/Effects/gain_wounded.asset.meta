@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 06b957c60c23ae34393b64e78b92e0e3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Effects/gain_wounded.asset
+  uploadId: 793508

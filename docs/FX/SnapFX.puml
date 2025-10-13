@@ -1,0 +1,7 @@
+@startuml
+class SnapFX {
+}
+MonoBehaviour <|-- SnapFX
+SnapFX --> "target" Transform
+SnapFX o-> "offset" Vector3
+@enduml

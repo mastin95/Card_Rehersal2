@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f0ed4c87b3263b245933a7fb794898b8
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Scenes/Game/BattleForest.unity
+  uploadId: 793508

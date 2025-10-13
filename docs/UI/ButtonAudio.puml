@@ -1,0 +1,6 @@
+@startuml
+class ButtonAudio {
+}
+MonoBehaviour <|-- ButtonAudio
+ButtonAudio --> "click_audio" AudioClip
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class AIPlayerBehavior {
+    + AIPlayerBehavior(gameplay:BattleLogic, id:int)
+    + <<override>> Update() : void
+    + PlayCard() : void
+    + SelectTarget() : void
+    + SelectCard() : void
+    + SelectChoice() : void
+    + SelectCost() : void
+    + CancelSelect() : void
+    + EndTurn() : void
+}
+AIPlayer <|-- AIPlayerBehavior
+@enduml

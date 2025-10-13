@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cde0f5f37f9cb06408d47203af5cb6fe
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/AimTarget.prefab
+  uploadId: 793508

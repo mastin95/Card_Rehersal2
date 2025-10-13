@@ -1,0 +1,12 @@
+@startuml
+class ConditionStatus {
+    + value : int = 0
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, character:BattleCharacter, card:Card) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:Slot) : bool
+}
+ConditionData <|-- ConditionStatus
+ConditionStatus --> "has_status" StatusEffect
+ConditionStatus --> "oper" ConditionOperatorBool
+@enduml

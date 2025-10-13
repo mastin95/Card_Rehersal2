@@ -1,0 +1,115 @@
+@startuml
+class GameClient {
+    + <<virtual>> Connect() : void
+    + <<virtual>> <<async>> HostServer() : void
+    + <<virtual>> <<async>> ConnectToServer() : void
+    + <<virtual>> <<async>> ConnectToGame() : void
+    + <<virtual>> Disconnect() : void
+    + OnReceiveRefresh(client_id:ulong, reader:FastBufferReader) : void
+    + CreateGame(scenario:ScenarioData) : void
+    + NewScenario(scenario:ScenarioData, filename:string, online:bool) : void
+    + NewScenario(scenario:ScenarioData, filename:string, title:string, online:bool) : void
+    + LoadScenario(filename:string) : void
+    + LoadScenario(world:World) : void
+    + SendUserData(udata:UserData) : void
+    + CreateChampion(champion:ChampionData, slot_x:int) : void
+    + DeleteChampion(slot_x:int) : void
+    + StartGame() : void
+    + StartGame(seed:int) : void
+    + StartTest(test_state:WorldState) : void
+    + ChangeState(state:WorldState) : void
+    + MapMove(champion:Champion, location:MapLocation) : void
+    + MapEventContinue() : void
+    + MapEventContinue(champion:Champion) : void
+    + MapSelectChoice(champion:Champion, choice:EventData) : void
+    + MapSelectCardReward(champion:Champion, card:CardData) : void
+    + MapSelectItemReward(champion:Champion, card:CardData) : void
+    + MapUpgradeCard(champion:Champion, card:ChampionCard) : void
+    + MapTrashCard(champion:Champion, card:ChampionCard) : void
+    + MapBuyCard(champion:Champion, card:CardData) : void
+    + MapBuyItem(champion:Champion, item:CardData) : void
+    + MapSellItem(champion:Champion, item:CardData) : void
+    + UseItem(character:Champion, item:ChampionCard) : void
+    + UseItem(character:BattleCharacter, item:Card) : void
+    + LevelUp(character:Champion) : void
+    + PlayCard(card:Card, target:Slot) : void
+    + MoveCharacter(character:BattleCharacter, target:Slot) : void
+    + CastAbility(card:Card, ability:AbilityData) : void
+    + SelectCard(card:Card) : void
+    + SelectCharacter(character:BattleCharacter) : void
+    + SelectSlot(slot:Slot) : void
+    + SelectChoice(c:int) : void
+    + SelectCost(c:int) : void
+    + CancelSelection() : void
+    + SendChatMsg(msg:string) : void
+    + EndTurn() : void
+    + Resign() : void
+    + SendAction(type:ushort, data:T, delivery:NetworkDelivery) : void
+    + SendAction(type:ushort, bytes:byte[], delivery:NetworkDelivery) : void
+    + SendAction(type:ushort, data:int) : void
+    + SendAction(type:ushort) : void
+    + <<virtual>> IsConnected() : bool
+    + <<virtual>> IsReady() : bool
+    + <<virtual>> IsBattleReady() : bool
+    + <<virtual>> IsGameStarted() : bool
+    + <<virtual>> IsGameCreated() : bool
+    + GetPlayer() : Player
+    + GetChampion() : Champion
+    + GetPlayerID() : int
+    + GetOpponentPlayerID() : int
+    + <<virtual>> IsYourTurn() : bool
+    + GetWorld() : World
+    + GetBattle() : Battle
+    + IsHost : bool <<get>>
+    + ServerID : ulong <<get>>
+    + {static} Get() : GameClient
+}
+class RefreshEvent {
+    + tag : ushort
+}
+class "UnityAction`1"<T> {
+}
+class "UnityAction`2"<T1,T2> {
+}
+class "UnityAction`3"<T1,T2,T3> {
+}
+MonoBehaviour <|-- GameClient
+GameClient o-> "connect_settings" ConnectSettings
+GameClient --> "onConnectedServer" UnityAction
+GameClient --> "onConnectedGame" UnityAction
+GameClient --> "onDisconnect" UnityAction
+GameClient --> "onPlayerConnect<int>" "UnityAction`1"
+GameClient --> "onPlayerDisconnect<int>" "UnityAction`1"
+GameClient --> "onGameStart" UnityAction
+GameClient --> "onGameEnd" UnityAction
+GameClient --> "onGameTest" UnityAction
+GameClient --> "onChatMsg<string,string>" "UnityAction`2"
+GameClient --> "onServerMsg<string>" "UnityAction`1"
+GameClient --> "onRefreshWorld" UnityAction
+GameClient --> "onRefreshBattle" UnityAction
+GameClient --> "onMapMove<Champion,MapLocation>" "UnityAction`2"
+GameClient --> "onEventStart<Champion,EventData>" "UnityAction`2"
+GameClient --> "onEventChoice<Champion,EventData>" "UnityAction`2"
+GameClient --> "onRewardChoice<Champion,CardData>" "UnityAction`2"
+GameClient --> "onUpgradeCard<Champion,CardData>" "UnityAction`2"
+GameClient --> "onBuyCard<Champion,CardData>" "UnityAction`2"
+GameClient --> "onBuyItem<Champion,CardData>" "UnityAction`2"
+GameClient --> "onBattleStart" UnityAction
+GameClient --> "onBattleEnd" UnityAction
+GameClient --> "onNewTurn" UnityAction
+GameClient --> "onCharacterMoved<BattleCharacter,Slot>" "UnityAction`2"
+GameClient --> "onCharacterDamaged<BattleCharacter,int>" "UnityAction`2"
+GameClient --> "onItemUsed<Card>" "UnityAction`1"
+GameClient --> "onCardPlayed<Card,Slot>" "UnityAction`2"
+GameClient --> "onCardTransformed<Card>" "UnityAction`1"
+GameClient --> "onCardDiscarded<Card>" "UnityAction`1"
+GameClient --> "onCardDraw<int>" "UnityAction`1"
+GameClient --> "onValueRolled<int>" "UnityAction`1"
+GameClient --> "onAbilityStart<AbilityData,Card>" "UnityAction`2"
+GameClient --> "onAbilityTargetCard<AbilityData,Card,Card>" "UnityAction`3"
+GameClient --> "onAbilityTargetCharacter<AbilityData,Card,BattleCharacter>" "UnityAction`3"
+GameClient --> "onAbilityTargetSlot<AbilityData,Card,Slot>" "UnityAction`3"
+GameClient --> "onAbilityEnd<AbilityData,Card>" "UnityAction`2"
+GameClient --> "Messaging" NetworkMessaging
+RefreshEvent --> "callback<SerializedData>" "UnityAction`1"
+@enduml

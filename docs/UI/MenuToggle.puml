@@ -1,0 +1,19 @@
+@startuml
+class MenuToggle {
+    + id : string
+    + group : string
+    + SetSelected(sel:bool) : void
+    + IsSelected() : bool
+    + OnClick() : void
+    + {static} GetSelectedID(group:string) : string
+    + {static} IsSelected(group:string) : bool
+    + {static} UnselectAll(group:string) : void
+    + {static} GetAll(group:string) : List<MenuToggle>
+    + {static} GetAll() : List<MenuToggle>
+}
+class "UnityAction`1"<T> {
+}
+MonoBehaviour <|-- MenuToggle
+MenuToggle --> "highlight" Image
+MenuToggle --> "onToggle<MenuToggle>" "UnityAction`1"
+@enduml

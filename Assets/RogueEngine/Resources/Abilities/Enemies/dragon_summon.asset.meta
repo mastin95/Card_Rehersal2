@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 88068aa2007d25446bf98e3db0a3d52a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Abilities/Enemies/dragon_summon.asset
+  uploadId: 793508

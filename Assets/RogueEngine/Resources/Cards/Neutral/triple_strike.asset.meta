@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d292ef572bdb4c45acd1bc9824c4584
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Cards/Neutral/triple_strike.asset
+  uploadId: 793508

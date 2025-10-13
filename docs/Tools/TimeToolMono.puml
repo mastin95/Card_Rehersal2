@@ -1,0 +1,8 @@
+@startuml
+class TimeToolMono {
+    + StartRoutine(routine:IEnumerator) : Coroutine
+    + StopRoutine(routine:Coroutine) : void
+}
+MonoBehaviour <|-- TimeToolMono
+TimeToolMono --> "Inst" TimeToolMono
+@enduml

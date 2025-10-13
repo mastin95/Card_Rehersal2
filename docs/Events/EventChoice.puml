@@ -1,0 +1,15 @@
+@startuml
+class EventChoice {
+    + text : string
+    + <<override>> AreEventsConditionMet(world:World, champion:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, champion:Champion) : void
+    + <<override>> GetText() : string
+    + {static} <<new>> Get(id:string) : EventChoice
+}
+class ChoiceElement {
+    + text : string
+    + subtext : string
+}
+EventData <|-- EventChoice
+ChoiceElement --> "effect" EventData
+@enduml

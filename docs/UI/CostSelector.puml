@@ -1,0 +1,13 @@
+@startuml
+class CostSelector {
+    + RefreshPanel() : void
+    + OnClickOK() : void
+    + OnClickCancel() : void
+    + <<override>> Show(iability:AbilityData, caster:BattleCharacter, card:Card) : void
+    + <<override>> Show(instant:bool) : void
+    + <<override>> ShouldShow() : bool
+    + {static} Get() : CostSelector
+}
+SelectorPanel <|-- CostSelector
+CostSelector --> "selector" NumberSelector
+@enduml

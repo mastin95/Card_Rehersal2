@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cf28107a77279474c8ddf6961610fb83
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Effects/gain_exhausted.asset
+  uploadId: 793508

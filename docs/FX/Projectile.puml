@@ -1,0 +1,15 @@
+@startuml
+class Projectile {
+    + speed : float = 5f
+    + duration : float = 5f
+    + damage : int
+    + DelayDamage() : void
+    + SetSource(source:Transform) : void
+    + SetSource(source:Transform, offset:Vector3) : void
+    + SetTarget(target:Transform) : void
+    + SetTarget(target:Transform, offset:Vector3) : void
+}
+MonoBehaviour <|-- Projectile
+Projectile --> "explode_fx" GameObject
+Projectile --> "explode_audio" AudioClip
+@enduml

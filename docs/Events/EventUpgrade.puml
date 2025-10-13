@@ -1,0 +1,8 @@
+@startuml
+class EventUpgrade {
+    + free_upgrades : int = 1
+    + <<override>> AreEventsConditionMet(world:World, champion:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, champion:Champion) : void
+}
+EventData <|-- EventUpgrade
+@enduml

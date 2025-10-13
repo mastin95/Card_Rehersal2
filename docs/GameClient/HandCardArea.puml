@@ -1,0 +1,16 @@
+@startuml
+class HandCardArea {
+    + card_spacing : float = 100f
+    + card_angle : float = 10f
+    + card_offset_y : float = 10f
+    + SpawnNewCard(card:Card) : void
+    + DelayRefresh(card:Card) : void
+    + SortCards() : void
+    + HasCard(card_uid:string) : bool
+    + IsDragging() : bool
+    + {static} Get() : HandCardArea
+}
+MonoBehaviour <|-- HandCardArea
+HandCardArea --> "card_prefab" GameObject
+HandCardArea --> "card_area" RectTransform
+@enduml

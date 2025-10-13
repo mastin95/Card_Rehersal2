@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: df4c6ef07447f2d4f963ecea6d5bac36
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/FlashFX.prefab
+  uploadId: 793508

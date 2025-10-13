@@ -1,0 +1,17 @@
+@startuml
+class GameTool <<static>> {
+    + {static} GenerateRandomID(min:int, max:int) : string
+    + {static} GenerateRandomInt() : int
+    + {static} GenerateRandomUInt64() : ulong
+    + {static} Pick1Random(source:List<T>) : T
+    + {static} Pick1Random(source:List<T>, seed:int) : T
+    + {static} PickXRandom(source:List<T>, dest:List<T>, x:int) : List<T>
+    + {static} PickXRandom(source:List<T>, dest:List<T>, x:int, seed:int) : List<T>
+    + {static} PickXRandom(source:List<T>, dest:List<T>, x:int, rand:System.Random) : List<T>
+    + {static} CloneList(source:List<string>, dest:List<string>) : void
+    + {static} CloneListRef(source:List<T>, dest:List<T>) : void
+    + {static} CloneListRefNull(source:List<T>, dest:List<T>) : void
+    + {static} IsMobile() : bool
+    + {static} IsURP() : bool
+}
+@enduml

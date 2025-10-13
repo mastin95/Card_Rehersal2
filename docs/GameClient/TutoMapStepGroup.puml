@@ -1,0 +1,14 @@
+@startuml
+class TutoMapStepGroup {
+    + group_id : string
+    + depth_min : int = 1
+    + depth_max : int = 99
+    + forced : bool
+    + SetTriggered() : void
+    + HasChampion(champion_id:string) : bool
+    + {static} Get(trigger:TutoMapStartTrigger, depth:int, champion:Champion, evt:EventData) : TutoMapStepGroup
+}
+MonoBehaviour <|-- TutoMapStepGroup
+TutoMapStepGroup --> "start_trigger" TutoMapStartTrigger
+TutoMapStepGroup --> "start_target" EventData
+@enduml

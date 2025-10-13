@@ -1,0 +1,27 @@
+@startuml
+class SettingsPanel {
+    + tab_group : string
+    + OnClickOK() : void
+    + <<override>> Show(instant:bool) : void
+    + <<override>> Hide(instant:bool) : void
+    + {static} Get() : SettingsPanel
+}
+class "HashSet`1"<T> {
+}
+class "List`1"<T> {
+}
+UIPanel <|-- SettingsPanel
+SettingsPanel --> "master_vol" SliderDrag
+SettingsPanel --> "music_vol" SliderDrag
+SettingsPanel --> "sfx_vol" SliderDrag
+SettingsPanel --> "quality" SliderDrag
+SettingsPanel --> "resolution" SliderDrag
+SettingsPanel --> "windowed" Toggle
+SettingsPanel --> "master_vol_txt" Text
+SettingsPanel --> "music_vol_txt" Text
+SettingsPanel --> "sfx_vol_txt" Text
+SettingsPanel --> "quality_txt" Text
+SettingsPanel --> "resolution_txt" Text
+SettingsPanel o-> "reso_hash<string>" "HashSet`1"
+SettingsPanel o-> "resolutions<Resolution>" "List`1"
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class EventText {
+    + text : string
+    + <<override>> AreEventsConditionMet(world:World, champion:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, champion:Champion) : void
+}
+EventData <|-- EventText
+EventText --> "chain_event" EventData
+@enduml

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 90f2ce42fe25ee5478fbbe481f64d3d3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/MapEvents/Battles/battle_bull_hound.asset
+  uploadId: 793508

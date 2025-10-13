@@ -1,0 +1,10 @@
+@startuml
+class LoadPanel {
+    + <<virtual>> RefreshPanel() : void
+    + ShowSolo() : void
+    + ShowMultiplayer() : void
+    + <<override>> Show(instant:bool) : void
+    + {static} Get() : LoadPanel
+}
+UIPanel <|-- LoadPanel
+@enduml

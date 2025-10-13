@@ -1,0 +1,11 @@
+@startuml
+class MapUI {
+    + OnClickMenu() : void
+    + OnClickQuit() : void
+    + OnClickSave() : void
+    + IsPanelOpen() : bool
+    + {static} Get() : MapUI
+}
+MonoBehaviour <|-- MapUI
+MapUI --> "gold_txt" Text
+@enduml

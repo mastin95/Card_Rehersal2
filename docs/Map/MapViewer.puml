@@ -1,0 +1,24 @@
+@startuml
+class MapViewer {
+    + row_spacing : float = 1f
+    + index_spacing : float = 1f
+    + row_offset : float = 5f
+    + scroll_accel : float = 20f
+    + scroll_speed_key : float = 8f
+    + scroll_speed_mouse : float = 1f
+    + scroll_speed_wheel : float = 40f
+    + scroll_speed_auto : float = 4f
+    + auto_scroll_offset : float
+    + GenerateMap() : void
+    + MoveTo(point:MapLocationDot) : void
+    + MoveToward(point:MapLocationDot, speed:float) : void
+    + GetPosition(map:Map, loc:MapLocation) : Vector3
+    + GetMapID() : string
+    + HasChanged() : bool
+    + {static} Get() : MapViewer
+}
+MonoBehaviour <|-- MapViewer
+MapViewer --> "map_dot_prefab" GameObject
+MapViewer --> "map_line_prefab" GameObject
+MapViewer --> "scroll_trans" Transform
+@enduml

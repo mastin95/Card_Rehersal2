@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a12deeffd1eefbb4f878c6692e5363fd
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Prefabs/FX/PhoenixFX.prefab
+  uploadId: 793508

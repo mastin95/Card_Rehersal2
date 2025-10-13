@@ -1,0 +1,14 @@
+@startuml
+class HoverTextBox {
+    + Show(hover:HoverTarget) : void
+    + Show(hover:HoverTargetUI) : void
+    + Hide() : void
+    + IsVisible() : bool
+    + {static} Get() : HoverTextBox
+}
+MonoBehaviour <|-- HoverTextBox
+HoverTextBox --> "panel_left" UIPanel
+HoverTextBox --> "panel_right" UIPanel
+HoverTextBox --> "text1" Text
+HoverTextBox --> "text2" Text
+@enduml

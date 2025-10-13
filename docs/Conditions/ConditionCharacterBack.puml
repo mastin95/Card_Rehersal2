@@ -1,0 +1,7 @@
+@startuml
+class ConditionCharacterBack {
+    + <<override>> IsTargetConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : bool
+}
+ConditionData <|-- ConditionCharacterBack
+ConditionCharacterBack --> "oper" ConditionOperatorBool
+@enduml

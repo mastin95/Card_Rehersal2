@@ -1,0 +1,73 @@
+@startuml
+class GameServer {
+    + {static} game_expire_time : float = 30f
+    + {static} players_max : int = 4
+    + GameServer(world:World, online:bool)
+    + <<virtual>> Update() : void
+    + ReceiveAction(client_id:ulong, reader:FastBufferReader) : void
+    + ExecuteAction(type:ushort, client:ClientData, sdata:SerializedData) : void
+    + ReceiveCreateScenario(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveLoadScenario(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveUserData(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveCreateChampion(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveDeleteChampion(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveStartGame(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveStartTest(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveMapMove(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveCompleteAction(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveCompleteActionChampion(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveChangeState(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveMapRewardCard(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveMapRewardItem(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveMapChoice(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveMapUpgrade(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveLevelUp(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveTrashCard(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveBuyItem(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveBuyCard(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveSellItem(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveUseItem(iclient:ClientData, sdata:SerializedData) : void
+    + ReceivePlayCard(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveMoveCharacter(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveCastCardAbility(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveSelectCard(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveSelectCharacter(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveSelectSlot(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveSelectChoice(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveSelectCost(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveCancelSelection(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveEndTurn(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveResign(iclient:ClientData, sdata:SerializedData) : void
+    + ReceiveChat(iclient:ClientData, sdata:SerializedData) : void
+    + <<virtual>> SetWorld(world:World) : void
+    + <<virtual>> StartScenario(world:World) : void
+    + AddClient(client:ClientData) : void
+    + RemoveClient(client:ClientData) : void
+    + GetClient(client_id:ulong) : ClientData
+    + AddPlayer(client:ClientData) : int
+    + AfterPlayerConnected(player_id:int) : void
+    + GetPlayer(client:ClientData) : Player
+    + GetPlayer(user_id:string) : Player
+    + IsPlayer(user_id:string) : bool
+    + IsConnectedPlayer(user_id:string) : bool
+    + CountPlayers() : int
+    + <<virtual>> GetMaxPlayers() : int
+    + CountConnectedPlayers() : int
+    + GetWorldData() : World
+    + GetBattleData() : Battle
+    + <<virtual>> HasStarted() : bool
+    + <<virtual>> HasEnded() : bool
+    + <<virtual>> IsExpired() : bool
+    + <<virtual>> RefreshWorld() : void
+    + <<virtual>> RefreshBattle() : void
+    + SendToAll(tag:ushort) : void
+    + SendToAll(tag:ushort, data:INetworkSerializable, delivery:NetworkDelivery) : void
+    + ServerID : ulong <<get>>
+}
+struct QueuedGameAction {
+    + type : ushort
+}
+GameServer --> "Messaging" NetworkMessaging
+QueuedGameAction --> "client" ClientData
+QueuedGameAction --> "sdata" SerializedData
+@enduml

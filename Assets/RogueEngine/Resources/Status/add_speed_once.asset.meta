@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: aa615dd06f089e045894b3aa42cdaf3c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Status/add_speed_once.asset
+  uploadId: 793508

@@ -1,0 +1,14 @@
+@startuml
+class AvatarData {
+    + id : string
+    + sort_order : int
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : AvatarData
+    + {static} GetAll() : List<AvatarData>
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- AvatarData
+AvatarData --> "avatar" Sprite
+AvatarData o-> "avatar_list<AvatarData>" "List`1"
+@enduml

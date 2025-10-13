@@ -1,0 +1,5 @@
+@startuml
+!include .\\BehaviorBoss.puml
+!include .\\BehaviorRandom.puml
+!include .\\BehaviorSequence.puml
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class MapScene {
+    + FadeToScene(scene:string) : void
+    + RunFade(scene:string) : IEnumerator
+}
+MonoBehaviour <|-- MapScene
+@enduml

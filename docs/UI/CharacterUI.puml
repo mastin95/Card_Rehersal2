@@ -1,0 +1,16 @@
+@startuml
+class CharacterUI {
+    + Set(champion:Champion) : void
+    + Set(character:BattleCharacter) : void
+    + SetHP(hp_value:int) : void
+    + SetIntent(character:BattleCharacter) : void
+}
+MonoBehaviour <|-- CharacterUI
+CharacterUI --> "username" Text
+CharacterUI --> "turn_glow" Image
+CharacterUI --> "select_glow" Image
+CharacterUI --> "hp_bar" ProgressBar
+CharacterUI --> "shield_group" GameObject
+CharacterUI --> "shield" Text
+CharacterUI --> "intent_icon" IntentIcon
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+class AudioTool {
+    + master_vol : float = 1f
+    + sfx_vol : float = 1f
+    + music_vol : float = 1f
+    + PlaySFX(channel:string, sound:AudioClip, vol:float, priority:bool, loop:bool) : void
+    + PlayMusic(channel:string, music:AudioClip, vol:float, loop:bool) : void
+    + PlaySFX(channel:string, sounds:AudioClip[], vol:float, priority:bool, loop:bool) : void
+    + PlayMusic(channel:string, musics:AudioClip[], vol:float, loop:bool) : void
+    + StopSFX(channel:string) : void
+    + StopMusic(channel:string) : void
+    + FadeOutMusic(channel:string) : void
+    + FadeOutSFX(channel:string) : void
+    + SetMasterVolume(value:float) : void
+    + SetMusicVolume(value:float) : void
+    + SetSFXVolume(value:float) : void
+    + LoadPrefs() : void
+    + SavePrefs() : void
+    + RefreshVolume() : void
+    + IsMusicPlaying(channel:string) : bool
+    + CreateChannel(channel:string, priority:int) : AudioSource
+    + GetChannel(channel:string) : AudioSource
+    + GetMusicChannel(channel:string) : AudioSource
+    + DoesChannelExist(channel:string) : bool
+    + DoesMusicChannelExist(channel:string) : bool
+    + GetMasterVolume() : float
+    + GetSFXVolume() : float
+    + GetMusicVolume() : float
+    + {static} Get() : AudioTool
+}
+MonoBehaviour <|-- AudioTool
+@enduml

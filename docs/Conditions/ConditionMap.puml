@@ -1,0 +1,8 @@
+@startuml
+class ConditionMap {
+    + <<override>> IsMapEventConditionMet(data:World, evt:EventEffect, champion:Champion) : bool
+}
+ConditionData <|-- ConditionMap
+ConditionMap --> "map" MapData
+ConditionMap --> "oper" ConditionOperatorBool
+@enduml

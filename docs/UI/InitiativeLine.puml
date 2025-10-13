@@ -1,0 +1,18 @@
+@startuml
+class InitiativeLine {
+    + SetLine(character:BattleCharacter) : void
+    + Hide() : void
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+    + {static} GetHoverCharacter() : BattleCharacter
+}
+MonoBehaviour <|-- InitiativeLine
+IPointerEnterHandler <|-- InitiativeLine
+IPointerExitHandler <|-- InitiativeLine
+InitiativeLine --> "bg_img" Image
+InitiativeLine --> "card_img" Image
+InitiativeLine --> "speed" Text
+InitiativeLine --> "bg_ally" Sprite
+InitiativeLine --> "bg_enemy" Sprite
+InitiativeLine --> "RectTransform" RectTransform
+@enduml

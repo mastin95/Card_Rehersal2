@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7c44fa1caa4ccb14b8abd20ac8c9b5fe
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Status/courageous.asset
+  uploadId: 793508

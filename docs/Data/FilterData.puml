@@ -1,0 +1,9 @@
+@startuml
+class FilterData {
+    + <<virtual>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<Card>, dest:List<Card>) : List<Card>
+    + <<virtual>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<BattleCharacter>, dest:List<BattleCharacter>) : List<BattleCharacter>
+    + <<virtual>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<Slot>, dest:List<Slot>) : List<Slot>
+    + <<virtual>> FilterTargets(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card, source:List<CardData>, dest:List<CardData>) : List<CardData>
+}
+ScriptableObject <|-- FilterData
+@enduml

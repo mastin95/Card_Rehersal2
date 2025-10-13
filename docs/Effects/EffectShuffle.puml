@@ -1,0 +1,6 @@
+@startuml
+class EffectShuffle {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+}
+EffectData <|-- EffectShuffle
+@enduml

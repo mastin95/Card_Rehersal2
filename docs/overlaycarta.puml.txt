@@ -1,0 +1,35 @@
+﻿@startuml
+title Pipeline de una carta (DATA → RUNTIME)
+
+actor "Enemy/Player" as Actor
+participant GameServer
+participant BattleLogic
+participant AbilityData
+participant ConditionData
+participant FilterData
+participant EffectData
+participant Battle as "Battle/BattleCharacter"
+
+== Jugar carta ==
+Actor -> GameServer : GameAction(PlayCard)
+GameServer -> BattleLogic : Validate & PlayCard(...)
+
+BattleLogic -> AbilityData : for each ability
+AbilityData -> ConditionData : IsTriggerConditionMet(...)
+ConditionData --> AbilityData : true/false
+
+alt condiciones OK
+  AbilityData -> FilterData : ResolveTargets(...)
+  FilterData --> AbilityData : List<Targets>
+
+  loop por cada Effect
+    AbilityData -> EffectData : DoEffect(battle, caster, targets, ctx)
+    EffectData -> Battle : aplicar daño / status / invocar...
+  end
+else
+  AbilityData --> BattleLogic : skip ability
+end
+
+BattleLogic -> Battle : actualizar estado / comprobar Win-Lose
+
+@enduml

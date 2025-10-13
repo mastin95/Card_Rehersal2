@@ -1,0 +1,36 @@
+﻿# ---- Unity (gitignore básico) ----
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+Assets/AssetStoreTools*
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+# TextMesh Pro cache
+Assets/TextMesh Pro/**/Resources/Fonts & Materials/*.asset
+# Colab/Plastic/VS
+.vs/
+.vscode/
+.idea/
+# Sistema
+.DS_Store
+Thumbs.db
+# Addressables/Baked
+Assets/AddressableAssetsData/*
+# Logs
+*.log

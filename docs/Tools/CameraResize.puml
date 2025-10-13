@@ -1,0 +1,14 @@
+@startuml
+class CameraResize {
+    + aspect_ratio_min : float
+    + aspect_ratio_max : float
+    + cam_size_min : float = 5f
+    + cam_size_max : float = 5.5f
+    + cam_fov_min : float = 50f
+    + cam_fov_max : float = 55f
+    + UpdateSize() : void
+    + GetAspectRatio() : float
+    + GetAspectPercentage() : float
+}
+MonoBehaviour <|-- CameraResize
+@enduml

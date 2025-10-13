@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7332246390264f74396b40d86b2bd615
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Intents/intent_defend.asset
+  uploadId: 793508

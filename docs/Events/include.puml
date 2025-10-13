@@ -1,0 +1,15 @@
+@startuml
+!include .\\EventBattle.puml
+!include .\\EventBattleFixed.puml
+!include .\\EventChoice.puml
+!include .\\EventEffect.puml
+!include .\\EventGain.puml
+!include .\\EventLose.puml
+!include .\\EventRandom.puml
+!include .\\EventReward.puml
+!include .\\EventShop.puml
+!include .\\EventState.puml
+!include .\\EventText.puml
+!include .\\EventTrade.puml
+!include .\\EventUpgrade.puml
+@enduml

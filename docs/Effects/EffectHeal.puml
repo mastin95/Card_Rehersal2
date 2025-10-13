@@ -1,0 +1,9 @@
+@startuml
+class EffectHeal {
+    + <<override>> DoMapEventEffect(logic:WorldLogic, evt:EventEffect, champion:Champion) : void
+    + <<override>> DoMapEffect(logic:WorldLogic, ability:AbilityData, champion:Champion, item:ChampionItem, target:Champion) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:Card) : void
+}
+EffectData <|-- EffectHeal
+@enduml

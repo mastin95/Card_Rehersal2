@@ -1,0 +1,86 @@
+@startuml
+class Champion {
+    + character_id : string
+    + player_id : int
+    + uid : string
+    + position : int
+    + level : int
+    + xp : int
+    + hp : int
+    + damage : int
+    + speed : float
+    + hand : float
+    + energy : float
+    + free_upgrades : int = 0
+    + action_completed : bool = false
+    + ongoing_gold_bonus : float = 0f
+    + ongoing_xp_bonus : float = 0f
+    + ongoing_buy_factor : float = 0f
+    + ongoing_sell_factor : float = 0f
+    + Champion()
+    + Champion(id:int, uid:string)
+    + <<virtual>> GetHP() : int
+    + <<virtual>> GetHPMax() : int
+    + <<virtual>> GetDamage() : int
+    + <<virtual>> IsDead() : bool
+    + <<virtual>> GetSpeed() : int
+    + <<virtual>> GetHand() : int
+    + <<virtual>> GetEnergy() : int
+    + <<virtual>> GetLevel() : int
+    + <<virtual>> ClearOngoing() : void
+    + AddCard(icard:CardData, level:int) : void
+    + UpgradeCard(uid:string) : void
+    + RemoveCard(icard:CardData) : void
+    + RemoveCard(uid:string) : void
+    + GetCard(card:CardData) : ChampionCard
+    + GetCard(uid:string) : ChampionCard
+    + AddItem(iitem:CardData, quantity:int) : void
+    + RemoveItem(icard:CardData, quantity:int) : void
+    + RemoveItem(item_id:string, quantity:int) : void
+    + GetItem(item_id:string) : ChampionItem
+    + HasItem(item:CardData) : bool
+    + CountItem(card:CardData) : int
+    + HasCard(card:CardData) : bool
+    + CountCard(card:CardData) : int
+    + GetDeck() : List<ChampionCard>
+    + CanLevelUp() : bool
+    + GetTotalXP() : int
+    + GetGoldFactor() : float
+    + GetXPFactor() : float
+    + Hash : int <<get>>
+    + {static} Create(champion:ChampionData, player_id:int) : Champion
+}
+class ChampionCard {
+    + card_id : string
+    + uid : string
+    + level : int
+    + ChampionCard()
+    + ChampionCard(icard:CardData, lvl:int)
+}
+class ChampionItem {
+    + card_id : string
+    + quantity : int
+    + ChampionItem()
+    + ChampionItem(icard:CardData, q:int)
+}
+class CharacterAlly {
+    + character_id : string
+    + uid : string
+    + player_id : int
+    + position : int
+    + damage : int
+    + level : int
+    + CharacterAlly()
+    + CharacterAlly(charact:CharacterData, pid:int, lvl:int)
+}
+class "List`1"<T> {
+}
+Champion o-> "reward" Reward
+Champion o-> "cards<ChampionCard>" "List`1"
+Champion o-> "inventory<ChampionItem>" "List`1"
+Champion o-> "allies<CharacterAlly>" "List`1"
+Champion --> "ChampionData" ChampionData
+ChampionCard --> "CardData" CardData
+ChampionItem --> "CardData" CardData
+CharacterAlly --> "CharacterData" CharacterData
+@enduml

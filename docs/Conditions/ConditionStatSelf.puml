@@ -1,0 +1,10 @@
+@startuml
+class ConditionStatSelf {
+    + value : int
+    + <<override>> IsMapEventConditionMet(data:World, evt:EventEffect, champion:Champion) : bool
+    + <<override>> IsTriggerConditionMet(data:Battle, ability:AbilityData, caster:BattleCharacter, card:Card) : bool
+}
+ConditionData <|-- ConditionStatSelf
+ConditionStatSelf --> "type" EffectStatType
+ConditionStatSelf --> "oper" ConditionOperatorInt
+@enduml

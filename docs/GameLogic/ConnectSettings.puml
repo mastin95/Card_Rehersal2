@@ -1,0 +1,25 @@
+@startuml
+enum GameType {
+    Solo= 0,
+    MultiHost= 10,
+    MultiJoin= 15,
+    RelayHost= 20,
+    RelayJoin= 25,
+}
+class ConnectSettings {
+    + server_url : string
+    + game_uid : string
+    + filename : string
+    + title : string
+    + file_host : bool
+    + load : bool
+    + <<virtual>> GetUrl() : string
+    + <<virtual>> IsOnline() : bool
+    + <<virtual>> IsServerHost() : bool
+    + <<virtual>> IsRelay() : bool
+    + <<virtual>> IsFileHost() : bool
+}
+ConnectSettings --> "game_type" GameType
+ConnectSettings --> "relay_data" RelayConnectData
+ConnectSettings --> "Default" ConnectSettings
+@enduml

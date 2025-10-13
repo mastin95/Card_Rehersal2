@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ddbee184940c6224e8c12d0a7fc4c6a6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Effects/add_mana_next.asset
+  uploadId: 793508

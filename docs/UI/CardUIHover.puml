@@ -1,0 +1,16 @@
+@startuml
+class CardUIHover {
+    + SetCard(owner:BattleCharacter, card:Card, valid:bool) : void
+    + Hide() : void
+    + GetCard() : Card
+    + GetCardData() : CardData
+    + IsFocus() : bool
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+    + {static} GetFocus() : CardUIHover
+    + {static} GetAll() : List<CardUIHover>
+}
+MonoBehaviour <|-- CardUIHover
+IPointerEnterHandler <|-- CardUIHover
+IPointerExitHandler <|-- CardUIHover
+@enduml

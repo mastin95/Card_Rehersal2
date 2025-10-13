@@ -1,0 +1,19 @@
+@startuml
+class MapLocation {
+    + map_id : string
+    + seed : int
+    + depth : int
+    + index : int
+    + evt_id : string
+    + explored : bool
+    + ID : int <<get>>
+    + MapLocation(map_id:string, seed:int, depth:int, index:int, evt:EventData)
+    + AddAdjacent(loc:MapLocation) : void
+    + IsAdjacent(loc:MapLocation) : bool
+    + GetEvent() : EventData
+    + {static} GetID(d:int, i:int) : int
+}
+class "List`1"<T> {
+}
+MapLocation o-> "adjacency<int>" "List`1"
+@enduml

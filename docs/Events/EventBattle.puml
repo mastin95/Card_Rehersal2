@@ -1,0 +1,22 @@
+@startuml
+class EventBattle {
+    + scene : string
+    + enemies_level : int = 1
+    + reward_gold : float
+    + reward_xp : float
+    + reward_cards : bool = true
+    + reward_items : bool = false
+    + <<override>> AreEventsConditionMet(world:World, champion:Champion) : bool
+    + <<override>> DoEvent(logic:WorldLogic, champion:Champion) : void
+    + {static} <<new>> Get(id:string) : EventBattle
+}
+struct ExtraBattleEnemy {
+    + champions_min : int
+}
+EventData <|-- EventBattle
+EventBattle --> "card_rarity" RarityData
+EventBattle --> "item_rarity" RarityData
+EventBattle --> "item_team" TeamData
+EventBattle --> "tutorial" GameObject
+EventBattle --> "win_event" EventData
+@enduml

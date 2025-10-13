@@ -1,0 +1,20 @@
+@startuml
+class TraitData {
+    + id : string
+    + title : string
+    + desc : string
+    + GetTitle() : string
+    + {static} Load(folder:string) : void
+    + {static} Get(id:string) : TraitData
+    + {static} GetAll() : List<TraitData>
+}
+struct TraitStat {
+    + value : int
+}
+class "List`1"<T> {
+}
+ScriptableObject <|-- TraitData
+TraitData --> "icon" Sprite
+TraitData o-> "trait_list<TraitData>" "List`1"
+TraitStat --> "trait" TraitData
+@enduml

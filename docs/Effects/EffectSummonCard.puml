@@ -1,0 +1,8 @@
+@startuml
+class EffectSummonCard {
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:BattleCharacter) : void
+    + <<override>> DoEffect(logic:BattleLogic, ability:AbilityData, caster:BattleCharacter, card:Card, target:CardData) : void
+}
+EffectData <|-- EffectSummonCard
+EffectSummonCard --> "summon" CardData
+@enduml

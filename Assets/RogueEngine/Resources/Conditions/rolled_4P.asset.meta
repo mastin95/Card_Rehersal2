@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a67f69476b187ae4b9828349ce2eb19e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 282908
+  packageName: TCG Engine - Roguelike Co-op Card Game
+  packageVersion: 1.09
+  assetPath: Assets/RogueEngine/Resources/Conditions/rolled_4P.asset
+  uploadId: 793508

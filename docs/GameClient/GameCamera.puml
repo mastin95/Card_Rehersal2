@@ -1,0 +1,12 @@
+@startuml
+class GameCamera {
+    + Shake(intensity:float, duration:float) : void
+    + MouseToPercent(mouse_pos:Vector3) : Vector2
+    + MouseToRay(mouse_pos:Vector3) : Ray
+    + MouseToWorld(mouse_pos:Vector3) : Vector3
+    + {static} GetCamera() : Camera
+    + {static} GetUICamera() : Camera
+    + {static} Get() : GameCamera
+}
+MonoBehaviour <|-- GameCamera
+@enduml

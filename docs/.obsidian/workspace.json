@@ -1,0 +1,184 @@
+{
+  "main": {
+    "id": "bb6e09189b5730dc",
+    "type": "split",
+    "children": [
+      {
+        "id": "77f810ecf3171eda",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d89ea46ab6ea162b",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "fdb5a93dafaa213b",
+    "type": "split",
+    "children": [
+      {
+        "id": "0f6bcedb552f14c4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "683fce0bafe14f28",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "d0c6c6995947444c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "2f061cb51ee73eb0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3c4504cbf0b5a875",
+    "type": "split",
+    "children": [
+      {
+        "id": "2157b6f3df310977",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f1fa7e839afe306e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "AI/AIPlayerBehavior.puml",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for AIPlayerBehavior"
+            }
+          },
+          {
+            "id": "bc7e53e00acac71c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "AI/AIPlayerBehavior.puml",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from AIPlayerBehavior"
+            }
+          },
+          {
+            "id": "145ea769c82af14a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "0632e841020b3540",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "AI/AIPlayerBehavior.puml",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of AIPlayerBehavior"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "bases:Create new base": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "683fce0bafe14f28",
+  "lastOpenFiles": [
+    "Untitled",
+    "Untitled.base",
+    "Untitled 1.md",
+    "Conditions/ConditionItem.puml",
+    "AI/AIPlayer.puml",
+    "Untitled.md",
+    "Conditions/ConditionCount.puml",
+    "Conditions/ConditionCharacterFront.puml",
+    "Conditions/ConditionCharacterBack.puml",
+    "FX/GameBoardFX.puml",
+    "FX/DamageFX.puml",
+    "FX/AnimMatFX.puml",
+    "FX/AimTargetFX.puml"
+  ]
+}

@@ -1,17 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Profiling;
 
 namespace RogueEngine.Gameplay
 {
-    /// <summary>
-    /// Execute and resolves game rules and logic
-    /// </summary>
-
     public class BattleLogic
     {
+        // ... (Aquí irán todos los UnityEvents de UI que copiaremos más adelante) ...
         public UnityAction onBattleStart;
         public UnityAction<int> onBattleEnd;
 
@@ -45,27 +42,23 @@ namespace RogueEngine.Gameplay
         public UnityAction onSelectorSelect;
         public UnityAction refreshWorld;
         public UnityAction refreshBattle;
+        // 1. NUESTRA CACHÉ: El corazón del nuevo sistema
+        // Es un diccionario donde la Llave es el Enum del Trigger, y el Valor es la lista de cartas suscritas.
+        private Dictionary<AbilityTrigger, List<Card>> trigger_cache = new Dictionary<AbilityTrigger, List<Card>>();
+        private List<Card> cards_to_clear = new List<Card>();
+        private System.Random random = new System.Random();
 
+        // Necesitamos referencias a los datos globales al igual que el Legacy
         private World world_data;
         private Battle battle_data;
-
         private ResolveQueue resolve_queue;
 
-        private System.Random random = new System.Random();
-        private List<Card> cards_to_clear = new List<Card>();
-
+        // Constructor
         public BattleLogic(bool is_instant = false)
         {
             resolve_queue = new ResolveQueue(is_instant);
+            InitCache(); // Inicializamos el diccionario vacío al instanciar la clase
         }
-
-        public BattleLogic(World world)
-        {
-            world_data = world;
-            battle_data = null; //Not assigned yet
-            resolve_queue = new ResolveQueue(false);
-        }
-
         public virtual void SetData(World game)
         {
             world_data = game;
@@ -84,8 +77,95 @@ namespace RogueEngine.Gameplay
             resolve_queue.Update(delta);
         }
 
-        //----- Turn Phases ----------
 
+        public BattleLogic(World world)
+        {
+            world_data = world;
+            battle_data = null; 
+            resolve_queue = new ResolveQueue(false);
+            InitCache();
+        }
+
+        // 2. PREPARACIÓN DE LA AGENDA
+        // Esta función crea una lista en blanco por cada Trigger que exista en el Enum del juego.
+        private void InitCache()
+        {
+            trigger_cache.Clear();
+            
+            // Recorremos todos los valores posibles de AbilityTrigger (OnPlay, OnDeath, etc.)
+            foreach (AbilityTrigger trigger in Enum.GetValues(typeof(AbilityTrigger)))
+            {
+                trigger_cache[trigger] = new List<Card>();
+            }
+        }
+
+        // 3. LA SUSCRIPCIÓN (Registrar una carta)
+        // Función que usaremos cuando el jugador robe una carta, compre una reliquia o empiece la batalla.
+        // Coge la carta, lee sus habilidades, y la anota en las páginas de la agenda que correspondan.
+        public void RegisterCardToCache(Card card)
+        {
+            if (card == null) return;
+
+            foreach (AbilityData ability in card.GetAbilities())
+            {
+                if (ability != null && !trigger_cache[ability.trigger].Contains(card))
+                {
+                    trigger_cache[ability.trigger].Add(card);
+                    // Debug.Log($"[CACHÉ] Carta {card.card_id} suscrita a {ability.trigger}");
+                }
+            }
+        }
+
+        // 4. LA DESUSCRIPCIÓN (Dar de baja una carta)
+        // CRÍTICO para evitar Memory Leaks. Si una carta es destruida, hay que borrarla de la agenda.
+        public void UnregisterCardFromCache(Card card)
+        {
+            if (card == null) return;
+
+            foreach (AbilityData ability in card.GetAbilities())
+            {
+                if (ability != null && trigger_cache[ability.trigger].Contains(card))
+                {
+                    trigger_cache[ability.trigger].Remove(card);
+                    // Debug.Log($"[CACHÉ] Carta {card.card_id} eliminada de {ability.trigger}");
+                }
+            }
+        }
+        // 5. EL NUEVO DISPARADOR (Constante O(1))
+        // Reemplaza a 'TriggerCharacterAbilityType' y 'TriggerCardAbilityType'
+        // Extraemos las cartas directamente del Caché sin preguntar a nadie más.
+        public void FireTrigger(AbilityTrigger triggerType, BattleCharacter caster, Card triggerer = null)
+        {
+            // 1. Verificación Temprana (Early Exit)
+            if (caster == null || caster.IsDead()) return;
+            if (!caster.CanTriggerAbilities()) return; // Si está silenciado o paralizado
+
+            // 2. ¿Hay alguien interesado en este evento?
+            if (!trigger_cache.ContainsKey(triggerType) || trigger_cache[triggerType].Count == 0)
+                return; // Nadie se ha suscrito a esto. Rendimiento = coste CERO.
+
+            // 3. Disparamos directo a la yugular (Solo a los interesados)
+            // Hacemos una copia de la lista (ToList) para evitar concurrent modification exceptions
+            // si una carta se destruye a sí misma a mitad del bucle y modifica la agenda.
+            var subscribers = new List<Card>(trigger_cache[triggerType]);
+
+            foreach (Card card in subscribers)
+            {
+                // El motor original se asegura de que solo actúen las cartas que te pertenecen
+                if (card.owner_uid == caster.uid) 
+                {
+                    foreach (AbilityData ability in card.GetAbilities())
+                    {
+                        if (ability != null && ability.trigger == triggerType)
+                        {
+                            // TriggerAbility comprobará las condiciones exactas ("Si vida < 50")
+                            // y si se cumplen, la mandará al ResolveQueue
+                            TriggerAbility(ability, caster, card, triggerer);
+                        }
+                    }
+                }
+            }
+        }
         public virtual void StartBattle(World world, EventBattle battle)
         {
             //Champions
@@ -138,42 +218,226 @@ namespace RogueEngine.Gameplay
             //Start state
             RefreshBattle();
             onBattleStart?.Invoke();
-
+            // !!! MAGIA DE LA ARQUITECTURA NUEVA !!!
+            // Suscribimos las cartas activas (Reliquias iniciales) a la Caché
             foreach (BattleCharacter character in battle_data.characters)
             {
-                TriggerCharacterAbilityType(AbilityTrigger.OnPlay, character);
+                if (!character.IsEnemy()) // Asumiendo que primero suscribimos al jugador
+                {
+                    // Suscribimos Reliquias y Poderes iniciales (ignoramos Consumibles como pociones)
+                    foreach(Card card in character.cards_item)
+                    {
+                        if (card.CardData.item_type == ItemType.ItemPassive)
+                            RegisterCardToCache(card);
+                    }
+                    // IMPORTANTE: NO suscribimos el mazo (cards_deck). Solo las cartas Activas deben estar en Caché.
+                }
+                
+                // Disparamos el trigger visual de inicio (ahora solo afectará al personaje y sus reliquias)
+                FireTrigger(AbilityTrigger.OnPlay, character);
             }
+
 
             resolve_queue.AddCallback(StartTurn);
             resolve_queue.ResolveAll(2f);
         }
-
-        public virtual void AddChampion(Champion champion)
+        public virtual void UpdateOngoing()
         {
-            Slot slot = battle_data.GetEmptySlot(false);
-            if (slot.IsValid())
+            UnityEngine.Profiling.Profiler.BeginSample("Update Ongoing");
+            for (int p = 0; p < battle_data.characters.Count; p++)
             {
-                BattleCharacter character = BattleCharacter.Create(champion);
-                character.slot = slot;
-                battle_data.characters.Add(character);
-                SetChampionCards(champion, character);
-                CalculateInitiatives();
-                RefreshBattle();
+                BattleCharacter character = battle_data.characters[p];
+                character.ClearOngoing();
+
+                for (int c = 0; c < character.cards_power.Count; c++)
+                    character.cards_power[c].ClearOngoing();
+                for (int c = 0; c < character.cards_item.Count; c++)
+                    character.cards_item[c].ClearOngoing();
+                for (int c = 0; c < character.cards_hand.Count; c++)
+                    character.cards_hand[c].ClearOngoing();
             }
-        }
 
-        public virtual void RemovePlayerCharacters(Player player)
-        {
-            foreach (BattleCharacter character in battle_data.characters)
+            for (int p = 0; p < battle_data.characters.Count; p++)
             {
-                if (character.player_id == player.player_id)
+                BattleCharacter character = battle_data.characters[p];
+                UpdateOngoingAbilities(character, AbilityTrigger.Ongoing);
+
+                foreach (Card card in character.cards_power)
+                    UpdateOngoingAbilities(character, card, AbilityTrigger.Ongoing);
+
+                foreach (Card card in character.cards_item)
+                    UpdateOngoingAbilities(character, card, AbilityTrigger.Ongoing);
+
+                foreach (Card card in character.cards_hand)
+                {
+                    if(card.CardData.card_type != CardType.Power)
+                        UpdateOngoingAbilities(character, card, AbilityTrigger.Ongoing);
+                }
+            }
+
+            //Stats bonus
+            for (int p = 0; p < battle_data.characters.Count; p++)
+            {
+                BattleCharacter character = battle_data.characters[p];
+                foreach (CardStatus status in character.status)
+                    AddOngoingStatusBonus(character, status);
+                foreach (CardStatus status in character.ongoing_status)
+                    AddOngoingStatusBonus(character, status);
+
+                foreach (Card card in character.cards_hand)
+                {
+                    foreach (CardStatus status in card.status)
+                        AddOngoingStatusBonus(card, status);
+                    foreach (CardStatus status in card.ongoing_status)
+                        AddOngoingStatusBonus(card, status);
+                }
+            }
+
+            //Kill stuff with 0 hp
+            for (int p = 0; p < battle_data.characters.Count; p++)
+            {
+                BattleCharacter character = battle_data.characters[p];
+                if (!character.IsDead() && character.GetHP() <= 0)
                     KillCharacter(character);
             }
-            
-            CalculateInitiatives();
-            RefreshBattle();
+
+            //Clear cards
+            for (int c = 0; c < cards_to_clear.Count; c++)
+                cards_to_clear[c].Clear();
+            cards_to_clear.Clear();
+
+            UnityEngine.Profiling.Profiler.EndSample();
+        }
+        
+         protected virtual void UpdateOngoingAbilities(BattleCharacter character, AbilityTrigger trigger)
+        {
+            if (character == null)
+                return;
+
+            List<AbilityData> abilities = character.GetAbilities();
+            for (int a = 0; a < abilities.Count; a++)
+            {
+                AbilityData ability = abilities[a];
+                if (ability != null && ability.trigger == trigger && ability.AreTriggerConditionsMet(battle_data, character, null))
+                {
+                    if (ability.target == AbilityTarget.CharacterSelf)
+                    {
+                        if (ability.AreTargetConditionsMet(battle_data, character, null, character))
+                        {
+                            ability.DoOngoingEffects(this, character, null, character);
+                        }
+                    }
+
+                    if (ability.target == AbilityTarget.AllCharacters)
+                    {
+                        for (int tp = 0; tp < battle_data.characters.Count; tp++)
+                        {
+                            BattleCharacter ocharacter = battle_data.characters[tp];
+                            if (!ocharacter.IsDead() && ability.AreTargetConditionsMet(battle_data, character, null, ocharacter))
+                            {
+                                ability.DoOngoingEffects(this, character, null, ocharacter);
+                            }
+                        }
+                    }
+
+                    if (ability.target == AbilityTarget.AllCardsAllPiles || ability.target == AbilityTarget.AllCardsHand)
+                    {
+                        for (int tp = 0; tp < battle_data.characters.Count; tp++)
+                        {
+                            //Looping on all cards is very slow, since there are no ongoing effects that works out of board/hand we loop on those only
+                            BattleCharacter tcharacter = battle_data.characters[tp];
+
+                            //Hand Cards
+                            for (int tc = 0; tc < tcharacter.cards_hand.Count; tc++)
+                            {
+                                Card tcard = tcharacter.cards_hand[tc];
+                                if (ability.AreTargetConditionsMet(battle_data, character, null, tcard))
+                                {
+                                    ability.DoOngoingEffects(this, character, null, tcard);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
+        protected virtual void UpdateOngoingAbilities(BattleCharacter charact, Card card, AbilityTrigger trigger)
+        {
+            if (card == null)
+                return;
+
+            List<AbilityData> abilities = card.GetAbilities();
+            for (int a = 0; a < abilities.Count; a++)
+            {
+                AbilityData ability = abilities[a];
+                if (ability != null && ability.trigger == trigger && ability.AreTriggerConditionsMet(battle_data, charact, card))
+                {
+                    if (ability.target == AbilityTarget.CharacterSelf)
+                    {
+                        if (ability.AreTargetConditionsMet(battle_data, charact, card, charact))
+                        {
+                            ability.DoOngoingEffects(this, charact, card, charact);
+                        }
+                    }
+
+                    if (ability.target == AbilityTarget.CardSelf)
+                    {
+                        if (ability.AreTargetConditionsMet(battle_data, charact, card, card))
+                        {
+                            ability.DoOngoingEffects(this, charact, card, card);
+                        }
+                    }
+
+                    if (ability.target == AbilityTarget.AllCharacters)
+                    {
+                        for (int tc = 0; tc < battle_data.characters.Count; tc++)
+                        {
+                            BattleCharacter tcharacter = battle_data.characters[tc];
+                            if (!tcharacter.IsDead() && ability.AreTargetConditionsMet(battle_data, charact, card, tcharacter))
+                            {
+                                ability.DoOngoingEffects(this, charact, card, tcharacter);
+                            }
+                        }
+                    }
+
+                    if (ability.target == AbilityTarget.AllCardsAllPiles || ability.target == AbilityTarget.AllCardsHand)
+                    {
+                        for (int tc = 0; tc < battle_data.characters.Count; tc++)
+                        {
+                            //Looping on all cards is very slow, since there are no ongoing effects that works out of board/hand we loop on those only
+                            BattleCharacter tcharacter = battle_data.characters[tc];
+
+                            //Hand Cards
+                            if (ability.target == AbilityTarget.AllCardsAllPiles || ability.target == AbilityTarget.AllCardsHand)
+                            {
+                                for (int t = 0; t < tcharacter.cards_hand.Count; t++)
+                                {
+                                    Card tcard = tcharacter.cards_hand[t];
+                                    if (ability.AreTargetConditionsMet(battle_data, charact, card, tcard))
+                                    {
+                                        ability.DoOngoingEffects(this, charact, card, tcard);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        protected virtual void AddOngoingStatusBonus(BattleCharacter character, CardStatus status)
+        {
+            if (status.effect == StatusEffect.SpeedBonus)
+                character.speed_ongoing += status.value;
+            if (status.effect == StatusEffect.HandBonus)
+                character.hand_ongoing += status.value;
+        }
+
+        protected virtual void AddOngoingStatusBonus(Card card, CardStatus status)
+        {
+            if (status.effect == StatusEffect.ManaCostBonus)
+                card.mana_ongoing += status.value;
+        }
         protected virtual void AddEnemy(CharacterData enemy, int pos_x, int level)
         {
             if (enemy != null)
@@ -188,7 +452,6 @@ namespace RogueEngine.Gameplay
                 SetCharacterCards(character);
             }
         }
-
         public virtual void SetChampionCards(Champion champion, BattleCharacter character)
         {
             character.cards_deck.Clear();
@@ -234,7 +497,6 @@ namespace RogueEngine.Gameplay
 
             ShuffleDeck(character.cards_deck);
         }
-
         public virtual void SetChampionCardsFixed(Champion champion, BattleCharacter character, EventBattleFixed battle)
         {
             character.cards_deck.Clear();
@@ -278,7 +540,6 @@ namespace RogueEngine.Gameplay
             if(!battle.dont_shuffle)
                 ShuffleDeck(character.cards_deck);
         }
-
         public virtual void SetCharacterCards(BattleCharacter character)
         {
             character.cards_deck.Clear();
@@ -296,199 +557,6 @@ namespace RogueEngine.Gameplay
 
             DrawEnemyHand(character);
         }
-
-        public virtual void StartTurn()
-        {
-            ClearTurnData();
-            CheckForWinner();
-
-            if (battle_data.phase == BattlePhase.Ended)
-                return;
-
-            battle_data.phase = BattlePhase.StartTurn;
-            battle_data.turn_timer = GameplayData.Get().turn_duration;
-            battle_data.turn_count += 1;
-
-            UpdateOngoing();
-            CalculateInitiatives();
-
-            BattleCharacter character = battle_data.GetFirstInitiative();
-            if (character == null)
-                return;
-
-            battle_data.active_character = character.uid;
-
-            //Refresh 
-            character.Refresh();
-
-            //Mana / Shield
-            int bonus = character.HasStatus(StatusEffect.Keep) ? character.mana : 0;
-            character.mana = character.GetEnergy() + character.delayed_energy + bonus;
-            character.delayed_energy = 0;
-            character.shield = character.GetStatusValue(StatusEffect.Armor) + character.delayed_shield;
-            character.delayed_shield = 0;
-            character.RemoveStatus(StatusEffect.Keep);
-
-            //Turn timer and history
-            character.history_list.Clear();
-
-            // poison damage
-            if (character.HasStatus(StatusEffect.Poisoned))
-            {
-                int val = character.GetStatusValue(StatusEffect.Poisoned);
-                DamageCharacter(character, val, true);
-            }
-
-            //Burn damage
-            if (character.HasStatus(StatusEffect.Burned))
-            {
-                int val = character.GetStatusValue(StatusEffect.Burned);
-                if (character.HasStatus(StatusEffect.BurnHeal))
-                    HealCharacter(character, val);
-                else
-                    DamageCharacter(character, val);
-            }
-
-            //Ongoing Abilities
-            UpdateOngoing();
-            DrawHand(character);
-
-            RefreshBattle();
-            onTurnStart?.Invoke();
-
-            if (battle_data.turn_count == 1)
-                TriggerCharacterAbilityType(AbilityTrigger.BattleStart, character);
-
-            TriggerCharacterAbilityType(AbilityTrigger.StartOfTurn, character);
-
-            resolve_queue.AddCallback(StartMainPhase);
-            resolve_queue.ResolveAll(0.2f);
-        }
-
-        public virtual void StartMainPhase()
-        {
-            if (battle_data.phase == BattlePhase.Ended)
-                return;
-
-            BattleCharacter character = battle_data.GetActiveCharacter();
-            bool can_play = character.CanPlayTurn(); //Check before reducing status
-            character.ReduceStatusValues();
-            UpdateOngoing();
-
-            battle_data.phase = BattlePhase.Main;
-            onTurnPlay?.Invoke();
-            RefreshBattle();
-
-            if (!can_play)
-            {
-                character.RemoveStatus(StatusEffect.Stunned);
-                EndTurn();
-            }
-        }
-
-        public virtual void EndTurn()
-        {
-            if (battle_data.phase != BattlePhase.Main)
-                return;
-
-            battle_data.selector = SelectorType.None;
-            battle_data.phase = BattlePhase.EndTurn;
-
-            BattleCharacter character = battle_data.GetActiveCharacter();
-            RemoveFromInitiativeCurrent(character);
-
-            DrawEnemyHand(character);
-
-            //Remove once status
-            character.RemoveOnceStatus();
-
-            foreach (Card card in character.cards_hand)
-                card.RemoveOnceStatus();
-
-            TriggerCharacterAbilityType(AbilityTrigger.EndOfTurn, character);
-
-            battle_data.active_character = "";
-            onTurnEnd?.Invoke();
-            RefreshBattle();
-
-            resolve_queue.AddCallback(StartTurn);
-            resolve_queue.ResolveAll(0.2f);
-        }
-
-        //End game with winner
-        public virtual void EndBattle(int result)
-        {
-            if (battle_data.phase != BattlePhase.Ended)
-            {
-                battle_data.phase = BattlePhase.Ended;
-                battle_data.selector = SelectorType.None;
-                battle_data.active_character = "";
-                battle_data.win_result = result;
-                resolve_queue.Clear();
-                onBattleEnd?.Invoke(result);
-            }
-        }
-
-        //Progress to the next step/phase 
-        public virtual void NextStep()
-        {
-            if (battle_data.phase == BattlePhase.Ended)
-                return;
-
-            if (battle_data.selector != SelectorType.None)
-            {
-                CancelSelection();
-            }
-            else
-            {
-                EndTurn();
-            }
-        }
-
-        //Check if a player is winning the game, if so end the game
-        //Change or edit this function for a new win condition
-        protected virtual void CheckForWinner()
-        {
-            int champions_alive = 0;
-            int enemies_alive = 0;
-
-            foreach (BattleCharacter player in battle_data.characters)
-            {
-                if (!player.IsDead() && !player.IsEnemy())
-                    champions_alive++;
-            }
-
-            foreach (BattleCharacter player in battle_data.characters)
-            {
-                if (!player.IsDead() && player.IsEnemy())
-                    enemies_alive++;
-            }
-
-            if (champions_alive == 0)
-            {
-                EndBattle(-1); //Defeat
-            }
-            else if (enemies_alive == 0)
-            {
-                EndBattle(1); ; //Player win
-            }
-        }
-
-        protected virtual void ClearTurnData()
-        {
-            battle_data.selector = SelectorType.None;
-            resolve_queue.Clear();
-            battle_data.last_played = null;
-            battle_data.last_destroyed = null;
-            battle_data.last_summoned = null;
-            battle_data.last_targeted = null;
-            battle_data.ability_triggerer = null;
-            battle_data.selected_value = 0;
-            battle_data.ability_played.Clear();
-        }
-
-        //--- Setup ------
-
         public virtual Slot GetChampionStartPos(Champion champion)
         {
             return new Slot(champion.position, false);
@@ -552,7 +620,122 @@ namespace RogueEngine.Gameplay
             }
         }
 
-        //---- Gameplay Actions --------------
+        public virtual void StartTurn()
+        {
+            ClearTurnData();
+            CheckForWinner();
+
+            if (battle_data.phase == BattlePhase.Ended)
+                return;
+
+            battle_data.phase = BattlePhase.StartTurn;
+            battle_data.turn_timer = GameplayData.Get().turn_duration;
+            battle_data.turn_count += 1;
+
+            UpdateOngoing();
+            CalculateInitiatives();
+
+            BattleCharacter character = battle_data.GetFirstInitiative();
+            if (character == null)
+                return;
+
+            battle_data.active_character = character.uid;
+
+            //Refresh 
+            character.Refresh();
+
+            //Mana / Shield
+            int bonus = character.HasStatus(StatusEffect.Keep) ? character.mana : 0;
+            character.mana = character.GetEnergy() + character.delayed_energy + bonus;
+            character.delayed_energy = 0;
+            character.shield = character.GetStatusValue(StatusEffect.Armor) + character.delayed_shield;
+            character.delayed_shield = 0;
+            character.RemoveStatus(StatusEffect.Keep);
+
+            //Turn timer and history
+            character.history_list.Clear();
+
+            // poison damage
+            if (character.HasStatus(StatusEffect.Poisoned))
+            {
+                int val = character.GetStatusValue(StatusEffect.Poisoned);
+                DamageCharacter(character, val, true);
+            }
+
+            //Burn damage
+            if (character.HasStatus(StatusEffect.Burned))
+            {
+                int val = character.GetStatusValue(StatusEffect.Burned);
+                if (character.HasStatus(StatusEffect.BurnHeal))
+                    HealCharacter(character, val);
+                else
+                    DamageCharacter(character, val);
+            }
+
+            //Ongoing Abilities
+            UpdateOngoing();
+            DrawHand(character);
+
+            RefreshBattle();
+            onTurnStart?.Invoke();
+
+            if (battle_data.turn_count == 1)
+                FireTrigger(AbilityTrigger.BattleStart, character);
+
+            FireTrigger(AbilityTrigger.StartOfTurn, character);
+
+            resolve_queue.AddCallback(StartMainPhase);
+            resolve_queue.ResolveAll(0.2f);
+        }
+        public virtual void StartMainPhase()
+        {
+            if (battle_data.phase == BattlePhase.Ended)
+                return;
+
+            BattleCharacter character = battle_data.GetActiveCharacter();
+            bool can_play = character.CanPlayTurn(); //Check before reducing status
+            character.ReduceStatusValues();
+            UpdateOngoing();
+
+            battle_data.phase = BattlePhase.Main;
+            onTurnPlay?.Invoke();
+            RefreshBattle();
+
+            if (!can_play)
+            {
+                character.RemoveStatus(StatusEffect.Stunned);
+                EndTurn();
+            }
+        }
+        public virtual void EndTurn()
+        {
+            if (battle_data.phase != BattlePhase.Main)
+                return;
+
+            battle_data.selector = SelectorType.None;
+            battle_data.phase = BattlePhase.EndTurn;
+
+            BattleCharacter character = battle_data.GetActiveCharacter();
+            RemoveFromInitiativeCurrent(character);
+
+            DrawEnemyHand(character);
+
+            //Remove once status
+            character.RemoveOnceStatus();
+
+            foreach (Card card in character.cards_hand)
+                card.RemoveOnceStatus();
+
+            FireTrigger(AbilityTrigger.EndOfTurn, character);
+
+            battle_data.active_character = "";
+            onTurnEnd?.Invoke();
+            RefreshBattle();
+
+            resolve_queue.AddCallback(StartTurn);
+            resolve_queue.ResolveAll(0.2f);
+        }
+                //---- Gameplay Actions --------------
 
         public virtual void PlayCard(Card card, Slot target, bool skip_cost = false)
         {
@@ -571,6 +754,7 @@ namespace RogueEngine.Gameplay
                 if (icard.card_type == CardType.Power)
                 {
                     owner.cards_power.Add(card);
+                    RegisterCardToCache(card); // Importante: ahora el Poder reaccionará a los Triggers futuros
                 }
                 else
                 {
@@ -594,7 +778,7 @@ namespace RogueEngine.Gameplay
                 else
                 {
                     TriggerCardAbilityType(AbilityTrigger.OnPlay, card);
-                    TriggerCharacterAbilityType(AbilityTrigger.OnPlayOther, owner, card);
+                    FireTrigger(AbilityTrigger.OnPlayOther, owner, card);
                 }
 
                 onCardPlayed?.Invoke(card, target);
@@ -695,8 +879,8 @@ namespace RogueEngine.Gameplay
                     Card card = character.cards_deck[0];
                     character.cards_deck.RemoveAt(0);
                     character.cards_hand.Add(card);
-                    TriggerCardAbilityType(AbilityTrigger.OnDraw, card);
-                    TriggerCharacterAbilityType(AbilityTrigger.OnDrawOther, character, card);
+                    FireTrigger(AbilityTrigger.OnDraw, character,card);
+                    FireTrigger(AbilityTrigger.OnDrawOther, character, card);
                 }
             }
 
@@ -728,8 +912,7 @@ namespace RogueEngine.Gameplay
                 }
             }
         }
-
-        public virtual BattleCharacter SummonCharacter(int player_id, CharacterAlly ally, Slot slot)
+                public virtual BattleCharacter SummonCharacter(int player_id, CharacterAlly ally, Slot slot)
         {
             return SummonCharacter(player_id, ally.CharacterData, slot, ally.level, ally.uid);
         }
@@ -756,7 +939,7 @@ namespace RogueEngine.Gameplay
             SetCharacterCards(summon);
             CalculateInitiatives();
 
-            TriggerCharacterAbilityType(AbilityTrigger.OnPlay, summon);
+            FireTrigger(AbilityTrigger.OnPlay, summon);
 
             return summon;
         }
@@ -820,7 +1003,8 @@ namespace RogueEngine.Gameplay
             player.cards_discard.Add(card);
             card.RemoveStatus(StatusEffect.Keep);
             battle_data.last_destroyed = card.uid;
-
+            
+            UnregisterCardFromCache(card);
             cards_to_clear.Add(card); //Will be Clear() in the next UpdateOngoing, so that simultaneous damage effects work
             onCardDiscarded?.Invoke(card);
         }
@@ -865,7 +1049,62 @@ namespace RogueEngine.Gameplay
             }
         }
 
-        //Heal a card
+ 
+        protected virtual void CheckForWinner()
+        {
+            int champions_alive = 0;
+            int enemies_alive = 0;
+
+            foreach (BattleCharacter player in battle_data.characters)
+            {
+                if (!player.IsDead() && !player.IsEnemy())
+                    champions_alive++;
+            }
+
+            foreach (BattleCharacter player in battle_data.characters)
+            {
+                if (!player.IsDead() && player.IsEnemy())
+                    enemies_alive++;
+            }
+
+            if (champions_alive == 0)
+            {
+                EndBattle(-1); //Defeat
+            }
+            else if (enemies_alive == 0)
+            {
+                EndBattle(1); ; //Player win
+            }
+        }
+        //Progress to the next step/phase 
+        public virtual void NextStep()
+        {
+            if (battle_data.phase == BattlePhase.Ended)
+                return;
+
+            if (battle_data.selector != SelectorType.None)
+            {
+                CancelSelection();
+            }
+            else
+            {
+                EndTurn();
+            }
+        }
+
+        public virtual void EndBattle(int result)
+        {
+            if (battle_data.phase != BattlePhase.Ended)
+            {
+                battle_data.phase = BattlePhase.Ended;
+                battle_data.selector = SelectorType.None;
+                battle_data.active_character = "";
+                battle_data.win_result = result;
+                resolve_queue.Clear();
+                onBattleEnd?.Invoke(result);
+            }
+        }
+                //Heal a card
         public virtual void HealCharacter(BattleCharacter target, int value)
         {
             if (target == null)
@@ -931,7 +1170,7 @@ namespace RogueEngine.Gameplay
 
             onCharacterDamaged?.Invoke(target, value);
 
-            TriggerCharacterAbilityType(AbilityTrigger.OnDamaged, target);
+            FireTrigger(AbilityTrigger.OnDamaged, target);
         }
 
         public virtual void DamageShield(BattleCharacter target, int value)
@@ -955,8 +1194,8 @@ namespace RogueEngine.Gameplay
                 RemoveFromInitiativeCurrent(character);
                 RemoveFromInitiativeNext(character);
 
-                TriggerCharacterAbilityType(AbilityTrigger.OnDeath, character);
-                TriggerAnyCharacterAbilityType(AbilityTrigger.OnDeathOther);
+                FireTrigger(AbilityTrigger.OnDeath, character);
+                FireTrigger(AbilityTrigger.OnDeathOther,character);
 
                 if (character.uid == battle_data.active_character)
                 {
@@ -965,7 +1204,6 @@ namespace RogueEngine.Gameplay
                 }
             }
         }
-
         public int RollRandomValue(int dice)
         {
             return RollRandomValue(1, dice + 1);
@@ -979,7 +1217,7 @@ namespace RogueEngine.Gameplay
             return battle_data.rolled_value;
         }
 
-        //--- Abilities --
+                //--- Abilities --
 
         public virtual void TriggerAnyCharacterAbilityType(AbilityTrigger type, Card triggerer = null)
         {
@@ -1180,6 +1418,7 @@ namespace RogueEngine.Gameplay
             if (iability.target == AbilityTarget.None)
                 iability.DoEffects(this, caster, card);
         }
+        
 
         protected virtual void ResolveEffectTarget(AbilityData iability, BattleCharacter caster, Card card, BattleCharacter target)
         {
@@ -1242,206 +1481,31 @@ namespace RogueEngine.Gameplay
             resolve_queue.ResolveAll(0.1f);
         }
 
-        //This function is called often to update status/stats affected by ongoing abilities
-        //It basically first reset the bonus to 0 (CleanOngoing) and then recalculate it to make sure it it still present
-        //Only cards in hand and on board are updated in this way
-        public virtual void UpdateOngoing()
+        protected virtual void ClearTurnData()
         {
-            Profiler.BeginSample("Update Ongoing");
-            for (int p = 0; p < battle_data.characters.Count; p++)
-            {
-                BattleCharacter character = battle_data.characters[p];
-                character.ClearOngoing();
-
-                for (int c = 0; c < character.cards_power.Count; c++)
-                    character.cards_power[c].ClearOngoing();
-                for (int c = 0; c < character.cards_item.Count; c++)
-                    character.cards_item[c].ClearOngoing();
-                for (int c = 0; c < character.cards_hand.Count; c++)
-                    character.cards_hand[c].ClearOngoing();
-            }
-
-            for (int p = 0; p < battle_data.characters.Count; p++)
-            {
-                BattleCharacter character = battle_data.characters[p];
-                UpdateOngoingAbilities(character, AbilityTrigger.Ongoing);
-
-                foreach (Card card in character.cards_power)
-                    UpdateOngoingAbilities(character, card, AbilityTrigger.Ongoing);
-
-                foreach (Card card in character.cards_item)
-                    UpdateOngoingAbilities(character, card, AbilityTrigger.Ongoing);
-
-                foreach (Card card in character.cards_hand)
-                {
-                    if(card.CardData.card_type != CardType.Power)
-                        UpdateOngoingAbilities(character, card, AbilityTrigger.Ongoing);
-                }
-            }
-
-            //Stats bonus
-            for (int p = 0; p < battle_data.characters.Count; p++)
-            {
-                BattleCharacter character = battle_data.characters[p];
-                foreach (CardStatus status in character.status)
-                    AddOngoingStatusBonus(character, status);
-                foreach (CardStatus status in character.ongoing_status)
-                    AddOngoingStatusBonus(character, status);
-
-                foreach (Card card in character.cards_hand)
-                {
-                    foreach (CardStatus status in card.status)
-                        AddOngoingStatusBonus(card, status);
-                    foreach (CardStatus status in card.ongoing_status)
-                        AddOngoingStatusBonus(card, status);
-                }
-            }
-
-            //Kill stuff with 0 hp
-            for (int p = 0; p < battle_data.characters.Count; p++)
-            {
-                BattleCharacter character = battle_data.characters[p];
-                if (!character.IsDead() && character.GetHP() <= 0)
-                    KillCharacter(character);
-            }
-
-            //Clear cards
-            for (int c = 0; c < cards_to_clear.Count; c++)
-                cards_to_clear[c].Clear();
-            cards_to_clear.Clear();
-
-            Profiler.EndSample();
+            battle_data.selector = SelectorType.None;
+            resolve_queue.Clear();
+            battle_data.last_played = null;
+            battle_data.last_destroyed = null;
+            battle_data.last_summoned = null;
+            battle_data.last_targeted = null;
+            battle_data.ability_triggerer = null;
+            battle_data.selected_value = 0;
+            battle_data.ability_played.Clear();
         }
-
-        protected virtual void UpdateOngoingAbilities(BattleCharacter character, AbilityTrigger trigger)
+        public virtual void NextSNextStep()
         {
-            if (character == null)
+            if (battle_data.phase == BattlePhase.Ended)
                 return;
 
-            List<AbilityData> abilities = character.GetAbilities();
-            for (int a = 0; a < abilities.Count; a++)
+            if (battle_data.selector != SelectorType.None)
             {
-                AbilityData ability = abilities[a];
-                if (ability != null && ability.trigger == trigger && ability.AreTriggerConditionsMet(battle_data, character, null))
-                {
-                    if (ability.target == AbilityTarget.CharacterSelf)
-                    {
-                        if (ability.AreTargetConditionsMet(battle_data, character, null, character))
-                        {
-                            ability.DoOngoingEffects(this, character, null, character);
-                        }
-                    }
-
-                    if (ability.target == AbilityTarget.AllCharacters)
-                    {
-                        for (int tp = 0; tp < battle_data.characters.Count; tp++)
-                        {
-                            BattleCharacter ocharacter = battle_data.characters[tp];
-                            if (!ocharacter.IsDead() && ability.AreTargetConditionsMet(battle_data, character, null, ocharacter))
-                            {
-                                ability.DoOngoingEffects(this, character, null, ocharacter);
-                            }
-                        }
-                    }
-
-                    if (ability.target == AbilityTarget.AllCardsAllPiles || ability.target == AbilityTarget.AllCardsHand)
-                    {
-                        for (int tp = 0; tp < battle_data.characters.Count; tp++)
-                        {
-                            //Looping on all cards is very slow, since there are no ongoing effects that works out of board/hand we loop on those only
-                            BattleCharacter tcharacter = battle_data.characters[tp];
-
-                            //Hand Cards
-                            for (int tc = 0; tc < tcharacter.cards_hand.Count; tc++)
-                            {
-                                Card tcard = tcharacter.cards_hand[tc];
-                                if (ability.AreTargetConditionsMet(battle_data, character, null, tcard))
-                                {
-                                    ability.DoOngoingEffects(this, character, null, tcard);
-                                }
-                            }
-                        }
-                    }
-                }
+                CancelSelection();
             }
-        }
-
-        protected virtual void UpdateOngoingAbilities(BattleCharacter charact, Card card, AbilityTrigger trigger)
-        {
-            if (card == null)
-                return;
-
-            List<AbilityData> abilities = card.GetAbilities();
-            for (int a = 0; a < abilities.Count; a++)
+            else
             {
-                AbilityData ability = abilities[a];
-                if (ability != null && ability.trigger == trigger && ability.AreTriggerConditionsMet(battle_data, charact, card))
-                {
-                    if (ability.target == AbilityTarget.CharacterSelf)
-                    {
-                        if (ability.AreTargetConditionsMet(battle_data, charact, card, charact))
-                        {
-                            ability.DoOngoingEffects(this, charact, card, charact);
-                        }
-                    }
-
-                    if (ability.target == AbilityTarget.CardSelf)
-                    {
-                        if (ability.AreTargetConditionsMet(battle_data, charact, card, card))
-                        {
-                            ability.DoOngoingEffects(this, charact, card, card);
-                        }
-                    }
-
-                    if (ability.target == AbilityTarget.AllCharacters)
-                    {
-                        for (int tc = 0; tc < battle_data.characters.Count; tc++)
-                        {
-                            BattleCharacter tcharacter = battle_data.characters[tc];
-                            if (!tcharacter.IsDead() && ability.AreTargetConditionsMet(battle_data, charact, card, tcharacter))
-                            {
-                                ability.DoOngoingEffects(this, charact, card, tcharacter);
-                            }
-                        }
-                    }
-
-                    if (ability.target == AbilityTarget.AllCardsAllPiles || ability.target == AbilityTarget.AllCardsHand)
-                    {
-                        for (int tc = 0; tc < battle_data.characters.Count; tc++)
-                        {
-                            //Looping on all cards is very slow, since there are no ongoing effects that works out of board/hand we loop on those only
-                            BattleCharacter tcharacter = battle_data.characters[tc];
-
-                            //Hand Cards
-                            if (ability.target == AbilityTarget.AllCardsAllPiles || ability.target == AbilityTarget.AllCardsHand)
-                            {
-                                for (int t = 0; t < tcharacter.cards_hand.Count; t++)
-                                {
-                                    Card tcard = tcharacter.cards_hand[t];
-                                    if (ability.AreTargetConditionsMet(battle_data, charact, card, tcard))
-                                    {
-                                        ability.DoOngoingEffects(this, charact, card, tcard);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                EndTurn();
             }
-        }
-
-        protected virtual void AddOngoingStatusBonus(BattleCharacter character, CardStatus status)
-        {
-            if (status.effect == StatusEffect.SpeedBonus)
-                character.speed_ongoing += status.value;
-            if (status.effect == StatusEffect.HandBonus)
-                character.hand_ongoing += status.value;
-        }
-
-        protected virtual void AddOngoingStatusBonus(Card card, CardStatus status)
-        {
-            if (status.effect == StatusEffect.ManaCostBonus)
-                card.mana_ongoing += status.value;
         }
 
         //---- Resolve Selector -----
@@ -1725,3 +1789,9 @@ namespace RogueEngine.Gameplay
         public ResolveQueue ResolveQueue { get { return resolve_queue; } }
     }
 }
+
+    
+
+ 
+    
+

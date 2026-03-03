@@ -36,4 +36,4 @@ MonoBehaviour:
   spawn_audio: {fileID: 0}
   caster_anim: action
   target_anim: 
-  show_collection: 1
+  availability: 0

@@ -23,6 +23,6 @@ MonoBehaviour:
   progress_unlock_cards: 2
   progress_unlock_items: 1
   test_scenario: {fileID: 11400000, guid: 632dddb8071594042bf967174bfb7026, type: 2}
-  test_champion: {fileID: 11400000, guid: 37f1233195d7acf47ae69fbc5abe7664, type: 2}
-  test_battle: {fileID: 11400000, guid: 7dd9d6d538e96134294694762178d0ac, type: 2}
+  test_champion: {fileID: 11400000, guid: dc4c046b28dac2f45a301575d2c5d707, type: 2}
+  test_battle: {fileID: 11400000, guid: 0d1e65b3c87f99444b1308e1fb408477, type: 2}
   test_disable_intent: 0

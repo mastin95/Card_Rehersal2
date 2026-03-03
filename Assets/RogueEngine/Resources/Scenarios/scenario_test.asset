@@ -25,7 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b5f404fda8c67a346ab72ecfcc04b5f8, type: 2}
   - {fileID: 11400000, guid: 258d289574a63ed4997c05eaf0c72851, type: 2}
   - {fileID: 11400000, guid: bb2bf0a66cae46c448a05699f294e931, type: 2}
-  available_champions: []
   enemy_hp_percentage: 1
   enemy_power_add: 0
   enemy_armor_add: 0

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac0c3319c62cf04885caa19ba4102e5, type: 3}
+  m_Name: perrito_male
+  m_EditorClassIdentifier: 
+  id: perrito_male
+  title: Witch
+  art_full: {fileID: 2184371013655673657, guid: b54db1660ccb7b84d9ab4af06e1e514a,
+    type: 3}
+  art_portrait: {fileID: -1751800393008651653, guid: 53f4571fd9a24684eac6366f881252f4,
+    type: 3}
+  prefab: {fileID: 3367298071463462779, guid: f3ccf0106417f074f94f25b853bff15b, type: 3}
+  hp: 24
+  speed: 6
+  hand: 5
+  energy: 3
+  level_up_hp: 8
+  level_up_speed: 0.5
+  level_up_hand: 0.25
+  level_up_energy: 0
+  team: {fileID: 11400000, guid: ce8ca406a091caf46bcaad554be20440, type: 2}
+  traits: []
+  stats: []
+  abilities: []
+  start_cards:
+  - {fileID: 11400000, guid: 7fd6f9a4392c2a6428e159f0ad741e03, type: 2}
+  - {fileID: 11400000, guid: 7d292ef572bdb4c45acd1bc9824c4584, type: 2}
+  - {fileID: 11400000, guid: 62668b1d68fb0d44983254003228a98e, type: 2}
+  - {fileID: 11400000, guid: 62668b1d68fb0d44983254003228a98e, type: 2}
+  - {fileID: 11400000, guid: 62668b1d68fb0d44983254003228a98e, type: 2}
+  - {fileID: 11400000, guid: 984205556cf3c4d4280ee27bcd992840, type: 2}
+  start_items: []
+  reward_cards:
+  - {fileID: 11400000, guid: 7bc636fc5705f6143ac7676532f19540, type: 2}
+  - {fileID: 11400000, guid: 9c12594a77ae77640a525efd72555731, type: 2}
+  desc: 

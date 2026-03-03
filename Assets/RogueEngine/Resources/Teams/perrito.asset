@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e41d6c5fb036a40bc0a37bfe1f52ac, type: 3}
+  m_Name: perrito
+  m_EditorClassIdentifier: 
+  id: perrito
+  title: Perrito
+  icon: {fileID: -7192097610635869340, guid: a853b8bc990a3f9488fabc00954cb53b, type: 3}
+  color: {r: 0.754717, g: 0.2537933, b: 0.08899963, a: 1}

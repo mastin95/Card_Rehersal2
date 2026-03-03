@@ -17,6 +17,7 @@ MonoBehaviour:
   art_icon: {fileID: 0}
   art_full: {fileID: 21300000, guid: 31560619bfc5c144ea4d263169681fc8, type: 3}
   card_type: 20
+  battle_type: 20
   item_type: 0
   team: {fileID: 11400000, guid: 6bbb96863ece0314fb318c0fce569afc, type: 2}
   rarity: {fileID: 11400000, guid: fab1a52f5a36cc942985dea95be18ac9, type: 2}
@@ -37,4 +38,5 @@ MonoBehaviour:
   spawn_audio: {fileID: 0}
   caster_anim: action
   target_anim: 
-  availability: 0
+  show_collection: 1
+  is_reward: 1

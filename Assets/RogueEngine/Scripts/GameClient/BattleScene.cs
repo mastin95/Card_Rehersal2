@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     public class BattleScene : MonoBehaviour
     {
@@ -18,34 +18,37 @@ namespace RogueEngine.Client
 
         void Start()
         {
-            GameClient.Get().onConnectedGame += OnConnectGame;
-            GameClient.Get().Connect();
+            GameManager.Get().onConnectedGame += OnConnectGame;
+            GameManager.Get().Connect();
         }
 
         private void OnDestroy()
         {
-            GameClient.Get().onConnectedGame -= OnConnectGame;
+            if (GameManager.Get() != null)
+            {
+                GameManager.Get().onConnectedGame -= OnConnectGame;
+            }
         }
 
         //Will run only if started from scene directly, to initialize test game
         private void OnConnectGame()
         {
             //Start in test mode
-            if (!GameClient.Get().IsGameStarted())
+            if (!GameManager.Get().IsGameStarted())
             {
-                GameClient.Get().NewScenario(GameplayData.Get().test_scenario, "test");
-                GameClient.Get().CreateChampion(GameplayData.Get().test_champion, 2);
-                GameClient.Get().StartTest(WorldState.Battle);
+                GameManager.Get().NewScenario(GameplayData.Get().test_scenario, "test");
+                GameManager.Get().CreateChampion(GameplayData.Get().test_champion, 2);
+                GameManager.Get().StartTest(WorldState.Battle);
             }
         }
 
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
             //--- End Game ----
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             if (!game_ended && data.phase == BattlePhase.Ended)
             {
                 game_ended = true;
@@ -60,8 +63,8 @@ namespace RogueEngine.Client
 
         private IEnumerator EndGameRun()
         {
-            World world = GameClient.Get().GetWorld();
-            Battle data = GameClient.Get().GetBattle();
+            World world = GameManager.Get().GetWorld();
+            Battle data = GameManager.Get().GetBattle();
             bool win = false; // Change this
 
             AudioTool.Get().FadeOutMusic("music");

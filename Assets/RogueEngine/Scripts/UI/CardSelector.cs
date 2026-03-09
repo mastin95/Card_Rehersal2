@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 using RogueEngine;
 
 namespace RogueEngine.UI
@@ -49,7 +49,7 @@ namespace RogueEngine.UI
         {
             base.Update();
 
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             timer += Time.deltaTime;
@@ -57,7 +57,7 @@ namespace RogueEngine.UI
             UpdateControls();
             UpdateCards();
 
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             if (battle != null && iability != null && battle.selector == SelectorType.None)
                 Hide(); //Ability was selected already, close panel
         }
@@ -144,7 +144,7 @@ namespace RogueEngine.UI
         //Show ability
         public override void Show(AbilityData iability, BattleCharacter caster, Card card)
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             this.card_list = iability.GetCardTargets(battle, caster, card);
             this.iability = iability;
             title.text = iability.title;
@@ -177,7 +177,7 @@ namespace RogueEngine.UI
 
         public void OnClickOK()
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             if (iability != null && battle.selector == SelectorType.SelectorCard)
             {
                 CardSelectorCard selector_card = null;
@@ -191,7 +191,7 @@ namespace RogueEngine.UI
                     BattleCharacter character = battle.GetCharacter(battle.selector_caster_uid);
                     if (selected_card != null && iability.AreTargetConditionsMet(battle, character, card, selected_card))
                     {
-                        GameClient.Get().SelectCard(selected_card);
+                        GameManager.Get().SelectCard(selected_card);
                         Hide();
                     }
                 }
@@ -216,7 +216,7 @@ namespace RogueEngine.UI
 
         public void OnClickCancel()
         {
-            GameClient.Get().CancelSelection();
+            GameManager.Get().CancelSelection();
             Hide();
         }
 
@@ -267,8 +267,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            Battle battle = GameClient.Get().GetBattle();
-            int player_id = GameClient.Get().GetPlayerID();
+            Battle battle = GameManager.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
             return force_show || (battle.selector == SelectorType.SelectorCard && battle.selector_player_id == player_id);
         }
 

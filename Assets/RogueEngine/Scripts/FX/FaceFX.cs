@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RogueEngine.Client;
 
 namespace RogueEngine.FX
 {
@@ -15,7 +14,7 @@ namespace RogueEngine.FX
 
         void Start()
         {
-            Vector3 up = GameBoard.Get().transform.up;
+            /*Vector3 up = GameBoard.Get().transform.up;
 
             if (type == FaceType.FaceCamera)
             {
@@ -31,10 +30,10 @@ namespace RogueEngine.FX
             {
                 GameCamera cam = GameCamera.Get();
                 if (cam != null)
-                {
-                    Vector3 forward = transform.position - cam.transform.position;
-                    transform.rotation = Quaternion.LookRotation(forward.normalized, up);
-                }
+                 {
+                     Vector3 forward = transform.position - cam.transform.position;
+                     transform.rotation = Quaternion.LookRotation(forward.normalized, up);
+                 }
             }
 
             if (type == FaceType.FaceBoard)
@@ -45,7 +44,7 @@ namespace RogueEngine.FX
                     Vector3 forward = board.transform.forward;
                     transform.rotation = Quaternion.LookRotation(forward, up);
                 }
-            }
+            }*/
         }
     }
 

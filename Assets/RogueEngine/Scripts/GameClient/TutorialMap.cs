@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
 
     public class TutorialMap : MonoBehaviour
@@ -24,30 +24,30 @@ namespace RogueEngine.Client
         void Start()
         {
             is_tuto = true;
-            GameClient.Get().onMapMove += OnMapMove;
-            GameClient.Get().onEventStart += OnEventStart;
-            GameClient.Get().onEventChoice += OnSelectChoice;
-            GameClient.Get().onRewardChoice += OnSelectReward;
-            GameClient.Get().onUpgradeCard += OnUpgradeCard;
-            GameClient.Get().onBuyCard += OnBuyCard;
-            GameClient.Get().onBuyItem += OnBuyItem;
+            GameManager.Get().onMapMove += OnMapMove;
+            GameManager.Get().onEventStart += OnEventStart;
+            GameManager.Get().onEventChoice += OnSelectChoice;
+            GameManager.Get().onRewardChoice += OnSelectReward;
+            GameManager.Get().onUpgradeCard += OnUpgradeCard;
+            GameManager.Get().onBuyCard += OnBuyCard;
+            GameManager.Get().onBuyItem += OnBuyItem;
             HideAll();
         }
 
         private void OnDestroy()
         {
-            GameClient.Get().onMapMove -= OnMapMove;
-            GameClient.Get().onEventStart -= OnEventStart;
-            GameClient.Get().onEventChoice -= OnSelectChoice;
-            GameClient.Get().onRewardChoice -= OnSelectReward;
-            GameClient.Get().onUpgradeCard -= OnUpgradeCard;
-            GameClient.Get().onBuyCard -= OnBuyCard;
-            GameClient.Get().onBuyItem -= OnBuyItem;
+            GameManager.Get().onMapMove -= OnMapMove;
+            GameManager.Get().onEventStart -= OnEventStart;
+            GameManager.Get().onEventChoice -= OnSelectChoice;
+            GameManager.Get().onRewardChoice -= OnSelectReward;
+            GameManager.Get().onUpgradeCard -= OnUpgradeCard;
+            GameManager.Get().onBuyCard -= OnBuyCard;
+            GameManager.Get().onBuyItem -= OnBuyItem;
         }
 
         private void Update()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null)
             {
                 if (world.state != prev_state)
@@ -60,7 +60,7 @@ namespace RogueEngine.Client
 
         private void CheckMapState()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
 
             if (world.state == WorldState.Map)
             {
@@ -70,7 +70,7 @@ namespace RogueEngine.Client
 
             if (world.state == WorldState.Reward)
             {
-                Champion champion = world.GetFirstChampion(GameClient.Get().GetPlayerID());
+                Champion champion = world.GetFirstChampion(GameManager.Get().GetPlayerID());
                 TutoMapStepGroup group = TutoMapStepGroup.Get(TutoMapStartTrigger.CardReward, world.GetCurrentLocationDepth(), champion);
                 ShowGroup(group);
             }
@@ -84,68 +84,77 @@ namespace RogueEngine.Client
             }
         }
 
-        private void OnMapMove(Champion champion, MapLocation loc)
+        private void OnMapMove(MapLocation loc)
         {
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champion = world.GetFirstChampion(player_id);
             EventData evt = loc.GetEvent();
             TriggerEndStep(TutoMapEndTrigger.Move);
             TriggerStartGroup(TutoMapStartTrigger.Move, loc.depth, champion, evt);
         }
 
-        private void OnEventStart(Champion champ, EventData evt)
+        private void OnEventStart(EventData evt)
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
-            if (world.CanControlChampion(player_id, champ))
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
+            if (champ != null && world.CanControlChampion(player_id, champ))
             {
                 TriggerStartGroup(TutoMapStartTrigger.EventStart, world.GetCurrentLocationDepth(), champ, evt);
             }
         }
 
-        private void OnSelectChoice(Champion champ, EventData evt)
+        private void OnSelectChoice(EventData evt, EventData choice)
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
-            if (world.CanControlChampion(player_id, champ))
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
+            if (champ != null && world.CanControlChampion(player_id, champ))
             {
                 TriggerEndStep(TutoMapEndTrigger.SelectChoice);
             }
         }
 
-        private void OnSelectReward(Champion champ, CardData card)
+        private void OnSelectReward(CardData card)
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
-            if (world.CanControlChampion(player_id, champ))
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
+            if (champ != null && world.CanControlChampion(player_id, champ))
             {
                 TriggerEndStep(TutoMapEndTrigger.SelectChoice);
             }
         }
 
-        private void OnUpgradeCard(Champion champ, CardData card)
+        private void OnUpgradeCard(Card card)
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
-            if (world.CanControlChampion(player_id, champ))
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
+            if (champ != null && world.CanControlChampion(player_id, champ))
             {
                 TriggerEndStep(TutoMapEndTrigger.Upgrade);
             }
         }
 
-        private void OnBuyCard(Champion champ, CardData card)
+        private void OnBuyCard(CardData card)
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
-            if (world.CanControlChampion(player_id, champ))
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
+            if (champ != null && world.CanControlChampion(player_id, champ))
             {
                 TriggerEndStep(TutoMapEndTrigger.Buy);
             }
         }
 
-        private void OnBuyItem(Champion champ, CardData card)
+        private void OnBuyItem(CardData card)
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
-            if (world.CanControlChampion(player_id, champ))
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
+            if (champ != null && world.CanControlChampion(player_id, champ))
             {
                 TriggerEndStep(TutoMapEndTrigger.Buy);
             }

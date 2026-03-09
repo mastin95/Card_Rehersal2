@@ -1,0 +1,82 @@
+# Arquitectura Core: Análisis en Profundidad de [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs)
+
+Este documento detalla el funcionamiento interno del componente más crítico del Rogue Engine: [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs). Actúa como el cerebro del juego, dictando cómo interaccionan las cartas, los personajes y el flujo del tiempo durante el combate.
+
+---
+
+## 1. El Paradigma de "Iteración Centralizada"
+
+A simple vista, en el paradigma de Programación Orientada a Objetos (OOP), uno esperaría que cada Carta fuera un ente independiente que recibe notificaciones de eventos (mediante delegados C# como `Action` o `UnityEvent`). 
+
+Sin embargo, el creador de Rogue Engine tomó la decisión consciente de **invertir el flujo de control**. En este motor, las cartas son "contenedores de datos pasivos" (Scripts [Card](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/Tools/ResolveQueue.cs#106-116) con referencias a `AbilityData`), y **es el controlador central ([BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs)) quien itera activamente** sobre las entidades del tablero para preguntarles qué deben hacer.
+
+### Flujo de Ejecución de un Trigger (Ej: `OnPlay`)
+1. El jugador arrastra una carta al tablero.
+2. `BattleLogic.PlayCard()` es invocado.
+3. Se resta el Maná al jugador, se mueve la carta de la lista "Mano" a la lista "Descarte".
+4. [BattleLogic](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#13-1727) llama internamente a la función [TriggerCardAbilityType(AbilityTrigger.OnPlay, card)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1031-1042).
+5. Esta función lee todas las Habilidades (`AbilityData`) asociadas a la carta jugada y lanza [TriggerAbility()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1051-1058).
+
+### Flujo de Ejecución de un Trigger Reactivo (Ej: `OnDamaged`)
+1. Un enemigo ataca y llama a `BattleCharacter.TakeDamage()`.
+2. El daño afecta a los PS del personaje.
+3. El sistema llama a `BattleLogic.TriggerCharacterAbilityType(AbilityTrigger.OnDamaged, character)`.
+4. Aquí ocurre la Iteración Centralizada:
+   * El código hace un `foreach` por los Traits pasivos del personaje.
+   * Hace un **segundo** `foreach` por las cartas Activas (`cards_power`).
+   * Hace un **tercer** `foreach` por las reliquias equipadas (`cards_item`).
+5. Por cada elemento encontrado, evalúa si sus requisitos `AreTriggerConditionsMet()` se cumplen. Si es así, las envía al ejecutor.
+
+### Implicaciones de Rendimiento y el "Punto Ciego" del Mazo
+La decisión de iterar a mano es **muy segura a nivel lógico** (evita *Memory Leaks* causados por eventos C# no desuscritos y previene condiciones de carrera), pero tiene una restricción de diseño masiva:
+
+> **El motor está programado para ignorar el Mazo (`deck`) y el Descarte (`discard`).**
+
+Como iterar 80 cartas cada vez que hay daño destruiría los FPS (Fotogramas por Segundo) en dispositivos móviles, [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs) literalmente no busca *Triggers* dentro de esas listas. 
+**Limitación Práctica:** Es imposible crear una carta en este motor cuyo diseño sea *"Si esta carta está en tu mazo al inicio de tu turno, roba 1 carta"*, porque el trigger `StartOfTurn` nunca escaneará las listas inactivas.
+
+---
+
+## 2. El Sistema [ResolveQueue](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/Tools/ResolveQueue.cs#32-36): Determinismo Visual
+
+Uno de los mayores retos en los juegos de cartas digitales (como *Slay the Spire* o *Hearthstone*) es la resolución simultánea. Si juegas una carta que hace daño en área, y mueren 3 enemigos a la vez, y sus muertes liberan veneno sobre ti... si todo ocurre en el mismo *milisegundo* del procesador, las animaciones se solapan y el jugador no entiende nada.
+
+Para solucionar esto, todo el motor de habilidades pasa a través de la clase auxiliar **[ResolveQueue.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/Tools/ResolveQueue.cs)**.
+
+### ¿Cómo funciona la Cola de Resolución?
+[ResolveQueue](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/Tools/ResolveQueue.cs#32-36) es, literalmente, una Cola FIFO (First In, First Out) estructurada con un *Object Pool* para no generar recolección de basura (*Garbage Collection*).
+
+1. Cuando [BattleLogic](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#13-1727) decide que la Habilidad A debe dispararse, no ejecuta el código del efecto (Ej: Curar).
+2. En su lugar llama a: `resolve_queue.AddAbility(ability, caster, card, ResolveAbility)`.
+3. Esto empaqueta la orden y la mete al final de la cola.
+4. En el [Update()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#82-86) de [BattleLogic](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#13-1727), se llama a `resolve_queue.ResolveAll(delay)`.
+5. Esto pausa la ejecución del código `x` segundos (permitiendo que el motor de Unity haga las animaciones de ataque y partículas), y cuando el tiempo expira, saca el siguiente comando de la cola y lo ejecuta.
+
+### Chaining (Encadenamiento de Habilidades)
+El sistema permite crear cartas tremendamente complejas gracias a cómo se resuelve la cola:
+En `BattleLogic.AfterAbilityResolved()`, el código mira si la habilidad actual (`AbilityData`) tenía configuradas "Habilidades en Cadena" (`chain_abilities`). Si es así, automáticamente hace un nuevo [TriggerAbility()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1051-1058) poniéndolas al final del tren de [ResolveQueue](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/Tools/ResolveQueue.cs#32-36).
+
+---
+
+## 3. [UpdateOngoing](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315): El Motor de Estadísticas Pasivas
+
+A diferencia de los eventos explosivos (Daño, Robo, Curación), las reglas matemáticas pasivas (Ej: *"Esta carta cuesta 1 Maná menos por cada maldición en tu mano"*) las gestiona la función **[UpdateOngoing()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315)**.
+
+Esta función es el eslabón más pesado del motor y **se invoca constantemente** (cada vez que juegas una carta, acaba un turno, o se resuelve una habilidad).
+
+**Su flujo ineficiente pero seguro:**
+1. Borra los bonus de stats de TODOS los personajes, cartas en mano y reliquias (`ClearOngoing`).
+2. Recalcula a cero la armadura retrasada, mano extra y reducción de maná.
+3. Itera a la fuerza bruta sobre TODAS las cartas de la mano del jugador, poderes y reliquias invocando [UpdateOngoingAbilities()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1316-1368).
+4. Si la carta tiene el trigger `AbilityTrigger.Ongoing`, evalúa matemáticamente el filtro de objetivos, y si acierta, aplica la modificación numérica (ej: `card.mana_cost -= 1`).
+
+---
+
+## 4. Conclusión y Futuro Refactor
+
+[BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs) es un *Framework* funcional y exento de errores asíncronos gracias al determinismo absoluto de su **Iteración Centralizada** y la **Cola de Resolución**. 
+
+**Debilidades de Arquitectura:**
+* Carece de la escalabilidad O(1) de un Bus de Eventos puro (Observer Cacheado por diccionarios).
+* El bucle constante de [UpdateOngoing()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315) puede volverse pesado si el jugador alcanza un estado de "Late Game" con decenas de reliquias y manos de 15 cartas de tamaño.
+* Las cartas inactivas (en Mazo/Descarte) son invisibles a las mecánicas de Triggers del juego, reduciendo el espacio de exploración de Game Design.

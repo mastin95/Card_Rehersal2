@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -23,15 +23,7 @@ namespace RogueEngine.UI
 
         public void OnClickNext()
         {
-            if (Tutorial.IsTuto())
-            {
-                Tutorial.Get().ShowNext();
-            }
-
-            if (TutorialMap.IsTuto())
-            {
-                TutorialMap.Get().ShowNext();
-            }
+            // Tutorial logic removed for single player/refactoring
         }
     }
 

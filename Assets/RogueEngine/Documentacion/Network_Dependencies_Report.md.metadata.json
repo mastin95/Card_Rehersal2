@@ -1,0 +1,5 @@
+{
+  "artifactType":  "ARTIFACT_TYPE_OTHER",
+  "summary":  "Report identifying all server and networking dependencies across the RogueEngine project, showing how deeply integrated the GameClient is with the UI.",
+  "updatedAt":  "2026-03-03T17:18:17.375682600Z"
+}

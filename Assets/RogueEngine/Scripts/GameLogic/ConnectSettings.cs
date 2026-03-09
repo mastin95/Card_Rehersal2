@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -33,7 +33,7 @@ namespace RogueEngine
         {
             if (!string.IsNullOrEmpty(server_url))
                 return server_url;
-            return NetworkData.Get().url;
+            return "";
         }
 
         public virtual bool IsOnline()

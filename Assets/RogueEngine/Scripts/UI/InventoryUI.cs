@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -36,7 +36,7 @@ namespace RogueEngine.UI
 
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
             timer += Time.deltaTime;
@@ -58,7 +58,7 @@ namespace RogueEngine.UI
 
         private void Refresh()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             BattleCharacter active = world.battle.GetActiveCharacter();
             if (active == null)
                 return;
@@ -86,12 +86,12 @@ namespace RogueEngine.UI
 
         private void OnClickItem(BoxUI ui)
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             BattleCharacter active = world.battle.GetActiveCharacter();
             Card item = active?.GetItem(ui.GetUID());
             if (item != null && item.CardData.item_type == ItemType.ItemConsumable)
             {
-                GameClient.Get().UseItem(active, item);
+                GameManager.Get().UseItem(active, item);
                 active.cards_item.Remove(item);
                 Refresh();
             }

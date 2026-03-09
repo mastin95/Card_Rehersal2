@@ -1,0 +1,44 @@
+# Desglose Exhaustivo de Código: [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs)
+
+A petición de un análisis profundo y arquitectónico, este documento recorre de forma secuencial todo el código fuente de [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs), explicando bloque por bloque su propósito dentro de Rogue Engine y cómo las piezas se interconectan. 
+
+El archivo consta de más de 1700 líneas de código divididas en responsabilidades específicas.
+
+---
+
+## 1. Inicialización y Preparación de la Batalla (Líneas 1 - 300)
+
+El archivo comienza definiendo decenas de `UnityAction` (Eventos visuales). Aunque la arquitectura no usa Eventos C# para interacciones de cartas (por rendimiento), **sí usa Eventos C# masivamente para avisar a la interfaz de usuario (UI)** (Ej: `onCardPlayed`, `onTurnStart`). De este modo, la UI escucha al motor, pero el motor no depende de la UI.
+
+### 1.1 [StartBattle(World, EventBattle)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#89-150)
+El punto de entrada del combate (Línea `89`).
+Su función es convertir los datos estáticos del mapa ([World](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1673-1677)) en personajes físicos instanciados.
+1. Crea los instanciamientos de `BattleCharacter` para los Héroes (Champions) y luego para los Enemigos.
+2. Llama a **[SetChampionCards()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#192-237)** (Línea `192`), que es vital: Aquí se separan matemáticamente las listas lógicas.
+   - Si un Item es Consumible o Reliquia Pasiva -> Va a `cards_item`
+   - Si la Carta es normal o Mágica -> Va a `cards_deck`
+3. Finalmente, arroja las cartas base al generador: [ShuffleDeck(character.cards_deck)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#645-655).
+4. El combate no empieza de forma inmediata. Mete un callback en la `resolve_queue` para que llame a [StartTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#300-367) pasados `2f` segundos, permitiendo a las animaciones de aparición terminar.
+
+---
+
+## 2. El Flujo del Turno (Líneas 300 - 550)
+
+### 2.1 [StartTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#300-367) (Línea `300`)
+La función de orquestación más importante. Administra el "Mantenimiento" (Upkeep) matemático del juego al inicio de la ronda.
+1. Limpia la basura residual del turno anterior ([ClearTurnData()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#477-489)).
+2. Actualiza los contadores de duración (`turn_timer`, `turn_count`).
+3. Ordena a los personajes por velocidad ([CalculateInitiatives()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#509-536)).
+4. **Restauración de Maná:** Resetea el maná a su valor máximo, suma el `delayed_energy` (Maná guardado de turnos previos, como la mecánica *Retain* de Slay the Spire) y regenera el escudo.
+5. **Daños Pasivos:** Ejecuta el daño por veneno (`StatusEffect.Poisoned`) y Quemaduras antes de robar carta.
+6. Llama por primera vez al devorador de recursos [UpdateOngoing()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315) para asegurar que todas las auras están aplicadas correctamente.
+7. Llama a [DrawHand(character)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#663-684) y ejecuta los Triggers de las reliquias (`AbilityTrigger.StartOfTurn`).
+8. Pone a la cola la función [StartMainPhase()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#368-388).
+
+### 2.2 [StartMainPhase()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#368-388) y [EndTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#389-417) (Línea `368`)
+- [StartMainPhase()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#368-388) es una función microscópica que comprueba si el jugador está aturdido (`Stunned`). Si puede jugar, habilita la UI. Si no, fuerza el final del turno autómaticamente.
+- [EndTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#389-417) desarma al personaje actual, le quita el turno de la lista de iniciativas ([RemoveFromInitiativeCurrent](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#537-545)), le elimina los buffos de un solo uso (`RemoveOnceStatus()`) y ejecuta el Trigger de finalización (`AbilityTrigger.EndOfTurn`). Manda a la cola un nuevo [StartTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#300-367) para el siguiente jugador.
+
+### 2.3 [CalculateInitiatives()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#509-536) (Línea `510`)
+Un diseño peculiar. El engine no recalcula la iniciativa contantemente. Ordena a todos los personajes por Velocidad y bloquea esa lista para la ronda actual (`battle_data.initiatives`). 
+Para los buffos de velocidad, recalcula una segunda lista en la sombra (`initiatives_next`) para la ronda que viene. Esto evita bloqueos extraños o cambios de turno repentinos por cartas que bajan la velocidad de un enemigo a mitad de turno.

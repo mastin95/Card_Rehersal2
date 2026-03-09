@@ -1,4 +1,4 @@
-using RogueEngine.Client;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,12 +43,12 @@ namespace RogueEngine.UI
 
         public override void RefreshPanel()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             UserData udata = Authenticator.Get().UserData;
 
             if (!force_show)
             {
-                champion = world.GetNextActionChampion(GameClient.Get().GetPlayerID());
+                champion = world.GetNextActionChampion(GameManager.Get().GetPlayerID());
                 if(world.state == WorldState.Trash)
                     title.text = "Trash a Card";
             }
@@ -140,11 +140,11 @@ namespace RogueEngine.UI
 
         private void OnClickCard(CardUI card)
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null && world.state == WorldState.Trash)
             {
                 ChampionCard ccard = champion.GetCard(card.GetCard());
-                GameClient.Get().MapTrashCard(champion, ccard);
+                GameManager.Get().MapTrashCard(champion, ccard);
             }
             else if (CardZoomPanel.Get() != null)
             {
@@ -192,10 +192,10 @@ namespace RogueEngine.UI
 
         public void OnClickClose()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null && world.state == WorldState.Trash)
             {
-                GameClient.Get().MapEventContinue();
+                GameManager.Get().MapEventContinue();
             }
 
             Hide();
@@ -209,8 +209,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            World world = GameClient.Get().GetWorld();
-            Champion champ = world.GetNextActionChampion(GameClient.Get().GetPlayerID());
+            World world = GameManager.Get().GetWorld();
+            Champion champ = world.GetNextActionChampion(GameManager.Get().GetPlayerID());
             bool is_trash = world.state == WorldState.Trash && champ != null && !champ.action_completed;
             return force_show || is_trash;
         }

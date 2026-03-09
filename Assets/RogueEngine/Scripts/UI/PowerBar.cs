@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using RogueEngine.Client;
+
 using UnityEngine;
 
 namespace RogueEngine.UI
@@ -17,10 +17,10 @@ namespace RogueEngine.UI
 
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter character = battle.GetActiveCharacter();
 
             int index = 0;

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RogueEngine.UI;
-using RogueEngine.Client;
 
 namespace RogueEngine
 {
@@ -18,8 +17,8 @@ namespace RogueEngine
 
         private void Start()
         {
-            GameClient.Get().onConnectedGame += OnConnectedGame;
-            GameClient.Get().Connect();
+            GameManager.Get().onConnectedGame += OnConnectedGame;
+            GameManager.Get().Connect();
 
             BlackPanel.Get().Show(true);
             BlackPanel.Get().Hide(1f);
@@ -27,17 +26,17 @@ namespace RogueEngine
 
         private void OnDestroy()
         {
-            if (GameClient.Get() != null)
-                GameClient.Get().onConnectedGame -= OnConnectedGame;
+            if (GameManager.Get() != null)
+                GameManager.Get().onConnectedGame -= OnConnectedGame;
         }
 
         private void OnConnectedGame()
         {
-            if (!GameClient.Get().IsGameCreated() && GameClient.connect_settings.IsFileHost())
+            if (GameManager.Get().GetWorld() == null && GameManager.Get().connect_settings.IsFileHost())
             {
                 //New Game (default to test scenario, can be changed)
-                ScenarioData scenario = GameplayData.Get().GetDefaultScenario(GameClient.connect_settings.IsOnline());
-                GameClient.Get().CreateGame(scenario);
+                ScenarioData scenario = GameplayData.Get().GetDefaultScenario(GameManager.Get().connect_settings.IsOnline());
+                GameManager.Get().CreateGame(scenario);
             }
         }
 
@@ -49,14 +48,14 @@ namespace RogueEngine
         private void SwitchScene()
         {
             //Disconnected
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 connect_timer += Time.deltaTime;
 
             if (connect_timer > 15f)
                 SceneNav.GoToMenu(); //Cant connect
 
             //Map
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null && world.HasStarted())
             {
                 MapData map = MapData.Get(world.map_id);

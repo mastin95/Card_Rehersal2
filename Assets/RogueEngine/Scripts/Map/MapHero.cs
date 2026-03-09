@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
 
     public class MapHero : MonoBehaviour
@@ -14,7 +14,7 @@ namespace RogueEngine.Client
 
         void Update()
         {
-            GameClient client = GameClient.Get();
+            GameManager client = GameManager.Get();
             World world = client.GetWorld();
             if (world != null)
             {

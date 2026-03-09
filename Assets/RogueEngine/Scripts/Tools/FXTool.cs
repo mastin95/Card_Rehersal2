@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RogueEngine.FX;
-using RogueEngine.Client;
 
 namespace RogueEngine
 {
@@ -73,8 +72,7 @@ namespace RogueEngine
 
         private static Quaternion GetFXRotation()
         {
-            GameBoard board = GameBoard.Get();
-            Vector3 facing = board != null ? board.transform.forward : Vector3.forward;
+            Vector3 facing = Camera.main != null ? Camera.main.transform.forward : Vector3.forward;
             return Quaternion.LookRotation(facing, Vector3.up);
         }
     }

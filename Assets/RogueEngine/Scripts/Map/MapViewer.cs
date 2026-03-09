@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
 
     public class MapViewer : MonoBehaviour
@@ -58,7 +58,7 @@ namespace RogueEngine.Client
         {
             is_generated = true;
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Map map = world.GetMap(world.map_id);
             map_id = world.map_id;
             max_scroll = map.MapData.depth * row_spacing - cam_width + row_offset;
@@ -95,7 +95,7 @@ namespace RogueEngine.Client
         
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             if (!is_generated)
@@ -187,7 +187,7 @@ namespace RogueEngine.Client
 
         public bool HasChanged()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             return is_generated && map_id != world.map_id;
         }
 

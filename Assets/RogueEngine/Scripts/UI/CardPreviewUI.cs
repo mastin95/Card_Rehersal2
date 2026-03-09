@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 using RogueEngine;
 
 namespace RogueEngine.UI
@@ -30,13 +30,13 @@ namespace RogueEngine.UI
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             foreach (StatusLine line in status_lines)
                 line.Hide();
 
-            Battle bdata = GameClient.Get().GetBattle();
+            Battle bdata = GameManager.Get().GetBattle();
             Card pcard = GetHoveredCard();
             float delay = GetHoverDelay();
 

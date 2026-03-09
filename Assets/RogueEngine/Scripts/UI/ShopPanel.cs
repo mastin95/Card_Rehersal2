@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -47,10 +47,10 @@ namespace RogueEngine.UI
 
         public override void RefreshPanel()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
 
             if (champion_uid == null)
-                champion_uid = world.GetFirstChampion(GameClient.Get().GetPlayerID()).uid;
+                champion_uid = world.GetFirstChampion(GameManager.Get().GetPlayerID()).uid;
 
             //Hide by default
             info_panel.Hide();
@@ -68,7 +68,7 @@ namespace RogueEngine.UI
             int index = 0;
             foreach (Champion champ in world.champions)
             {
-                if (world.CanControlChampion(GameClient.Get().GetPlayerID(), champ))
+                if (world.CanControlChampion(GameManager.Get().GetPlayerID(), champ))
                 {
                     if (index < champions_ui.Length)
                     {
@@ -109,7 +109,7 @@ namespace RogueEngine.UI
 
         private void RefreshInfo()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Champion champion = world.GetChampion(champion_uid);
 
             if (selected_item != null)
@@ -174,18 +174,18 @@ namespace RogueEngine.UI
 
         public void OnClickBuy()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Champion champion = world.GetChampion(champion_uid);
 
             if (selected_card != null)
-                GameClient.Get().MapBuyCard(champion, selected_card);
+                GameManager.Get().MapBuyCard(champion, selected_card);
             else if (selected_item != null)
-                GameClient.Get().MapBuyItem(champion, selected_item);
+                GameManager.Get().MapBuyItem(champion, selected_item);
         }
 
         public void OnClickQuit()
         {
-            GameClient.Get().MapEventContinue();
+            GameManager.Get().MapEventContinue();
         }
 
         public override void Show(bool instant = false)
@@ -197,8 +197,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
             return world.state == WorldState.Shop && !world.AreAllActionsCompleted(player_id);
         }
 

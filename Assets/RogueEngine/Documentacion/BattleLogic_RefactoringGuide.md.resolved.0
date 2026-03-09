@@ -1,0 +1,137 @@
+# Guía de Refactorización Activa: [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs) (Hacia el Event Bus O(1))
+
+Este documento es una transcripción técnica viva de nuestra refactorización paso a paso del núcleo de Rogue Engine. Su objetivo es inmortalizar no solo *qué* código hemos cambiado, sino los **Patrones de Diseño** y el **Game Design** que justifican cada alteración.
+
+---
+
+## 1. El Problema Original: La Iteración Ciega O(N)
+
+En el motor `BattleLogic_Legacy.cs` original, el sistema de eventos ("Triggers") funcionaba mediante un patrón de **Iteración Centralizada**.
+
+Cuando ocurría un evento en el juego (por ejemplo, jugar una carta genérica como "Golpe de Espada" que no tiene sinergias), el motor llamaba a la función `TriggerCharacterAbilityType()`. El problema es que esta función estaba obligada a lanzar bucles `foreach` de "fuerza bruta" para preguntar a cada entidad del tablero si reaccionaba a la acción de "jugar carta".
+
+### Limitación Técnica y de Rendimiento:
+1.  **Iteraciones inútiles:** Si tenías 5 auras (`cards_power`) y 10 reliquias (`cards_item`), el motor lanzaba 15 bucles internos leyendo la memoria de todas las habilidades para comprobar si su [AbilityTrigger](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/Battle.cs#207-221) coincidía. Si ninguna carta tenía sinergia, los milisegundos de CPU se tiraban a la basura.
+2.  **El Muro de Diseño (Cartas en el Mazo):** Debido a que iterar es tan costoso computacionalmente, el creador original se vio forzado a **no iterar** jamás sobre tu Mazo oculto, ni sobre tu Mano, ni sobre tu Descarte para buscar *Triggers*.
+    -   *Efecto de Game Design:* En la versión original de Rogue Engine es imposible crear mecánicas modernas como *"Mientras esta carta esté en tu mazo, recibes 1 menos de daño global"*, porque el motor físico del combate es ciego a esas tres zonas para ahorrar rendimiento.
+
+---
+
+## 2. La Solución Arquitectónica: El Caché de Diccionario (Event Bus)
+
+Para destruir los cuellos de botella y permitir que los mazos, descartes y manos reaccionen al combate, implementamos un Caché basado en `Dictionary`.
+
+**El Concepto de la Agenda Postal:**
+En lugar de iterar por las cartas cada vez que alguien sufre daño, creamo un Índice matemático exacto al arrancar el combate.
+-   **Key (Llave):** El Enum del trigger (`AbilityTrigger.OnDamaged`).
+-   **Value (Valor):** Una `List<Card>` que contiene única y exclusivamente las direcciones de memoria de las cartas que tienen esa habilidad precisa.
+
+Cuando ocurre el daño, en lugar de gritar "¡QUIÉN REACCIONA!" a todo el tablero, el sistema consulta su agenda interna (`trigger_cache[OnDamaged]`) y dispara las funciones directamente a las cartas apuntadas ahí, abortando instantáneamente en 1 milisegundo si la lista está vacía (O(1)).
+
+### Código Implementado (Paso 1 y 2): Inicialización y Suscripción
+
+```csharp
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace RogueEngine.Gameplay
+{
+    public class BattleLogic
+    {
+        // 1. NUESTRA CACHÉ: El corazón del nuevo sistema Event Bus
+        private Dictionary<AbilityTrigger, List<Card>> trigger_cache = new Dictionary<AbilityTrigger, List<Card>>();
+
+        private World world_data;
+        private Battle battle_data;
+        private ResolveQueue resolve_queue;
+
+        public BattleLogic(bool is_instant = false)
+        {
+            resolve_queue = new ResolveQueue(is_instant);
+            InitCache(); 
+        }
+
+        // 2. PREPARACIÓN DE LA AGENDA
+        private void InitCache()
+        {
+            trigger_cache.Clear();
+            
+            // Crea una lista en blanco por cada Trigger en el juego.
+            foreach (AbilityTrigger trigger in Enum.GetValues(typeof(AbilityTrigger)))
+            {
+                trigger_cache[trigger] = new List<Card>();
+            }
+        }
+
+        // 3. LA SUSCRIPCIÓN OBLIGATORIA
+        public void RegisterCardToCache(Card card)
+        {
+            if (card == null) return;
+            foreach (AbilityData ability in card.GetAbilities())
+            {
+                if (ability != null && !trigger_cache[ability.trigger].Contains(card))
+                    trigger_cache[ability.trigger].Add(card);
+            }
+        }
+
+        // 4. EVITAR MEMORY LEAKS
+        public void UnregisterCardFromCache(Card card)
+        {
+            if (card == null) return;
+            foreach (AbilityData ability in card.GetAbilities())
+            {
+                if (ability != null && trigger_cache[ability.trigger].Contains(card))
+                    trigger_cache[ability.trigger].Remove(card);
+            }
+        }
+    }
+}
+```
+
+---
+
+## 3. Demolición de la Iteración: El Nuevo Disparador ([FireTrigger](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#81-116))
+
+Sustituyendo a las kilométricas y costosas funciones `TriggerCharacterAbilityType()` y `TriggerCardAbilityType()`, hemos programado una función unificada y matemática estricta que aniquila la necesidad de usar bucles `foreach` de búsqueda ciegos.
+
+### Código Implementado (Paso 3):
+
+```csharp
+        // 5. EL NUEVO DISPARADOR UNIVERSAL (Costo Computacional Constante O(1))
+        public void FireTrigger(AbilityTrigger triggerType, BattleCharacter caster, Card triggerer = null)
+        {
+            // Verificación de viabilidad del personaje origen
+            if (caster == null || caster.IsDead() || !caster.CanTriggerAbilities()) return; 
+
+            // Rendimiento mágico: Si nadie en todo el juego reacciona a este fuego, salimos en 1 milisegundo.
+            if (!trigger_cache.ContainsKey(triggerType) || trigger_cache[triggerType].Count == 0)
+                return; 
+
+            // Hacemos una copia de protección ".ToList()" para prevenir 'Collection Was Modified Exceptions'
+            // dado que una habilidad reactiva podría destruirse a sí misma y darse de baja de la caché a mitad lectura.
+            List<Card> subscribers = trigger_cache[triggerType].ToList();
+
+            foreach (Card card in subscribers)
+            {
+                // El filtro nativo asume el mismo propietario
+                if (card.owner_uid == caster.uid) 
+                {
+                    foreach (AbilityData ability in card.GetAbilities())
+                    {
+                        if (ability != null && ability.trigger == triggerType)
+                        {
+                            // TriggerAbility (Herencia Legacy) filtrará si la vida < 50, etc.
+                            TriggerAbility(ability, caster, card, triggerer);
+                        }
+                    }
+                }
+            }
+        }
+```
+*(Nota: El código aún requiere portar `TriggerAbility(...)` desde el Legacy para estar libre de errores de sintaxis rojos en Visual Studio).*
+
+---
+
+*(Continuará según progresemos en el código...)*

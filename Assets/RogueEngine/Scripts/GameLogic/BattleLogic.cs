@@ -168,6 +168,9 @@ namespace RogueEngine.Gameplay
         }
         public virtual void StartBattle(World world, EventBattle battle)
         {
+            if (world_data == null) world_data = world;
+            if (battle_data == null) battle_data = world_data.battle;
+            
             //Champions
             foreach (Champion champion in world_data.champions)
             {

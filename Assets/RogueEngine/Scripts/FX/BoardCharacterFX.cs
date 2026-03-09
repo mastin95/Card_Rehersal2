@@ -1,9 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using RogueEngine.Client;
 
 namespace RogueEngine.FX
 {
@@ -39,7 +38,7 @@ namespace RogueEngine.FX
 
         void Start()
         {
-            GameClient client = GameClient.Get();
+            GameManager client = GameManager.Get();
             client.onCharacterMoved += OnMove;
             client.onCharacterDamaged += OnDamaged;
             client.onCardPlayed += OnCardPlayed;
@@ -52,17 +51,20 @@ namespace RogueEngine.FX
 
         private void OnDestroy()
         {
-            GameClient client = GameClient.Get();
-            client.onCharacterMoved -= OnMove;
-            client.onCharacterDamaged -= OnDamaged;
-            client.onAbilityStart -= OnAbilityStart;
-            client.onAbilityTargetCharacter -= OnAbilityEffect;
-            client.onAbilityEnd -= OnAbilityAfter;
+            GameManager client = GameManager.Get();
+            if (client != null)
+            {
+                client.onCharacterMoved -= OnMove;
+                client.onCharacterDamaged -= OnDamaged;
+                client.onAbilityStart -= OnAbilityStart;
+                client.onAbilityTargetCharacter -= OnAbilityEffect;
+                client.onAbilityEnd -= OnAbilityAfter;
+            }
         }
         
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
             BattleCharacter card = bcharacter.GetCharacter();
@@ -153,7 +155,7 @@ namespace RogueEngine.FX
 
         private void OnCardPlayed(Card card, Slot slot)
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter character = battle.GetCharacter(card.owner_uid);
             if (character != null && bcharacter.GetUID() == card.owner_uid)
             {
@@ -165,7 +167,7 @@ namespace RogueEngine.FX
         {
             if (iability != null && card != null)
             {
-                Battle battle = GameClient.Get().GetBattle();
+                Battle battle = GameManager.Get().GetBattle();
                 BattleCharacter character = battle.GetCharacter(card.owner_uid);
                 if (character.uid == bcharacter.GetUID())
                 {
@@ -180,7 +182,7 @@ namespace RogueEngine.FX
         {
             if (iability != null && card != null)
             {
-                Battle battle = GameClient.Get().GetBattle();
+                Battle battle = GameManager.Get().GetBattle();
                 BattleCharacter character = battle.GetCharacter(card.owner_uid);
                 if (character.uid == bcharacter.GetUID())
                 {
@@ -195,7 +197,7 @@ namespace RogueEngine.FX
             {
                 if (target.uid == bcharacter.GetUID())
                 {
-                    World world = GameClient.Get().GetWorld();
+                    World world = GameManager.Get().GetWorld();
                     int damage_estimate = iability.GetDamageEstimate(world, card, bcharacter.GetCharacter());
 
                     FXTool.DoSnapFX(iability.target_fx, FXTransform);

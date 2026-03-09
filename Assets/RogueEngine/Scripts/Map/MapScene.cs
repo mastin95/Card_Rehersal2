@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RogueEngine.UI;
-using RogueEngine.Client;
 
 namespace RogueEngine
 {
@@ -18,35 +17,36 @@ namespace RogueEngine
 
         private void Start()
         {
-            GameClient.Get().onConnectedGame += OnConnectGame;
-            GameClient.Get().Connect();
+            GameManager.Get().onConnectedGame += OnConnectGame;
+            GameManager.Get().Connect();
 
-            if (GameClient.Get().IsReady())
+            if (GameManager.Get().IsReady())
             {
-                World world = GameClient.Get().GetWorld();
+                World world = GameManager.Get().GetWorld();
                 world.Save(); //Auto save each time go back to map scene
             }
         }
 
         private void OnDestroy()
         {
-            GameClient.Get().onConnectedGame -= OnConnectGame;
+            if (GameManager.Get() != null)
+                GameManager.Get().onConnectedGame -= OnConnectGame;
         }
 
         private void OnConnectGame()
         {
-            if (!GameClient.Get().IsGameStarted())
+            if (!GameManager.Get().IsGameStarted())
             {
                 //Start in test mode, scene loaded directly
-                GameClient.Get().NewScenario(GameplayData.Get().test_scenario, "test");
-                GameClient.Get().CreateChampion(GameplayData.Get().test_champion, 2);
-                GameClient.Get().StartTest(WorldState.Map);
+                GameManager.Get().NewScenario(GameplayData.Get().test_scenario, "test");
+                GameManager.Get().CreateChampion(GameplayData.Get().test_champion, 2);
+                GameManager.Get().StartTest(WorldState.Map);
             }
         }
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             SwitchScene();
@@ -55,7 +55,7 @@ namespace RogueEngine
         private void SwitchScene()
         {
             //Battle
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world.state == WorldState.Battle)
             {
                 MapData map = MapData.Get(world.map_id);
@@ -87,7 +87,7 @@ namespace RogueEngine
             GameOverPanel.Get().Show();
 
             //Delete save file
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             World.Delete(world.filename);
         }
 

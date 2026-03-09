@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using RogueEngine.UI;
-using RogueEngine.Client;
 using UnityEngine.Events;
 
 namespace RogueEngine
@@ -66,7 +65,7 @@ namespace RogueEngine
 
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
             UpdateUI();
@@ -83,7 +82,7 @@ namespace RogueEngine
 
         private void UpdateUI()
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter character = battle.GetCharacter(uid);
             if (character == null)
                 return;
@@ -97,7 +96,7 @@ namespace RogueEngine
 
         private void UpdatePosition()
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter character = battle.GetCharacter(uid);
 
             Vector3 tpos = transform.position;
@@ -170,7 +169,7 @@ namespace RogueEngine
 
         public BattleCharacter GetCharacter()
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter character = battle?.GetCharacter(uid);
             return character;
         }
@@ -200,7 +199,7 @@ namespace RogueEngine
 
         public bool IsActive()
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter active = battle.GetActiveCharacter();
             return active != null && GetUID() == battle.GetActiveCharacter().uid;
         }

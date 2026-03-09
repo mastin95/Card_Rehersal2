@@ -1,11 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// Area where all the hand cards are
@@ -36,11 +35,11 @@ namespace RogueEngine.Client
 
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
-            int player_id = GameClient.Get().GetPlayerID();
-            Battle data = GameClient.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
             BattleCharacter character = data.GetActiveCharacter();
             bool can_control = data.CanControlCharacter(player_id, character);
 

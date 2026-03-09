@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using RogueEngine.Client;
 
 namespace RogueEngine.UI
 {
@@ -17,8 +16,7 @@ namespace RogueEngine.UI
 
         public void OnClickQuit()
         {
-            GameClient.Get()?.Disconnect();
-            LobbyClient.Get()?.Disconnect();
+            GameManager.Get()?.Disconnect();
             Hide();
         }
 

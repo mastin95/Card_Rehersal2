@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
 
     public class MapPath : MonoBehaviour
@@ -20,12 +20,12 @@ namespace RogueEngine.Client
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
             if (source_loc == null || dest_loc == null)
                 return;
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             MapLocation current = world.GetCurrentLocation();
             if (current == null)
                 return;

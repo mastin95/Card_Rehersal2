@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -37,7 +37,7 @@ namespace RogueEngine.UI
         {
             base.Update();
 
-            Battle game = GameClient.Get().GetBattle();
+            Battle game = GameManager.Get().GetBattle();
             if (game != null && game.selector == SelectorType.None)
                 Hide();
         }
@@ -47,8 +47,8 @@ namespace RogueEngine.UI
             foreach (ChoiceSelectorChoice choice in choices)
                 choice.Hide();
 
-            Battle gdata = GameClient.Get().GetBattle();
-            Player player = GameClient.Get().GetPlayer();
+            Battle gdata = GameManager.Get().GetBattle();
+            Player player = GameManager.Get().GetPlayer();
             BattleCharacter character = gdata.GetActiveCharacter();
 
             if (ability != null)
@@ -69,10 +69,10 @@ namespace RogueEngine.UI
 
         public void OnClickChoice(int index)
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             if (data.selector == SelectorType.SelectorChoice)
             {
-                GameClient.Get().SelectChoice(index);
+                GameManager.Get().SelectChoice(index);
                 Hide();
             }
             else
@@ -83,7 +83,7 @@ namespace RogueEngine.UI
 
         public void OnClickCancel()
         {
-            GameClient.Get().CancelSelection();
+            GameManager.Get().CancelSelection();
             Hide();
         }
 
@@ -98,8 +98,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            Battle data = GameClient.Get().GetBattle();
-            int player_id = GameClient.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
             return data.selector == SelectorType.SelectorChoice && data.selector_player_id == player_id;
         }
 

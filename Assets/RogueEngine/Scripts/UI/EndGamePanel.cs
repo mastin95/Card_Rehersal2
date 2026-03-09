@@ -1,4 +1,4 @@
-﻿using RogueEngine.Client;
+
 using UnityEngine.UI;
 
 namespace RogueEngine.UI
@@ -35,8 +35,8 @@ namespace RogueEngine.UI
 
         private void RefreshPanel()
         {
-            World data = GameClient.Get().GetWorld();
-            Player player = GameClient.Get().GetPlayer();
+            World data = GameManager.Get().GetWorld();
+            Player player = GameManager.Get().GetPlayer();
 
             player_name.text = player.username;
 

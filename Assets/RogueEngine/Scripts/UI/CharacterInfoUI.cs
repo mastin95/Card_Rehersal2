@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -51,7 +51,7 @@ namespace RogueEngine.UI
 
         public void ShowCharacter(BattleCharacter character)
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BoardCharacter bcharacter = BoardCharacter.Get(character.uid);
             //if (bcharacter != null)
             //    transform.position = bcharacter.transform.position;

@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using RogueEngine.Client;
+
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
@@ -42,8 +42,8 @@ namespace RogueEngine.UI
 
         private void Start()
         {
-            GameClient.Get().onBattleStart += OnBattleStart;
-            GameClient.Get().onNewTurn += OnNewTurn;
+            GameManager.Get().onBattleStart += OnBattleStart;
+            GameManager.Get().onNewTurn += OnNewTurn;
             BlackPanel.Get().Show(true);
             BlackPanel.Get().Hide();
             StartTutorial();
@@ -51,10 +51,10 @@ namespace RogueEngine.UI
 
         private void OnDestroy()
         {
-            if (GameClient.Get() != null)
+            if (GameManager.Get() != null)
             {
-                GameClient.Get().onBattleStart -= OnBattleStart;
-                GameClient.Get().onNewTurn -= OnNewTurn;
+                GameManager.Get().onBattleStart -= OnBattleStart;
+                GameManager.Get().onNewTurn -= OnNewTurn;
             }
         }
 
@@ -63,36 +63,36 @@ namespace RogueEngine.UI
             if (Tutorial.Get() != null)
                 return; //Already started
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null && world.state == WorldState.Battle && world.battle != null)
             {
                 EventBattle ebattle = world.GetEvent<EventBattle>();
                 if (ebattle != null && ebattle.tutorial != null)
                 {
                     GameObject tuto_obj = Instantiate(ebattle.tutorial);
-                    tuto_obj.GetComponent<Canvas>().worldCamera = GameCamera.GetCamera();
+                    tuto_obj.GetComponent<Canvas>().worldCamera = Camera.main;
                 }
             }
         }
 
         void Update()
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
 			bool is_connecting = data == null || data.phase == BattlePhase.None;
-            bool connection_lost = !is_connecting && !GameClient.Get().IsReady();
+            bool connection_lost = !is_connecting && !GameManager.Get().IsReady();
             LoadingPanel.Get().SetVisible(connection_lost);
 
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
             //Menu
             if (KeyInput.IsKeyPress(Key.Escape))
                 menu_panel.Toggle();
 
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
-            bool yourturn = GameClient.Get().IsYourTurn();
+            bool yourturn = GameManager.Get().IsYourTurn();
             BattleCharacter champion = data.GetActiveCharacter();
             mana_txt.text = champion != null ? champion.mana.ToString() : "";
             end_turn_button.interactable = yourturn && end_turn_timer > 1f;
@@ -165,13 +165,13 @@ namespace RogueEngine.UI
             if (Tutorial.IsTuto() && !Tutorial.Get().CanDo(TutoEndTrigger.EndTurn))
                 return;
 
-            GameClient.Get().EndTurn();
+            GameManager.Get().EndTurn();
             end_turn_timer = 0f; //Disable button immediately (dont wait for refresh)
         }
 
         public void OnClickDeck()
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             BattleCharacter champion = data.GetActiveCharacter();
             if (champion != null)
             {
@@ -181,7 +181,7 @@ namespace RogueEngine.UI
 
         public void OnClickDiscard()
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             BattleCharacter champion = data.GetActiveCharacter();
             if (champion != null)
             {
@@ -206,11 +206,11 @@ namespace RogueEngine.UI
 
         public void OnClickEscape()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             EventBattle battle = EventBattle.Get(world.battle.battle_id);
             if (battle != null)
             {
-                GameClient.Get().Resign();
+                GameManager.Get().Resign();
                 menu_panel.Hide();
             }
         }
@@ -230,7 +230,7 @@ namespace RogueEngine.UI
 
             yield return new WaitForSeconds(1f);
 
-            GameClient.Get().Disconnect();
+            GameManager.Get().Disconnect();
             SceneNav.GoTo(scene);
         }
 
@@ -307,7 +307,7 @@ namespace RogueEngine.UI
 
         public static Vector3 MouseToWorld(Vector2 mouse_pos, float distance = 10f)
         {
-            Camera cam = GameCamera.Get() != null ? GameCamera.GetCamera() : Camera.main;
+            Camera cam = Camera.main;
             Vector3 wpos = cam.ScreenToWorldPoint(new Vector3(mouse_pos.x, mouse_pos.y, distance));
             return wpos;
         }

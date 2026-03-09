@@ -1,0 +1,82 @@
+# Desglose Exhaustivo de Código: [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs)
+
+A petición de un análisis profundo y arquitectónico, este documento recorre de forma secuencial todo el código fuente de [BattleLogic.cs](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs), explicando bloque por bloque su propósito dentro de Rogue Engine y cómo las piezas se interconectan. 
+
+El archivo consta de más de 1700 líneas de código divididas en responsabilidades específicas.
+
+---
+
+## 1. Inicialización y Preparación de la Batalla (Líneas 1 - 300)
+
+El archivo comienza definiendo decenas de `UnityAction` (Eventos visuales). Aunque la arquitectura no usa Eventos C# para interacciones de cartas (por rendimiento), **sí usa Eventos C# masivamente para avisar a la interfaz de usuario (UI)** (Ej: `onCardPlayed`, `onTurnStart`). De este modo, la UI escucha al motor, pero el motor no depende de la UI.
+
+### 1.1 [StartBattle(World, EventBattle)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#89-150)
+El punto de entrada del combate (Línea `89`).
+Su función es convertir los datos estáticos del mapa ([World](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1673-1677)) en personajes físicos instanciados.
+1. Crea los instanciamientos de `BattleCharacter` para los Héroes (Champions) y luego para los Enemigos.
+2. Llama a **[SetChampionCards()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#192-237)** (Línea `192`), que es vital: Aquí se separan matemáticamente las listas lógicas.
+   - Si un Item es Consumible o Reliquia Pasiva -> Va a `cards_item`
+   - Si la Carta es normal o Mágica -> Va a `cards_deck`
+3. Finalmente, arroja las cartas base al generador: [ShuffleDeck(character.cards_deck)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#645-655).
+4. El combate no empieza de forma inmediata. Mete un callback en la `resolve_queue` para que llame a [StartTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#300-367) pasados `2f` segundos, permitiendo a las animaciones de aparición terminar.
+
+---
+
+## 2. El Flujo del Turno (Líneas 300 - 550)
+
+### 2.1 [StartTurn()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#300-367) (Línea `300`)
+La función de orquestación más importante. Administra el "Mantenimiento" (Upkeep) matemático del juego al inicio de la ronda.
+1. Limpia la basura residual del turno anterior ([ClearTurnData()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#477-489)).
+2. Actualiza los contadores de duración (`turn_timer`, `turn_count`).
+3. Ordena a los personajes por velocidad ([CalculateInitiatives()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#509-536)).
+4. **Restauración de Maná:** Resetea el maná a su valor máximo, suma el `delayed_energy` (Maná guardado de turnos previos, como la mecánica *Retain* de Slay the Spire) y regenera el escudo.
+5. **Daños Pasivos:** Ejecuta el daño por veneno (`StatusEffect.Poisoned`) y Quemaduras antes de robar carta.
+6. Llama por primera vez al devorador de recursos [UpdateOngoing()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315) para asegurar que todas las auras están aplicadas correctamente.
+7. Llama a [DrawHand(character)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#663-684) y ejecuta los Triggers de las reliquias (`AbilityTrigger.StartOfTurn`).
+8. Pone a la cola la función [StartMainPhase()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#368-388).
+
+### 2.3 [CalculateInitiatives()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#509-536) (Línea `510`)
+Un diseño peculiar. El engine no recalcula la iniciativa contantemente. Ordena a todos los personajes por Velocidad y bloquea esa lista para la ronda actual (`battle_data.initiatives`). 
+Para los buffos de velocidad, recalcula una segunda lista en la sombra (`initiatives_next`) para la ronda que viene. Esto evita bloqueos extraños o cambios de turno repentinos por cartas que bajan la velocidad de un enemigo a mitad de turno.
+
+---
+
+## 3. Acciones de Gameplay Base (Líneas 550 - 850)
+
+Esta sección abarca las funciones que son disparadas directamente por *Inputs* del jugador (Clicks) o por la IA del enemigo.
+
+### 3.1 [PlayCard()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#557-607) (Línea `557`)
+Es el motor principal de interacción. El orden de ejecución es crítico:
+1. Comprueba si tienes maná (`CanPlayCard`) y te lo cobra.
+2. Saca la carta de tu mano (`cards_hand`) para moverla a poderes (`cards_power`) o al descarte (`cards_discard`).
+3. Llama a [UpdateOngoing()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315) para re-aplicar auras matemáticas por si jugar esta carta sumó algún buff pasivo al tablero.
+4. **Trigger Activo:** Invoca [TriggerCardAbilityType(AbilityTrigger.OnPlay, card)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1031-1042) (Dispara el rayo de ataque/cura).
+5. **Trigger Reactivo:** Invoca [TriggerCharacterAbilityType(AbilityTrigger.OnPlayOther, owner, card)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#992-1030) (Pregunta a las reliquias si deben hacer algo porque has jugado una carta).
+6. Al terminar la carta gráfica, lanza [AfterPlayCardResolved](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1235-1244) en la cola, que vuelve a llamar a [UpdateOngoing()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1245-1315) para limpiar muertos.
+
+### 3.2 Manipulación de Mazo (Robo y Descarte)
+- **[DrawHand()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#663-684) (Línea `663`):** Usado al inicio del turno. Descarta tu mano actual (Excepto las cartas que tienen el Status `Keep`, la mecánica "Retener").
+- **[DrawCard(nb)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#685-705) (Línea `685`):** El motor principal de robo. Si no quedan cartas, llama a [ShuffleDiscardToDeck](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#656-662) automáticamente. Por cada carta robada, lanza **dos** eventos reactivos de forma local: `OnDraw` (la carta robada avisa) y `OnDrawOther` (tu personaje avisa que ha robado).
+
+### 3.3 Creación y Alteración
+- **[SummonCharacter()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#732-736) (Línea `732`):** Instancia personajes intermedios (Mascotas/Invocaciones). Fíjate que al invocar, también lanza `OnPlay` sobre el personaje invocado (Actuando como un Grito de Batalla o *Battlecry* de Hearthstone).
+- **[TransformCard()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#781-790) / [TransformCharacter()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#791-805):** Reemplaza los datos ([CardData](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#1166-1177) o `CharacterData`) de una entidad viva en memoria, cambiando su set de reglas sin destruir el objeto visual de Unity.
+
+---
+
+## 4. Resolución de Combate y Daño (Líneas 850 - 950)
+
+### 4.1 Matemáticas Pre-Daño ([DamageCharacter](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#908-936), Línea `878`)
+Tiene un *Overload* (Sobrecarga de funciones). Cuando un Personaje A ataca al Personaje B, entra aquí para calcular modificadores globales ANTES de hacer el daño físico:
+1. Revisa los `StatusEffect` del Atacante. Si el atacante es `Courageous` (+Daño), suma multiplicadores (`factor_self += 0.5f`). Si tiene Miedo (`Fearful`), resta.
+2. Revisa los `StatusEffect` del Defensor. Si el defensor es Vulnerable, suma multiplicadores de dolor.
+3. Multiplica el daño bruto por estos factores calculados y llama a la versión real de la función ([DamageCharacter](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#908-936) genérico).
+4. **La mecánica de Espinas (`Thorn`):** Después de golpear, inmediatamente revisa si el defensor tiene "Espinas", de ser así, devuelve una versión de la función [DamageCharacter()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#908-936) directa hacia el atacante original.
+
+### 4.2 Impacto Físico ([DamageCharacter(Target)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#908-936), Línea `908`)
+Aquí es donde caen los puntos de vida.
+1. Calcula la armadura: Si el daño es `10` y el escudo (`shield`) es `3`, resta `3` al daño y deja el escudo a `0`.
+2. Suma el daño residual a la propiedad `target.damage` (En Rogue Engine, la vida no disminuye, el daño se acumula. La vida actual es `GetHPMax() - damage`).
+3. Golpear a un enemigo remueve forzosamente el status `Sleep`.
+4. Lanza el evento masivo [TriggerCharacterAbilityType(AbilityTrigger.OnDamaged, target)](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#992-1030), avisando a todas las pasivas de C# que este target ha sufrido dolor.
+5. Comprueba si el personaje ha llegado a 0 HP y si es así, llama a [KillCharacter()](file:///c:/Users/Usuario/Documents/UnityProjects/Card_Rehersal/Assets/RogueEngine/Scripts/GameLogic/BattleLogic.cs#949-968).

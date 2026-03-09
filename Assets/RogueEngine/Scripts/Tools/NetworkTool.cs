@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -88,7 +88,7 @@ namespace RogueEngine
 
             try
             {
-                FastBufferWriter writer = new FastBufferWriter(size, Allocator.Temp, TcgNetwork.MsgSizeMax);
+                FastBufferWriter writer = new FastBufferWriter(size, Allocator.Temp, 32768);
                 writer.WriteNetworkSerializable(obj);
                 byte[] bytes = writer.ToArray();
                 writer.Dispose();

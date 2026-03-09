@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -37,7 +37,7 @@ namespace RogueEngine.UI
 
         public void RefreshPanel()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             UserData udata = Authenticator.Get().UserData;
 
             title.text = world.completed ? "Victory" : "Game Over";
@@ -97,7 +97,7 @@ namespace RogueEngine.UI
             }
             else
             {
-                GameClient.Get().Disconnect();
+                GameManager.Get().Disconnect();
                 SceneNav.GoToMenu();
             }
         }

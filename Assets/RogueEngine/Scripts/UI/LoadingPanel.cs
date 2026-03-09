@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -35,9 +35,9 @@ namespace RogueEngine.UI
         {
             base.Update();
 
-            if(!GameClient.Get().IsConnected())
+            if(!GameManager.Get().IsConnected())
                 SetLoadText("Connecting to server...");
-            else if(!GameClient.Get().IsReady())
+            else if(!GameManager.Get().IsReady())
                 SetLoadText("Connecting to game...");
             else
                 SetLoadText("");
@@ -54,12 +54,12 @@ namespace RogueEngine.UI
 
         public bool IsOnline()
         {
-            return GameClient.connect_settings.IsOnline();
+            return GameManager.Get().connect_settings.IsOnline();
         }
 
         public void OnClickQuit()
         {
-            GameClient.Get().Disconnect();
+            GameManager.Get().Disconnect();
             SceneNav.GoToMenu();
         }
 

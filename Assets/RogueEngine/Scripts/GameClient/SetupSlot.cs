@@ -1,12 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using RogueEngine.Client;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     public class SetupSlot : MonoBehaviour
     {
@@ -43,7 +42,7 @@ namespace RogueEngine.Client
 
         protected virtual void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             RefreshChampion();
@@ -51,7 +50,7 @@ namespace RogueEngine.Client
 
         private void RefreshChampion()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             ScenarioData scenario = ScenarioData.Get(world.scenario_id);
             Champion champion = world.GetSlotChampion(x);
             if (champion != null)
@@ -71,7 +70,7 @@ namespace RogueEngine.Client
             }
 
             empty_area.SetActive(character == null && scenario != null && world.champions.Count < scenario.champions);
-            edit_area.SetActive(character != null && champion.player_id == GameClient.Get().GetPlayerID());
+            edit_area.SetActive(character != null && champion.player_id == GameManager.Get().GetPlayerID());
         }
 
         private void ReplaceChampion(Champion champion)
@@ -86,7 +85,7 @@ namespace RogueEngine.Client
 
         private List<ChampionData> GetScenarioChampions()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             ScenarioData scenario = ScenarioData.Get(world.scenario_id);
             if (scenario != null && scenario.available_champions != null && scenario.available_champions.Length > 0)
                 return new List<ChampionData>(scenario.available_champions);
@@ -100,7 +99,7 @@ namespace RogueEngine.Client
             index = (index + max_index) % max_index;
 
             ChampionData cdata = GetScenarioChampions()[index];
-            GameClient.Get().CreateChampion(cdata, x);
+            GameManager.Get().CreateChampion(cdata, x);
         }
 
         public void OnClickNext()
@@ -109,7 +108,7 @@ namespace RogueEngine.Client
             index = (index + max_index) % max_index;
 
             ChampionData cdata = GetScenarioChampions()[index];
-            GameClient.Get().CreateChampion(cdata, x);
+            GameManager.Get().CreateChampion(cdata, x);
         }
 
         public void OnClickNew()
@@ -117,12 +116,12 @@ namespace RogueEngine.Client
             index = 0;
             max_index = GetScenarioChampions().Count;
             ChampionData cdata = GetScenarioChampions()[index];
-            GameClient.Get().CreateChampion(cdata, x);
+            GameManager.Get().CreateChampion(cdata, x);
         }
 
         public void OnClickDelete()
         {
-            GameClient.Get().DeleteChampion(x); 
+            GameManager.Get().DeleteChampion(x); 
         }
         
         //Find the actual slot coordinates of this board slot

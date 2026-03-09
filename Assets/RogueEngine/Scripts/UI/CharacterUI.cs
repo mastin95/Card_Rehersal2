@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -56,7 +56,7 @@ namespace RogueEngine.UI
             hp_bar.value_max = champion.GetHPMax();
             intent_icon.Hide();
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Player player = world?.GetPlayer(champion.player_id);
             username.enabled = player != null && world.IsMultiplayer();
             if (player != null)
@@ -69,7 +69,7 @@ namespace RogueEngine.UI
         {
             this.character = character;
 
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             hp_bar.value = character.GetHP();
             hp_bar.value_max = character.GetHPMax();
             shield.text = character.GetShield().ToString();
@@ -79,7 +79,7 @@ namespace RogueEngine.UI
             shield_group.SetActive(character.GetShield() > 0);
             intent_icon.Hide();
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Player player = world?.GetPlayer(character.player_id);
             username.enabled = player != null && !character.IsEnemy() && world.IsMultiplayer();
             if (player != null)
@@ -96,7 +96,7 @@ namespace RogueEngine.UI
 
         public void SetIntent(BattleCharacter character)
         {
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             if (battle.IsCharacterTurn(character))
                 return; //Currently playing 
             if (!character.CanPlayTurn())

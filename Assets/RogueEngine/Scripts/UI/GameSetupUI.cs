@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using RogueEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -36,12 +36,12 @@ namespace RogueEngine.UI
 
         void Update()
         {
-            LoadingPanel.Get().SetVisible(!GameClient.Get().IsReady());
+            LoadingPanel.Get().SetVisible(!GameManager.Get().IsReady());
             
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             ScenarioData scenario = ScenarioData.Get(world.scenario_id);
             if (scenario == null)
                 return;
@@ -49,8 +49,8 @@ namespace RogueEngine.UI
             player_count.text = world.champions.Count + "/" + scenario.champions;
             scenario_txt.text = scenario.title;
 
-            if (host_group.activeSelf != GameClient.connect_settings.file_host)
-                host_group.SetActive(GameClient.connect_settings.file_host);
+            if (host_group.activeSelf != GameManager.Get().connect_settings.file_host)
+                host_group.SetActive(GameManager.Get().connect_settings.file_host);
 
             if (scenario.id != scenario_id)
             {
@@ -95,7 +95,7 @@ namespace RogueEngine.UI
             ScenarioData scenario = GameplayData.Get().scenarios[scenario_index];
             if (scenario != null && !string.IsNullOrWhiteSpace(input_seed.text))
             {
-                GameClient.Get().CreateGame(scenario);
+                GameManager.Get().CreateGame(scenario);
             }
         }
 
@@ -113,12 +113,12 @@ namespace RogueEngine.UI
 
         public void OnClickStart()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             ScenarioData scenario = ScenarioData.Get(world.scenario_id);
             if (scenario != null && !string.IsNullOrWhiteSpace(input_seed.text) && world.champions.Count > 0 && world.champions.Count <= scenario.champions)
             {
                 int seed = input_seed.text.ToUpper().GetHashCode();
-                GameClient.Get().StartGame(seed);
+                GameManager.Get().StartGame(seed);
             }
         }
 

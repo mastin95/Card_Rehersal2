@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     //Unlock permanent rewards after a match
 
@@ -18,9 +18,9 @@ namespace RogueEngine.Client
         //Called when a run end to unlock new cards and items
         public async void UnlockNewRewards(int nb_cards, int nb_items)
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             UserData udata = Authenticator.Get().UserData;
-            Player player = GameClient.Get().GetPlayer();
+            Player player = GameManager.Get().GetPlayer();
 
             if (udata == null || world == null || player == null)
                 return; //Invalid data

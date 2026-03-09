@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// TutoStep inside a group will all be triggered sequentially, game proceed to next step when end_trigger is met, or when another group is triggered

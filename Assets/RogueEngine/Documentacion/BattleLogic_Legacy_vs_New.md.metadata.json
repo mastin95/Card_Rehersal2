@@ -1,0 +1,5 @@
+{
+  "artifactType":  "ARTIFACT_TYPE_OTHER",
+  "summary":  "A detailed side-by-side technical comparison of the original `BattleLogic_Legacy.cs` and the refactored `BattleLogic.cs`, highlighting the transition from O(N) iteration loops to an O(1) Dictionary Event Bus Cache. Includes specific code snippets covering initialization, trigger firing, and edge cases discovered during debugging.",
+  "updatedAt":  "2026-03-02T19:37:02.529742200Z"
+}

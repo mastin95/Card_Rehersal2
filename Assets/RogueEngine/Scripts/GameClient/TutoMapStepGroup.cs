@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// TutoStep groups do NOT need to be triggered in order, group will be triggered on start_trigger condition 

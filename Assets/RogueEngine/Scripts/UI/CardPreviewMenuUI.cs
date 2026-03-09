@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 using RogueEngine;
 
 namespace RogueEngine.UI
@@ -28,7 +28,7 @@ namespace RogueEngine.UI
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             CardUIHover hover_ui = CardUIHover.GetFocus();

@@ -1,11 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RogueEngine.Client;
 using UnityEngine.Events;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// Script that contain main controls for clicking on cards, attacking, activating abilities
@@ -25,7 +24,7 @@ namespace RogueEngine.Client
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             if (MouseInput.IsRightClick())
@@ -40,16 +39,16 @@ namespace RogueEngine.Client
 
         public void SelectCharacter(BoardCharacter bcard)
         {
-            Battle gdata = GameClient.Get().GetBattle();
+            Battle gdata = GameManager.Get().GetBattle();
             if (gdata == null)
                 return;
 
-            Player player = GameClient.Get().GetPlayer();
+            Player player = GameManager.Get().GetPlayer();
             BattleCharacter character = bcard.GetCharacter();
 
             if (gdata.IsPlayerSelectorTurn(player.player_id) && gdata.selector == SelectorType.SelectTarget)
             {
-                GameClient.Get().SelectCharacter(character);
+                GameManager.Get().SelectCharacter(character);
             }
             else if (gdata.IsPlayerActionTurn(player.player_id) && gdata.CanControlCharacter(player.player_id, character))
             {

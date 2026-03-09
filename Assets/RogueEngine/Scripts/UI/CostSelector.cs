@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -35,7 +35,7 @@ namespace RogueEngine.UI
         {
             base.Update();
 
-            Battle game = GameClient.Get().GetBattle();
+            Battle game = GameManager.Get().GetBattle();
             if (game != null && game.selector == SelectorType.None)
                 Hide();
         }
@@ -45,7 +45,7 @@ namespace RogueEngine.UI
             if (card == null)
                 return;
 
-            Battle game = GameClient.Get().GetBattle();
+            Battle game = GameManager.Get().GetBattle();
             BattleCharacter character = game.GetCharacter(card.owner_uid);
             selector.SetMax(character.mana);
             selector.SetValue(0);
@@ -53,10 +53,10 @@ namespace RogueEngine.UI
 
         public void OnClickOK()
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             if (data.selector == SelectorType.SelectorCost)
             {
-                GameClient.Get().SelectCost(selector.value);
+                GameManager.Get().SelectCost(selector.value);
             }
 
             Hide();
@@ -64,7 +64,7 @@ namespace RogueEngine.UI
 
         public void OnClickCancel()
         {
-            GameClient.Get().CancelSelection();
+            GameManager.Get().CancelSelection();
             Hide();
         }
 
@@ -82,8 +82,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            Battle data = GameClient.Get().GetBattle();
-            int player_id = GameClient.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
             return data.selector == SelectorType.SelectorCost && data.selector_player_id == player_id;
         }
 

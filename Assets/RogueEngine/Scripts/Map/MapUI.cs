@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
 
 namespace RogueEngine.UI
 {
@@ -32,29 +31,29 @@ namespace RogueEngine.UI
 
         private void Start()
         {
-            GameClient.Get().onGameTest += StartTutorial;
-            GameClient.Get().onRefreshWorld += OnRefresh;
+            GameManager.Get().onGameTest += StartTutorial;
+            GameManager.Get().onRefreshWorld += OnRefresh;
 
             StartTutorial();
         }
 
         void OnDestroy()
         {
-            GameClient.Get().onGameTest -= StartTutorial;
-            GameClient.Get().onRefreshWorld -= OnRefresh;
+            GameManager.Get().onGameTest -= StartTutorial;
+            GameManager.Get().onRefreshWorld -= OnRefresh;
         }
 
         void Update()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             bool is_connecting = world == null || world.state == WorldState.None;
-            bool connection_lost = !is_connecting && !GameClient.Get().IsReady();
+            bool connection_lost = !is_connecting && !GameManager.Get().IsReady();
             LoadingPanel.Get().SetVisible(connection_lost);
 
             if (world == null)
                 return;
 
-            Player aplayer = GameClient.Get().GetPlayer();
+            Player aplayer = GameManager.Get().GetPlayer();
             int gold = aplayer.gold;
             gold_txt.text = gold.ToString();
 
@@ -80,10 +79,10 @@ namespace RogueEngine.UI
 
         private void StartTutorial()
         {
-            if (TutorialMap.Get() != null)
+            /*if (TutorialMap.Get() != null)
                 return; //Already started
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null)
             {
                 MapData map = MapData.Get(world.map_id);
@@ -92,7 +91,7 @@ namespace RogueEngine.UI
                     GameObject tuto_obj = Instantiate(map.map_tutorial);
                     tuto_obj.GetComponent<Canvas>().worldCamera = GameCamera.GetCamera();
                 }
-            }
+            }*/
         }
 
         private void ShowPanels()
@@ -135,7 +134,7 @@ namespace RogueEngine.UI
             Champion champion = ui.GetChampion();
             if (champion != null && champion.CanLevelUp())
             {
-                GameClient.Get().LevelUp(champion);
+                GameManager.Get().LevelUp(champion);
             }
         }
 
@@ -146,13 +145,13 @@ namespace RogueEngine.UI
 
         public void OnClickQuit()
         {
-            GameClient.Get().Disconnect();
+            GameManager.Get().Disconnect();
             SceneNav.GoToMenu();
         }
 
         public void OnClickSave()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             world.Save();
         }
 

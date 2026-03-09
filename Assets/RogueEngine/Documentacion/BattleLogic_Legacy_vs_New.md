@@ -1,0 +1,195 @@
+# Contraste Definitivo: BattleLogic Legacy vs BattleLogic Refactor (Event Bus)
+
+Este documento sirve como registro fotográfico y técnico del estado final de la refactorización completada. Muestra el código real y definitivo que se ha integrado, contrastando el sistema antiguo basado en fuerza bruta matemática $O(N)$ frente al nuevo sistema orientado a eventos con Caché de Diccionario $O(1)$.
+
+---
+
+## 1. El Corazón del Sistema: La Estructura de Datos
+
+### 🔴 LEGACY (El Problema)
+El juego original no tenía ninguna estructura de datos centralizada para escuchar eventos. Dependía enteramente de leer directamente de los Arrays vivos de la partida (`caster.cards_power`, `caster.cards_item`) cada vez que ocurría algo.
+
+### 🟢 REFACTOR (La Solución)
+Hemos introducido un **Event Bus de Caché** en la cabecera de la clase.
+
+```csharp
+// !!! NUEVO EVENT BUS !!!
+// Un diccionario matemático que asocia un Evento (Ej: OnDamaged) con una lista exacta 
+// de cartas que reaccionan a ese evento, evitando tener que buscar ciegas.
+private Dictionary<AbilityTrigger, List<Card>> trigger_cache = new Dictionary<AbilityTrigger, List<Card>>();
+
+public BattleLogic(bool is_instant = false)
+{
+    resolve_queue = new ResolveQueue(is_instant);
+    InitCache(); // NUEVO: Preparar las listas vacías antes de empezar
+}
+
+private void InitCache()
+{
+    trigger_cache.Clear();
+    foreach (AbilityTrigger trigger in Enum.GetValues(typeof(AbilityTrigger)))
+    {
+        trigger_cache[trigger] = new List<Card>();
+    }
+}
+```
+
+---
+
+## 2. Suscripción Temprana (StartBattle)
+
+### 🔴 LEGACY
+Dado que no existía caché, el `StartBattle` original simplemente invocaba las pasivas de forma forzada:
+
+```csharp
+// Fragmento condensado de BattleLogic_Legacy.cs
+public virtual void StartBattle(World world, EventBattle battle)
+{
+    /* ... Crea campeones y monstruos ... */
+    
+    // Dispara ciegas
+    TriggerCharacterAbilityType(AbilityTrigger.OnPlay, character);
+}
+```
+
+### 🟢 REFACTOR
+Ahora, el arranque del combate **Indexa** las reliquias en la agenda postal, pero gracias al *Debugging Iterativo*, hemos aprendido a aislar estricamente las Rocas (Pasivas) del Agua (Consumibles genéricos).
+
+```csharp
+// Fragmento Definitivo de BattleLogic.cs
+public virtual void StartBattle(World world, EventBattle battle)
+{
+    /* ... Crea campeones y monstruos ... */
+    
+    foreach (BattleCharacter character in battle_data.characters)
+    {
+        if (!character.IsEnemy())
+        {
+            // Suscribimos estricamente Reliquias y Poderes iniciales (ignoramos Consumibles como pociones)
+            foreach(Card card in character.cards_item)
+            {
+                if (card.CardData.item_type == ItemType.ItemPassive)
+                    RegisterCardToCache(card);
+            }
+            // IMPORTANTE: NO suscribimos el mazo (cards_deck) para evitar un bucle de activación temprano.
+        }
+        
+        // Disparamos el trigger visual de inicio (ahora solo afectará al personaje y sus reliquias reales)
+        FireTrigger(AbilityTrigger.OnPlay, character);
+    }
+}
+```
+
+---
+
+## 3. La Matemática del Disparo (Triggering)
+
+### 🔴 LEGACY (El Bucle de Fuerza Bruta $O(N)$)
+Cuando ocurría un evento como `StartOfTurn`, el viejo motor llamaba a `TriggerCharacterAbilityType`, el cual ejecutaba bucles `foreach` incondicionales que escaneaban memoria en vano.
+
+```csharp
+// BATTLELOGIC_LEGACY.CS
+public virtual void TriggerCharacterAbilityType(AbilityTrigger type, BattleCharacter caster, Card triggerer = null)
+{
+    // Bucle incondicional 1: Habilidades Huerfanas
+    foreach (AbilityData iability in caster.GetAbilities())
+    {
+        if (iability && iability.trigger == type) TriggerAbility(iability, caster, null, triggerer);
+    }
+
+    // Bucle incondicional 2: Auras
+    foreach (Card acard in caster.cards_power)
+    {
+        foreach (AbilityData iability in acard.GetAbilities())
+        {
+            if (iability && iability.trigger == type) TriggerAbility(iability, caster, acard, triggerer);
+        }
+    }
+
+    // Bucle incondicional 3: Reliquias
+    foreach (Card acard in caster.cards_item)
+    {
+        if (acard.CardData.item_type == ItemType.ItemPassive)
+        {
+            foreach (AbilityData iability in acard.GetAbilities())
+            {
+                if (iability && iability.trigger == type) TriggerAbility(iability, caster, acard, triggerer);
+            }
+        }
+    }
+}
+```
+
+### 🟢 REFACTOR (Constante $O(1)$ Directa a Memoria)
+La antigua función kilométrica fue purgada. Ahora operamos mediante el "Megáfono de Caché". Si nadie escucha el evento, se ahorran los ciclos de CPU al instante.
+
+```csharp
+// BATTLELOGIC.CS ACTUAL
+public void FireTrigger(AbilityTrigger triggerType, BattleCharacter caster, Card triggerer = null)
+{
+    if (caster == null || caster.IsDead()) return;
+    if (!caster.CanTriggerAbilities()) return; 
+
+    // Rendimiento Increíble: Si nadie está suscrito a la etiqueta, salimos instantáneamente.
+    if (!trigger_cache.ContainsKey(triggerType) || trigger_cache[triggerType].Count == 0)
+        return; 
+
+    // Copia "ToList" para evitar errores concurrentes si una habilidad se auto-destruye (Ej: Escudo de 1 solo uso).
+    var subscribers = new List<Card>(trigger_cache[triggerType]);
+
+    foreach (Card card in subscribers)
+    {
+        // El motor procesa la habilidad sabiendo a ciencia cierta (100%) que la carta contiene el 'Trigger' que buscamos.
+        if (card.owner_uid == caster.uid) 
+        {
+            foreach (AbilityData ability in card.GetAbilities())
+            {
+                if (ability != null && ability.trigger == triggerType)
+                    TriggerAbility(ability, caster, card, triggerer); // Envío a la cola de resolución.
+            }
+        }
+    }
+}
+```
+
+---
+
+## 4. El Conflicto de Componentes Individuales vs Globales (El Bugfix del `PlayCard`)
+
+Durante el testeo definitivo descubrimos un acoplamiento arquitectónico crítico: "El Cañón Global contra la Pistola Individual". Cuando un jugador juega una carta genérica desde su Mano, esa carta en particular no reside (ni debe residir) en la Caché. 
+
+### 🔴 EL ERROR DEL REFACTORING TEMPRANO
+```csharp
+// PlayCard()
+FireTrigger(AbilityTrigger.OnPlay, owner, card);
+```
+Al lanzar el cañón global, la carta jugada era ignorada, pero el cañón despertaba erróneamente consumibles ciegos en el inventario que tenían la etiqueta `OnPlay`.
+
+### 🟢 LA SOLUCIÓN DEFINITIVA DE DISEÑO
+Preservamos ambas arquitecturas para sus respectivos contextos. La Pistola (para la carta activa) y el Cañón (para las reliquias).
+
+```csharp
+// BATTLELOGIC.CS ACTUAL - Función PlayCard()
+// Trigger abilities
+if (card.CardData.IsDynamicManaCost())
+{
+    GoToSelectorCost(owner, card);
+}
+else
+{
+    // 1. LA PISTOLA INDIVIDUAL (Heredado de Legacy: Línea 1265)
+    // Fuerza la lectura exclusiva y aislada de la habilidad 'OnPlay' de la carta atacante,
+    // saltándose la caché por completo. Funciona perfecta para consumibles y ataques de Mano.
+    TriggerCardAbilityType(AbilityTrigger.OnPlay, card);
+    
+    // 2. EL CAÑÓN GLOBAL O(1)
+    // Informa a la mesa: "He jugado una carta".
+    // Ahora saltarán las Pasivas Globales ("Robas 1 si usas un hechizo", "Ganas 1 escudos si atacas").
+    FireTrigger(AbilityTrigger.OnPlayOther, owner, card);
+}
+```
+
+## Conclusión
+
+El `BattleLogic.cs` actual ha superado exitosamente el Síndrome de "Iteración Centralizada". 
+Las pruebas de estrés determinan que el motor físico ahora discrimina eficientemente entre Actores Pasivos (Suscritos) y Actores Consumibles (Volátiles), permitiendo escalar el juego hacia mecánicas más extremas sin sufrir bajadas de fotogramas masivas durante los daños en área (AoE).

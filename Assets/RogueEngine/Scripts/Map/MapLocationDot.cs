@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using RogueEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     public class MapLocationDot : MonoBehaviour
     {
@@ -46,10 +46,10 @@ namespace RogueEngine.Client
 
         protected virtual void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Map map = GetMap();
 
             MapLocation current = world.GetCurrentLocation();
@@ -87,12 +87,12 @@ namespace RogueEngine.Client
             if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.Move))
                 return;
 
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             MapLocation location = GetLocation();
-            Champion champion = world.GetFirstChampion(GameClient.Get().GetPlayerID());
+            Champion champion = world.GetFirstChampion(GameManager.Get().GetPlayerID());
             if (location != null && champion != null && world.CanMoveTo(location))
             {
-                GameClient.Get().MapMove(champion, location);
+                GameManager.Get().MapMove(location);
             }
         }
 
@@ -109,13 +109,13 @@ namespace RogueEngine.Client
 
         public Map GetMap()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             return world.GetMap(map_id);
         }
 
         public MapLocation GetLocation()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             return world.GetLocation(map_id, loc_id);
         }
 

@@ -1,11 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RogueEngine.Client;
 using UnityEngine.Events;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// GameBoard takes care of spawning and despawning BoardCharacters, based on the refreshed data received from the server
@@ -31,11 +30,11 @@ namespace RogueEngine.Client
 
         void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
-            int player_id = GameClient.Get().GetPlayerID();
-            Battle data = GameClient.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
 
             //--- Battle characters --------
 

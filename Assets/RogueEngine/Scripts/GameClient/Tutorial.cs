@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
 
     public class Tutorial : MonoBehaviour
@@ -22,14 +22,14 @@ namespace RogueEngine.Client
 
         void Start()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world != null && world.state == WorldState.Battle && world.battle != null)
             {
                 is_tuto = true;
-                GameClient.Get().onNewTurn += OnNewTurn;
-                GameClient.Get().onCardPlayed += OnCardPlayed;
-                GameClient.Get().onAbilityTargetCharacter += OnTargetCharacter;
-                GameClient.Get().onAbilityTargetCard += OnTargetCard;
+                GameManager.Get().onNewTurn += OnNewTurn;
+                GameManager.Get().onCardPlayed += OnCardPlayed;
+                GameManager.Get().onAbilityTargetCharacter += OnTargetCharacter;
+                GameManager.Get().onAbilityTargetCard += OnTargetCard;
                 HideAll();
             }
         }
@@ -38,22 +38,22 @@ namespace RogueEngine.Client
         {
             if (is_tuto)
             {
-                GameClient.Get().onNewTurn -= OnNewTurn;
-                GameClient.Get().onCardPlayed -= OnCardPlayed;
-                GameClient.Get().onAbilityTargetCharacter -= OnTargetCharacter;
-                GameClient.Get().onAbilityTargetCard -= OnTargetCard;
+                GameManager.Get().onNewTurn -= OnNewTurn;
+                GameManager.Get().onCardPlayed -= OnCardPlayed;
+                GameManager.Get().onAbilityTargetCharacter -= OnTargetCharacter;
+                GameManager.Get().onAbilityTargetCard -= OnTargetCard;
             }
         }
 
         private void OnNewTurn()
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             if (data == null)
                 return;
 
             EndGroup();
 
-            int player_id = GameClient.Get().GetPlayerID();
+            int player_id = GameManager.Get().GetPlayerID();
             BattleCharacter character = data.GetActiveCharacter();
             if (character == null || !data.CanControlCharacter(player_id, character))
                 return;
@@ -64,8 +64,8 @@ namespace RogueEngine.Client
 
         private void OnCardPlayed(Card card, Slot slot)
         {
-            int player_id = GameClient.Get().GetPlayerID();
-            Battle data = GameClient.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
             if (data.CanControlCard(player_id, card))
             {
                 TriggerEndStep(TutoEndTrigger.PlayCard);
@@ -75,8 +75,8 @@ namespace RogueEngine.Client
 
         private void OnTargetCard(AbilityData ability, Card card, Card target)
         {
-            int player_id = GameClient.Get().GetPlayerID();
-            Battle data = GameClient.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
             if (data.CanControlCard(player_id, card))
             {
                 TriggerEndStep(TutoEndTrigger.SelectTarget);
@@ -85,8 +85,8 @@ namespace RogueEngine.Client
 
         private void OnTargetCharacter(AbilityData ability, Card card, BattleCharacter target)
         {
-            int player_id = GameClient.Get().GetPlayerID();
-            Battle data = GameClient.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
+            Battle data = GameManager.Get().GetBattle();
             if (data.CanControlCard(player_id, card))
             {
                 TriggerEndStep(TutoEndTrigger.SelectTarget);
@@ -125,7 +125,7 @@ namespace RogueEngine.Client
 
         public void ShowGroup(TutoStartTrigger trigger, Card target)
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             BattleCharacter character = data.GetActiveCharacter();
             TutoStepGroup group = TutoStepGroup.Get(trigger, character, target, data.turn_count);
             ShowGroup(group);
@@ -188,7 +188,7 @@ namespace RogueEngine.Client
 
         public bool CanDo(TutoEndTrigger trigger, Slot slot)
         {
-            Battle data = GameClient.Get().GetBattle();
+            Battle data = GameManager.Get().GetBattle();
             BattleCharacter target = data.GetSlotCharacter(slot);
             return CanDo(trigger, target);
         }

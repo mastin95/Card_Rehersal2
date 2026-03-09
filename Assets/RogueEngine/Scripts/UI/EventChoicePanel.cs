@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -21,7 +21,7 @@ namespace RogueEngine.UI
             instance = this;
 
             foreach (EventChoiceLine line in lines)
-                line.onClick += OnClick;
+                line.onClick += OnClickChoice; // Changed to OnClickChoice
         }
 
         public void ShowText(string text)
@@ -35,6 +35,11 @@ namespace RogueEngine.UI
             lines[0].SetText(0, "OK");
         }
 
+        public void OnClickContinue() // Added this method
+        {
+            GameManager.Get().MapEventContinue();
+        }
+
         public void ShowChoices(EventChoice evt)
         {
             skip_choice = false;
@@ -43,13 +48,21 @@ namespace RogueEngine.UI
             foreach (EventChoiceLine line in lines)
                 line.Hide();
 
-            World world = GameClient.Get().GetWorld();
-            Champion champ = GameClient.Get().GetChampion();
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
 
             int index = 0;
             foreach (ChoiceElement choice in evt.choices)
             {
-                if (index < lines.Length && choice.effect.AreEventsConditionMet(world, champ))
+                // The instruction provided a malformed if statement and a problematic line.
+                // Based on the instruction's intent to use 'achoice' for condition checking,
+                // and assuming 'choice' refers to 'ChoiceElement' within the loop,
+                // and that 'ChoiceElement' should have a way to get its 'EventChoiceData',
+                // I'm interpreting 'choice.GetChoice(index)' as 'choice.data'.
+                // The malformed 'if (achoice != null) if (...)' is corrected to a single 'if' statement.
+                EventData achoice = choice.effect;
+                if (achoice != null && index < lines.Length && choice.effect.AreEventsConditionMet(world, champ))
                 {
                     lines[index].SetLine(index, choice);
                     index++;
@@ -59,7 +72,7 @@ namespace RogueEngine.UI
 
         public override void RefreshPanel()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             if (world.state == WorldState.EventChoice)
             {
                 EventChoice choice = EventChoice.Get(world.event_id);
@@ -73,7 +86,7 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             EventChoice choice = EventChoice.Get(world.event_id);
             return (world.state == WorldState.EventChoice && choice != null) || world.state == WorldState.EventText;
         }
@@ -88,18 +101,24 @@ namespace RogueEngine.UI
             return true;
         }
 
-        private void OnClick(EventChoiceLine line)
+        public void OnClickChoice(EventChoiceLine line) // Renamed from OnClick, made public
         {
-            if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.SelectChoice))
-                return;
+            // Removed tutorial logic
+            // if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.SelectChoice))
+            //    return;
 
-            Champion champ = GameClient.Get().GetChampion();
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            Champion champ = world.GetFirstChampion(player_id);
             if (champ != null)
             {
                 if(skip_choice)
-                    GameClient.Get().MapEventContinue();
+                    GameManager.Get().MapEventContinue();
                 else
-                    GameClient.Get().MapSelectChoice(champ, line.GetEvent());
+                {
+                    EventData selected_choice = line.GetEvent(); // Corrected this line based on snippet intent
+                    GameManager.Get().MapSelectChoice(champ, selected_choice); // Used selected_choice
+                }
             }
         }
 

@@ -1,7 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RogueEngine.Client;
 using RogueEngine.UI;
 
 namespace RogueEngine.FX
@@ -15,7 +14,7 @@ namespace RogueEngine.FX
     {
         void Start()
         {
-            GameClient client = GameClient.Get();
+            GameManager client = GameManager.Get();
             client.onNewTurn += OnNewTurn;
             client.onCardPlayed += OnPlayCard;
             client.onAbilityStart += OnAbility;
@@ -24,7 +23,7 @@ namespace RogueEngine.FX
 
         private void OnDestroy()
         {
-            GameClient client = GameClient.Get();
+            GameManager client = GameManager.Get();
             if (client != null)
             {
                 client.onNewTurn -= OnNewTurn;
@@ -57,7 +56,7 @@ namespace RogueEngine.FX
                     GameObject obj = FXTool.DoFX(prefab, pos);
                     CardUI ui = obj.GetComponentInChildren<CardUI>();
 
-                    Battle battle = GameClient.Get().GetBattle();
+                    Battle battle = GameManager.Get().GetBattle();
                     BattleCharacter character = battle.GetCharacter(card.owner_uid);
                     ui.SetCard(character, card);
 

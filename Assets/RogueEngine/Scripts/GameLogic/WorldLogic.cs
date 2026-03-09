@@ -127,6 +127,17 @@ namespace RogueEngine.Gameplay
             if (test_state == WorldState.None)
                 return; //No test
 
+            world_data.state = WorldState.Setup;
+
+            // Generate test champion if missing
+            if (world_data.champions.Count == 0 && GameplayData.Get().test_champion != null)
+            {
+                if (GameplayData.Get().test_scenario != null)
+                    world_data.scenario_id = GameplayData.Get().test_scenario.id;
+                    
+                CreateChampion(0, GameplayData.Get().test_champion, 0);
+            }
+
             world_data.state = test_state;
 
             if (test_state == WorldState.Battle)

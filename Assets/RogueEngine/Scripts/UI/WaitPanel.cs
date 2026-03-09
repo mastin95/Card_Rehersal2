@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -23,8 +23,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            World world = GameClient.Get().GetWorld();
-            int player_id = GameClient.Get().GetPlayerID();
+            World world = GameManager.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
             bool is_state = world.state != WorldState.Setup && world.state != WorldState.Map && world.state != WorldState.Battle;
             return is_state && world.AreAllActionsCompleted(player_id) && !world.AreAllActionsCompleted();
         }

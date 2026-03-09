@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -52,8 +52,8 @@ namespace RogueEngine.UI
 
         public override void RefreshPanel()
         {
-            World world = GameClient.Get().GetWorld();
-            champion = world.GetNextActionChampion(GameClient.Get().GetPlayerID());
+            World world = GameManager.Get().GetWorld();
+            champion = world.GetNextActionChampion(GameManager.Get().GetPlayerID());
             if (champion == null || champion.reward == null)
                 return;
 
@@ -108,27 +108,18 @@ namespace RogueEngine.UI
 
         public void OnClickNewCard()
         {
-            if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.SelectChoice))
-                return;
-
             new_card_panel.Show();
         }
 
         public void OnClickNewItem()
         {
-            if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.SelectChoice))
-                return;
-
             new_item_panel.Show();
         }
 
         private void OnClickCard(RewardCard rcard)
         {
-            if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.SelectChoice))
-                return;
-
             selected_card = rcard.GetCard();
-            GameClient.Get().MapSelectCardReward(champion, selected_card);
+            GameManager.Get().MapSelectCardReward(champion, selected_card);
         }
 
         private void OnClickCardRight(RewardCard card)
@@ -138,11 +129,8 @@ namespace RogueEngine.UI
 
         private void OnClickItem(BoxUI box)
         {
-            if (TutorialMap.IsTuto() && !TutorialMap.Get().CanDo(TutoMapEndTrigger.SelectChoice))
-                return;
-
             selected_item = box.GetCardData();
-            GameClient.Get().MapSelectItemReward(champion, selected_item);
+            GameManager.Get().MapSelectItemReward(champion, selected_item);
         }
 
         private void OnClickItemRight(BoxUI box)
@@ -152,7 +140,7 @@ namespace RogueEngine.UI
 
         public void OnClickSkip()
         {
-            GameClient.Get().MapEventContinue(champion);
+            GameManager.Get().MapEventContinue(champion);
             Hide();
         }
 
@@ -165,8 +153,8 @@ namespace RogueEngine.UI
 
         public override bool ShouldShow()
         {
-            World world = GameClient.Get().GetWorld();
-            Champion champ = world.GetNextActionChampion(GameClient.Get().GetPlayerID());
+            World world = GameManager.Get().GetWorld();
+            Champion champ = world.GetNextActionChampion(GameManager.Get().GetPlayerID());
             bool is_reward = world.state == WorldState.Reward && champ != null && champ.reward != null && !champ.action_completed;
             bool is_level = world.state == WorldState.LevelUp && champ != null && champ.reward != null && world.event_champion == champ.uid;
             return is_reward || is_level;

@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -76,7 +76,7 @@ namespace RogueEngine.UI
         {
             if (card != null && iability != null)
             {
-                GameClient.Get().CastAbility(card, iability);
+                GameManager.Get().CastAbility(card, iability);
                 PlayerControls.Get().UnselectAll();
             }
         }

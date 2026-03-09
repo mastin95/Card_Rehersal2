@@ -1,11 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using RogueEngine.Client;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// Visual representation of a Slot.cs
@@ -68,17 +67,17 @@ namespace RogueEngine.Client
 
         protected virtual void Update()
         {
-            if (!GameClient.Get().IsBattleReady())
+            if (!GameManager.Get().IsBattleReady())
                 return;
 
             Slot slot = GetSlot();
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter active = battle.GetActiveCharacter();
             HandCard dcard = HandCard.GetDrag();
             CardData icard = dcard != null ? dcard.GetCard().CardData : null;
 
             float target_alpha = 0f;
-            if (active != null && battle.CanControlCharacter(GameClient.Get().GetPlayerID(), active))
+            if (active != null && battle.CanControlCharacter(GameManager.Get().GetPlayerID(), active))
             {
                 if (icard != null && icard.IsRequireTarget() && battle.CanPlayCard(dcard.GetCard(), slot))
                     target_alpha = 1f;
@@ -98,8 +97,8 @@ namespace RogueEngine.Client
 
             if (edata.button == PointerEventData.InputButton.Left)
             {
-                Battle gdata = GameClient.Get().GetBattle();
-                Player player = GameClient.Get().GetPlayer();
+                Battle gdata = GameManager.Get().GetBattle();
+                Player player = GameManager.Get().GetPlayer();
                 Slot slot = GetSlot();
 
                 if (gdata.selector == SelectorType.None && gdata.IsPlayerActionTurn(player.player_id))
@@ -111,7 +110,7 @@ namespace RogueEngine.Client
                     BattleCharacter slot_character = gdata.GetSlotCharacter(slot);
                     if (slot_character == null)
                     {
-                        GameClient.Get().MoveCharacter(character, slot);
+                        GameManager.Get().MoveCharacter(character, slot);
                     }
                 }
 
@@ -123,11 +122,11 @@ namespace RogueEngine.Client
                     BattleCharacter slot_character = gdata.GetSlotCharacter(slot);
                     if (slot_character != null)
                     {
-                        GameClient.Get().SelectCharacter(slot_character);
+                        GameManager.Get().SelectCharacter(slot_character);
                     }
                     else
                     {
-                        GameClient.Get().SelectSlot(slot);
+                        GameManager.Get().SelectSlot(slot);
                     }
                 }
             }

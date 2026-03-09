@@ -1,4 +1,3 @@
-﻿using RogueEngine.Client;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using RogueEngine.UI;
 
-namespace RogueEngine.Client
+namespace RogueEngine
 {
     /// <summary>
     /// Represents the visual aspect of a card in hand.
@@ -86,12 +85,12 @@ namespace RogueEngine.Client
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             focus_timer += Time.deltaTime;
 
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             Card card = GetCard();
             BattleCharacter character = battle.GetCharacter(card.owner_uid);
             card_ui.SetCard(character, card);
@@ -152,7 +151,7 @@ namespace RogueEngine.Client
         {
             this.card_uid = card.uid;
 
-            Battle battle = GameClient.Get().GetBattle();
+            Battle battle = GameManager.Get().GetBattle();
             BattleCharacter character = battle.GetCharacter(card.owner_uid);
             card_ui.SetCard(character, card);
         }
@@ -180,7 +179,7 @@ namespace RogueEngine.Client
 
         public Card GetCard()
         {
-            Battle gdata = GameClient.Get().GetBattle();
+            Battle gdata = GameManager.Get().GetBattle();
             return gdata.GetCard(card_uid);
         }
 
@@ -241,7 +240,7 @@ namespace RogueEngine.Client
 
         public void TryPlayCard()
         {
-            if (!GameClient.Get().IsYourTurn())
+            if (!GameManager.Get().IsYourTurn())
             {
                 WarningText.ShowNotYourTurn();
                 return;
@@ -249,7 +248,7 @@ namespace RogueEngine.Client
 
             BoardSlot bslot = BoardSlot.GetMouseRaycast();
             BoardCharacter bcharacter = BoardCharacter.GetMouseRaycast();
-            Battle gdata = GameClient.Get().GetBattle();
+            Battle gdata = GameManager.Get().GetBattle();
 
             Card card = GetCard();
             BattleCharacter owner = gdata.GetCharacter(card.owner_uid);
@@ -275,7 +274,7 @@ namespace RogueEngine.Client
 
         public void PlayCard(Slot target)
         {
-            GameClient.Get().PlayCard(GetCard(), target);
+            GameManager.Get().PlayCard(GetCard(), target);
             HandCardArea.Get().DelayRefresh(GetCard());
             Destroy(gameObject);
         }

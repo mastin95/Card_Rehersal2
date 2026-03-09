@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 using UnityEngine.Events;
 
 namespace RogueEngine.UI
@@ -93,8 +93,8 @@ namespace RogueEngine.UI
 
         public bool IsSelf()
         {
-            int player_id = GameClient.Get().GetPlayerID();
-            World world = GameClient.Get().GetWorld();
+            int player_id = GameManager.Get().GetPlayerID();
+            World world = GameManager.Get().GetWorld();
             return champion != null && world.CanControlChampion(player_id, champion);
         }
 

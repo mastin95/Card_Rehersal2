@@ -361,4 +361,81 @@ public virtual void TriggerAbility(AbilityData iability, BattleCharacter caster,
 
 ---
 
+## 9. Registro de Debugging: Bugfixes de la Arquitectura Event Bus
+
+Durante la implementación final de la arquitectura O(1), nos enfrentamos a tres errores (bugs) críticos interconectados que bloqueaban el flujo normal del juego. A continuación se documenta el proceso de diagnóstico y resolución de cada uno, ya que representan lecciones valiosas sobre el acoplamiento de Game Design y Sistemas de Caché.
+
+### Bug 1: El Turno Bloqueado y la Mano Vacía
+**El Síntoma:** Al darle a Play, los personajes aparecían en escena, pero el turno no comenzaba. Nunca se llegaba a la Fase Principal y el jugador no robaba sus cartas iniciales. El juego se quedaba congelado en un estado transitorio.
+**El Diagnóstico:** La función `StartTurn()` no estaba fallando directamente, pero estaba bloqueada matemáticamente. Descubrimos que la refactorización había omitido copiar las funciones `CalculateInitiatives()`, `RemoveFromInitiativeCurrent()` y `RemoveFromInitiativeNext()`.
+**La Raíz Físico-Matemática:** En Rogue Engine, el paso de turnos está dictaminado por un array de Iniciativas (`battle_data.initiatives`). Como el array estaba vacío porque nadie lo calculaba, al llegar a la instrucción `battle_data.GetFirstInitiative()`, el motor devolvía nulo y abortaba la función silenciosamente antes de llegar a la orden `DrawHand()`.
+**La Solución:** Restituir las funciones de cálculo matemático de Iniciativa en el archivo `BattleLogic.cs` para revivir el motor de colas de turno.
+
+### Bug 2: El Bucle Infinito de Efectos Visuales (El Perro Mágico)
+**El Síntoma:** Una vez reparada la iniciativa y al arrancar el combate, sobre el personaje principal (el Perro) comenzaban a activarse en bucle docenas de efectos visuales sin sentido, ralentizando el Engine y bloqueando de nuevo el `ResolveQueue`.
+**El Diagnóstico:** Al analizar la pila de llamadas, observamos que todos esos efectos provenían de un único evento inicial: `FireTrigger(OnPlay)`.
+**El Error de Arquitectura:** En la función `StartBattle`, cometimos el error de suscribir a la nueva Caché de Eventos **todas las cartas del mazo** (`cards_deck`). 
+-   *¿Por qué falló?* La arquitectura clásica asume que las cartas en el mazo están "dormidas". Nosotros las dimos de alta en el Event Bus. Cuando el motor disparó un inofensivo `OnPlay` al inicio, el Mega-Diccionario activó literalmente todos los ataques y hechizos de las decenas de cartas escondidas en el mazo de forma simultánea.
+**La Solución:** Extirpar `cards_deck` de la fase de Suscripción Temprana (`RegisterCardToCache`). Únicamente las Reliquias (`cards_item`) o Poderes (`cards_power`) deben residir en la caché global.
+
+### Bug 3: Ataques que disparan Pociones (Pérdida de Identidad)
+**El Síntoma:** Ya con el mazo domado, al robar mano e intentar usar una carta genérica (como "Mordisco"), en vez de atacar, saltaba curiosamente el efecto de una Poción guardada en el inventario.
+**El Diagnóstico:** El problema residía en cómo se refactorizó la función `PlayCard`. Sustituimos la llamada unívoca a la carta (`TriggerCardAbilityType`) por un cañonazo indiscriminado a la caché global (`FireTrigger(OnPlay)`).
+**El Efecto Mariposa:** 
+1. Las cartas de la mano NO están en Caché (Corregido en Bug 2). 
+2. Al jugar la carta, `FireTrigger` preguntaba a la Caché quién reaccionaba a un `OnPlay`.
+3. Una **Poción del inventario SÍ estaba inscrita** bajo `OnPlay`.
+4. El motor activaba la poción, ignorando el Ataque jugado.
+**La Solución 3A:** Restaurar la función focalizada `TriggerCardAbilityType`, que opera solo sobre la carta sin dialogar con la Caché. Aplicarla en `PlayCard` y `UseItem`.
+**La Solución 3B:** En `StartBattle`, añadir un filtro estricto para matricular sólo Items Pasivos (`ItemPassive`), dejando que los consumibles genéricos dependan 100% de la lógica manual del jugador.
+
+---
+
 *(Continuará según progresemos en el código...)*
+
+---
+
+## 10. Desacoplamiento de la Interfaz Visual (FX y UI Event Wiring)
+
+Tras extirpar exitosamente la lógica de Servidor y Cliente (`GameClient.cs`), era imperativo reconectar el "Músculo" del juego (el `BattleLogic` local) con la "Piel" (los scripts de partículas, barras de vida y animadores).
+
+### 10.1 El Silencio Post-Refactorización (Sin FX)
+Una vez estabilizado el Event Bus O(1), nos enfrentamos a un escenario donde el motor funcionaba matemáticamente perfecto (se restaba vida, se robaban cartas, las pasivas se activaban), pero **el jugador no veía ninguna animación, partícula o barra de vida moverse en pantalla**.
+
+Esto sucedía porque scripts como `BoardCharacterFX.cs` o `BattleUI.cs` están diseñados desde su origen para suscribirse al Arquitecto Global (`GameManager.Get()`) utilizando delegados `UnityAction`:
+```csharp
+// Dentro de BoardCharacterFX.cs
+void Start() {
+    GameManager client = GameManager.Get();
+    client.onCharacterDamaged += OnDamaged; // Suscripción para instanciar partículas de sangre
+}
+```
+Al borrar el sistema de Red que antiguamente disparaba estas funciones en todo el mundo, las *UnityActions* quedaron completamente vacías (`null`); nadie avisaba al `GameManager` de que la variable de Salud había bajado numéricamente.
+
+### 10.2 El Patrón Fachada (Re-transmisión de Eventos)
+Para no tocar ni una sola línea de los scripts visuales del juego (y preservar la pureza de la separación Modelo-Vista-Controlador), hemos convertido el `GameManager.cs` en un **Puente Transmisor**.
+
+Dentro de su función `Init()`, justo en el momento de nacer y crear el `BattleLogic`, enjaulamos los eventos nativos del Engine y ordenamos que el `GameManager` los grite "en voz alta" a la interfaz:
+
+```csharp
+// GameManager.cs -> Init()
+// --- Event Wiring (UI & FX) ---
+battle_logic.onCharacterDamaged += (character, damage) => { onCharacterDamaged?.Invoke(character, damage); };
+battle_logic.onCardPlayed += (card, slot) => { onCardPlayed?.Invoke(card, slot); };
+battle_logic.onAbilityStart += (ability, card) => { onAbilityStart?.Invoke(ability, card); };
+battle_logic.onAbilityTargetCharacter += (ability, card, character) => { onAbilityTargetCharacter?.Invoke(ability, card, character); };
+battle_logic.onAbilityTargetCard += (ability, card, targetCard) => { onAbilityTargetCard?.Invoke(ability, card, targetCard); };
+battle_logic.onAbilityEnd += (ability, card) => { onAbilityEnd?.Invoke(ability, card); };
+battle_logic.onCharacterMoved += (character, slot) => { onCharacterMoved?.Invoke(character, slot); };
+battle_logic.onRollValue += (value) => { onValueRolled?.Invoke(value); };
+```
+
+### 10.3 Cómo Modificar y Añadir tus Propios Efectos (Tutorial para Game Designers)
+Con esta arquitectura limpia, poseer el control total de los Efectos Visuales no requiere saber cómo funciona matemáticamente el motor. Dependes estrictamente de la función anónima `=>`.
+
+Si mañana diseñas una nueva mecánica (por ejemplo `OnCardBurned`) y quieres que lance llamaradas en la UI:
+1.  **En el Motor (`BattleLogic.cs`):** Defines tu señal pura `public UnityAction<Card> onCardBurned;` y la disparas `onCardBurned?.Invoke(card);` cuando la carta matemáticamente arda y baje a 0 recursos.
+2.  **En el Puente (`GameManager.cs`):** Te copias otra señal idéntica `public UnityAction<Card> onCardBurned;`. En `Init()`, pasas el cable: `battle_logic.onCardBurned += (c) => { onCardBurned?.Invoke(c); };`
+3.  **En la Interfaz (Tu Propio Script Nuevo):** Creas un script vacío `MiFuegoFX.cs`, en el `Start()` te suscribes con `GameManager.Get().onCardBurned += QuemarMesa;`, y dentro de esa función instancias pre-fabricados (Prefabs) de Unity a tu absoluto capricho.
+
+El Motor numérico y la Tarjeta Gráfica jamás se entremezclan ensuciando el código, asegurando un diseño mantenible y escalable.

@@ -1,4 +1,3 @@
-﻿using RogueEngine.Client;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +24,7 @@ namespace RogueEngine.FX
 
         void Update()
         {
-            if (!GameClient.Get().IsReady())
+            if (!GameManager.Get().IsReady())
                 return;
 
             RefreshLine();
@@ -36,7 +35,7 @@ namespace RogueEngine.FX
         {
             points.Clear();
 
-            Battle gdata = GameClient.Get().GetBattle();
+            Battle gdata = GameManager.Get().GetBattle();
             PlayerControls controls = PlayerControls.Get();
 
             bool visible = false;

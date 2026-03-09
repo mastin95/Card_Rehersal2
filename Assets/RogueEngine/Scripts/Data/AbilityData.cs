@@ -1,4 +1,4 @@
-﻿using RogueEngine.Gameplay;
+using RogueEngine.Gameplay;
 using System.Collections.Generic;
 using UnityEngine;
 

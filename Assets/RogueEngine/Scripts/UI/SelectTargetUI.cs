@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 using RogueEngine;
 
 namespace RogueEngine.UI
@@ -29,7 +29,7 @@ namespace RogueEngine.UI
         {
             base.Update();
 
-            Battle game = GameClient.Get().GetBattle();
+            Battle game = GameManager.Get().GetBattle();
             if (game != null && game.selector == SelectorType.None)
                 Hide();
         }
@@ -42,13 +42,13 @@ namespace RogueEngine.UI
 
         public void OnClickClose()
         {
-            GameClient.Get().CancelSelection();
+            GameManager.Get().CancelSelection();
         }
 
         public override bool ShouldShow()
         {
-            Battle battle = GameClient.Get().GetBattle();
-            int player_id = GameClient.Get().GetPlayerID();
+            Battle battle = GameManager.Get().GetBattle();
+            int player_id = GameManager.Get().GetPlayerID();
             return battle.selector == SelectorType.SelectTarget && battle.selector_player_id == player_id;
         }
 

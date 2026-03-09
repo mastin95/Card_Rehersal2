@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RogueEngine.Client;
+
 
 namespace RogueEngine.UI
 {
@@ -77,7 +77,7 @@ namespace RogueEngine.UI
 
         public override void RefreshPanel()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Champion champion = world.GetChampion(champion_uid);
 
             name_txt.text = champion.ChampionData.title;
@@ -125,7 +125,7 @@ namespace RogueEngine.UI
 
         public void RefreshDeck()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             UserData udata = Authenticator.Get().UserData;
 
             foreach (CardUI card in cards_list)
@@ -214,7 +214,7 @@ namespace RogueEngine.UI
             Champion champion = ui.GetChampion();
             if (champion != null && champion.CanLevelUp())
             {
-                GameClient.Get().LevelUp(champion);
+                GameManager.Get().LevelUp(champion);
             }
         }
 
@@ -252,11 +252,11 @@ namespace RogueEngine.UI
 
         public void OnClickLevelUp()
         {
-            World world = GameClient.Get().GetWorld();
+            World world = GameManager.Get().GetWorld();
             Champion champion = world.GetChampion(champion_uid);
             if (champion != null && champion.CanLevelUp())
             {
-                GameClient.Get().LevelUp(champion);
+                GameManager.Get().LevelUp(champion);
             }
         }
 
